@@ -19,7 +19,6 @@ import java.io.FileInputStream
 import java.lang.Exception
 import java.nio.BufferUnderflowException
 
-
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +51,6 @@ class MainActivity : AppCompatActivity() {
             AppDatabase::class.java, "database-name"
         ).build()
 
-
         registButton.setOnClickListener{
             getSharedPreferences("savedata",0)
             val prefs:SharedPreferences = getSharedPreferences("savedata", MODE_PRIVATE)
@@ -77,11 +75,11 @@ class MainActivity : AppCompatActivity() {
             val prefs:SharedPreferences = getSharedPreferences("savedata", MODE_PRIVATE)
             val stationName = prefs.getString("RegisteredStation", null)
             var routeList:ArrayList<String> = getRouteList(stationName.toString().replace("駅",""))
-            routeList = INSTANCE.
+            routeList = AppDatabase.INSTANCE.
             routeSpinner.resources = routeList
         }
-
     }
+
     override fun getSharedPreferences(name: String?, mode: Int): SharedPreferences {
         return super.getSharedPreferences(name, mode)
     }
@@ -128,9 +126,10 @@ interface StationTimeScheduleDao {
     @Delete
     fun delete(user: StationTimeSchedule)
 }
+
 @Database(entities = arrayOf(StationTimeSchedule::class), version = 1)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun userDao(): StationTimeSchduleDao
+    abstract fun StationTimeScheduleDao(): StationTimeScheduleDao
 
     companion object {
 
