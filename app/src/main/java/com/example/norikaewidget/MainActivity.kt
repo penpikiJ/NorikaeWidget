@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.renderscript.ScriptGroup
 
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -26,35 +25,18 @@ class MainActivity : AppCompatActivity() {
 
         val registButton = findViewById<Button>(R.id.registButton)
         val registeredStationName = findViewById<TextView>(R.id.textView)
-        val routeSpinner = findViewById<Spinner>(R.id.routespinner)
-        val routeList:ArrayList<String>
-
-        //ファイルとりあえず絶対パスで置いた。スピナーリソースに入れる方法、がわかれば行けそう。でもこれDB必要な感じあるし、あればSQLで楽に持ってこれそう
-        val filename = "app/resouruces/"+ registeredStationName.text.toString() +".txt"
-        val fileInputStream : FileInputStream = openFileInput(filename)
-        val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
-        var lineBuffer: String
-        var stationList : ArrayList<String> = arrayListOf()
-        var i = 0
-        while (true) {
-            lineBuffer = reader.readLine()
-            if (lineBuffer != null) {
-                stationList[i] = lineBuffer
-                i++
-            } else {
-                break
-            }
-        }
 
         val db = Room.databaseBuilder(
             applicationContext,
             AppDatabase::class.java, "database-name"
         ).build()
 
+        var stationName = ""
+
         registButton.setOnClickListener{
             getSharedPreferences("savedata",0)
             val prefs:SharedPreferences = getSharedPreferences("savedata", MODE_PRIVATE)
-            val stationName = registeredStationName.text.toString()
+            stationName = registeredStationName.text.toString()
             val editor = prefs.edit()
             editor.putString("RegisteredStation", stationName)
             editor.apply()
@@ -71,65 +53,102 @@ class MainActivity : AppCompatActivity() {
             routeSpinner.adapter = adapter
         }
 */
+        val database = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "database-name").build()
+        val StationRouteUpDownDaytypeDao = database.StationRouteUpDownDaytypeDao()
+        val routeSpinner = findViewById<Spinner>(R.id.routespinner)
+
         routeSpinner.setOnClickListener{
             val prefs:SharedPreferences = getSharedPreferences("savedata", MODE_PRIVATE)
             val stationName = prefs.getString("RegisteredStation", null)
-            var routeList:ArrayList<String> = getRouteList(stationName.toString().replace("駅",""))
-            routeList = AppDatabase.INSTANCE.
-            routeSpinner.resources = routeList
+            var routeList = mutableListOf<String>()
+
+            val stationInfoList =
+                StationRouteUpDownDaytypeDao.getRoutesByStation(stationName.toString().replace("駅","")).toMutableList()
+
+            //var stationInfoListStr:Array<Array<String>>
+            var i = 0
+            while(stationInfoList[i] != null){
+                routeList.add(stationInfoList[i].route.toString())
+                i++
+            }
+
+            //stationInfoListStr[0] = (stationInfoList[0].station,stationInfoList[0].route,stationInfoList[0].updown,stationInfoList[0].daytype)
+        //まずは路線の一覧出力
+            var adapter = ArrayAdapter(this,android.R.layout.simple_spinner_item,routeList)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            routeSpinner.adapter = adapter
+        //排他的に取ってこれるならそっちのほうがいいな。路線だけ検索とか
         }
+
+       // routeList = StationRouteUpDownDaytypeDao.loadAllByIds(stationName)
+
+        /*パスでのcsvファイル読み込みを、駅名・路線・上下が決まった後に次のページに移動するときに使う。ロジック作ったけど次のページで使うからここではコメントアウトしてメモ
+        val filename = "app/resouruces/StationRouteUpDownDaytype.txt"
+        val fileInputStream : FileInputStream = openFileInput(filename)
+        val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
+        var lineBuffer: String
+        var stationList : ArrayList<String> = arrayListOf()
+        var i = 0
+        while (true) {
+            lineBuffer = reader.readLine()
+            if (lineBuffer != null) {
+                stationList[i] = lineBuffer
+                i++
+            } else {
+                break
+            }
+        }
+        */
     }
 
     override fun getSharedPreferences(name: String?, mode: Int): SharedPreferences {
         return super.getSharedPreferences(name, mode)
     }
 
-    fun getRouteList(stationName:String): ArrayList<String> {
-//ファイルの名前に駅名入れてそれを検索する感じでいいか。同じ名前あったら一覧みたいのが共通認識のために必要
-        routeList = loadAllByIds(stationName)
-        return routeList
-    }
-
-//    fun MaterialPickerOnPositiveButtonClickListener
 //メモ　駅名入力できればAutoCompleteにしておきたい
-//必要な情報は、入力された駅から出ている路線の一覧、その路線の方向（千葉からなら東京方面か木更津方面かみたいな）、AutoComplete用の駅名一覧、駅・路線・方向がわかったらそこから時刻表取ればOK
-// とりあえず北習志野で作る
+
 }
 
+//データベースのテーブル定義
+@Entity
+data class StationRouteUpDownDaytype(
+    @PrimaryKey(autoGenerate = true) val id: Int,
+    @ColumnInfo(name = "station") val station: String?,
+    @ColumnInfo(name = "route") val route: String?,
+    @ColumnInfo(name = "updown") val updown: String?,
+    @ColumnInfo(name = "daytype") val daytype: Int
+    )
 
 @Entity
 data class StationTimeSchedule(
-   // @PrimaryKey val station: String,
-    @ColumnInfo(name = "station") val station: String?,
-    @ColumnInfo(name = "route") val route: String?,
-    @ColumnInfo(name = "direction") val direction: String?,
-    @ColumnInfo(name = "daytype") val daytype: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "scedulehour") val scedulehour: Int,
     @ColumnInfo(name = "sceduleminute") val sceduleminute: Int?
 )
 
 @Dao
-interface StationTimeScheduleDao {
-    @Query("SELECT * FROM user")
-    fun getAll(): List<StationTimeSchedule>
+interface StationRouteUpDownDaytypeDao {
 
-    @Query("SELECT * FROM user WHERE uid IN (:station)")
-    fun loadAllByIds(staion: IntArray): List<StationTimeSchedule>
+    @Query("SELECT * FROM StationRouteUpDownDaytype WHERE :station = station")
+    fun loadAllByIds(station: String): List<StationRouteUpDownDaytype>
 
-    @Query("SELECT * FROM user WHERE first_name LIKE :first AND " +
-            "last_name LIKE :last LIMIT 1")
-    fun findByName(first: String, last: String): StationTimeSchedule
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
+    @Query("SELECT DISTINCT * FROM StationRouteUpDownDaytype WHERE :station = station")
+    fun getRoutesByStation(station: String): List<StationRouteUpDownDaytype>
 
-    @Insert
-    fun insertAll(vararg users: StationTimeSchedule)
-
-    @Delete
-    fun delete(user: StationTimeSchedule)
 }
 
-@Database(entities = arrayOf(StationTimeSchedule::class), version = 1)
+@Dao
+interface StationTimeScheduleDao {
+/*
+    @Query("SELECT * FROM StationTimeSchedule WHERE station IN (:station)")
+    fun loadAllByIds(station: String): List<StationTimeSchedule>
+*/
+}
+
+@Database(entities = arrayOf(StationRouteUpDownDaytype::class), version = 1,exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun StationTimeScheduleDao(): StationTimeScheduleDao
+    abstract fun StationRouteUpDownDaytypeDao(): StationRouteUpDownDaytypeDao
 
     companion object {
 
