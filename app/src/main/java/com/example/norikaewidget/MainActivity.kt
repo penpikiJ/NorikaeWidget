@@ -10,8 +10,13 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.InputStreamReader
 import java.io.BufferedReader
 import java.io.FileInputStream
@@ -31,9 +36,9 @@ class MainActivity : AppCompatActivity() {
             AppDatabase::class.java, "database-name"
         ).build()
 
-        var stationName = ""
+        var stationName:String? = ""
 
-        registButton.setOnClickListener{
+        registButton.setOnClickListener{  //登録ボタンの挙動
             getSharedPreferences("savedata",0)
             val prefs:SharedPreferences = getSharedPreferences("savedata", MODE_PRIVATE)
             stationName = registeredStationName.text.toString()
@@ -41,44 +46,63 @@ class MainActivity : AppCompatActivity() {
             editor.putString("RegisteredStation", stationName)
             editor.apply()
         }
-/**
-        ArrayAdapter.createFromResource(
-            this,
-            R.array.planets_array,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
-            routeSpinner.adapter = adapter
-        }
-*/
-        val database = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "database-name").build()
-        val StationRouteUpDownDaytypeDao = database.StationRouteUpDownDaytypeDao()
+//main関数の中でデーベースにアクセスしてはいけないとの事なので、 kotlinのコルーチンを導入しないといけない
         val routeSpinner = findViewById<Spinner>(R.id.routespinner)
 
-        routeSpinner.setOnClickListener{
-            val prefs:SharedPreferences = getSharedPreferences("savedata", MODE_PRIVATE)
-            val stationName = prefs.getString("RegisteredStation", null)
-            var routeList = mutableListOf<String>()
+        var routeList = mutableListOf<String>()
+        val ref = this
+        val lifecycleScope: CoroutineScope
+        class MyViewModel: Fragment() {
+            init {
+                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO){ {
+                    // Coroutine that will be canceled when the ViewModel is cleared.
+                    ref.runOnUiThread{
+                        val prefs: SharedPreferences = getSharedPreferences("savedata", MODE_PRIVATE)
+                        stationName = prefs.getString("RegisteredStation", null)
+                        val database = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "database-name").build()
+                        val StationRouteUpDownDaytypeDao = database.StationRouteUpDownDaytypeDao()
 
-            val stationInfoList =
-                StationRouteUpDownDaytypeDao.getRoutesByStation(stationName.toString().replace("駅","")).toMutableList()
 
-            //var stationInfoListStr:Array<Array<String>>
-            var i = 0
-            while(stationInfoList[i] != null){
-                routeList.add(stationInfoList[i].route.toString())
-                i++
+                        val stationInfoList =
+                            StationRouteUpDownDaytypeDao.getRoutesByStation(
+                                stationName.toString().replace("駅", "")
+                            ).toMutableList()
+
+                        var i = 0
+                        while (stationInfoList[i] != null) {
+                            routeList.add(stationInfoList[i].route.toString())
+                            i++
+                        }
+
+                    }
+                }
+                }
             }
+        }
 
             //stationInfoListStr[0] = (stationInfoList[0].station,stationInfoList[0].route,stationInfoList[0].updown,stationInfoList[0].daytype)
-        //まずは路線の一覧出力
+            //まずは路線の一覧出力
+            /*
             var adapter = ArrayAdapter(this,android.R.layout.simple_spinner_item,routeList)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             routeSpinner.adapter = adapter
-        //排他的に取ってこれるならそっちのほうがいいな。路線だけ検索とか
-        }
+        */
+            //排他的に取ってこれるならそっちのほうがいいな。路線だけ検索とか
+
+
+
+
+                //var stationInfoListStr:Array<Array<String>>
+//stationInfoListからroutelistに路線の一覧取り出す予定
+
+
+
+                var adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, routeList)
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                routeSpinner.adapter = adapter
+
+
+
 
        // routeList = StationRouteUpDownDaytypeDao.loadAllByIds(stationName)
 
@@ -130,7 +154,7 @@ data class StationTimeSchedule(
 interface StationRouteUpDownDaytypeDao {
 
     @Query("SELECT * FROM StationRouteUpDownDaytype WHERE :station = station")
-    fun loadAllByIds(station: String): List<StationRouteUpDownDaytype>
+    fun  loadAllByIds(station: String): List<StationRouteUpDownDaytype>
 
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
     @Query("SELECT DISTINCT * FROM StationRouteUpDownDaytype WHERE :station = station")
