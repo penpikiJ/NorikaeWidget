@@ -46,12 +46,15 @@ class MainActivity : AppCompatActivity() {
             editor.putString("RegisteredStation", stationName)
             editor.apply()
         }
-//main関数の中でデーベースにアクセスしてはいけないとの事なので、 kotlinのコルーチンを導入しないといけない
+        //main関数の中でデーベースにアクセスしてはいけないとの事なので、 kotlinのコルーチンを導入
+        //ここでデータベースにアクセスして配列を取得
         val routeSpinner = findViewById<Spinner>(R.id.routespinner)
 
         var routeList = mutableListOf<String>()
         val ref = this
         val lifecycleScope: CoroutineScope
+
+
         class MyViewModel: Fragment() {
             init {
                 viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO){ {
@@ -61,7 +64,6 @@ class MainActivity : AppCompatActivity() {
                         stationName = prefs.getString("RegisteredStation", null)
                         val database = Room.databaseBuilder(applicationContext, AppDatabase::class.java, "database-name").build()
                         val StationRouteUpDownDaytypeDao = database.StationRouteUpDownDaytypeDao()
-
 
                         val stationInfoList =
                             StationRouteUpDownDaytypeDao.getRoutesByStation(
@@ -82,27 +84,15 @@ class MainActivity : AppCompatActivity() {
 
             //stationInfoListStr[0] = (stationInfoList[0].station,stationInfoList[0].route,stationInfoList[0].updown,stationInfoList[0].daytype)
             //まずは路線の一覧出力
-            /*
+
             var adapter = ArrayAdapter(this,android.R.layout.simple_spinner_item,routeList)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             routeSpinner.adapter = adapter
-        */
+
             //排他的に取ってこれるならそっちのほうがいいな。路線だけ検索とか
 
-
-
-
-                //var stationInfoListStr:Array<Array<String>>
-//stationInfoListからroutelistに路線の一覧取り出す予定
-
-
-
-                var adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, routeList)
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                routeSpinner.adapter = adapter
-
-
-
+            //var stationInfoListStr:Array<Array<String>>
+            //stationInfoListからroutelistに路線の一覧取り出す予定
 
        // routeList = StationRouteUpDownDaytypeDao.loadAllByIds(stationName)
 
@@ -160,6 +150,10 @@ interface StationRouteUpDownDaytypeDao {
     @Query("SELECT DISTINCT * FROM StationRouteUpDownDaytype WHERE :station = station")
     fun getRoutesByStation(station: String): List<StationRouteUpDownDaytype>
 
+    @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
+    @Query("SELECT DISTINCT * FROM StationRouteUpDownDaytype WHERE :station = station AND :route = route")
+    fun getDirectionByStationRoutes(station: String,route:String): List<StationRouteUpDownDaytype>
+
 }
 
 @Dao
@@ -190,16 +184,16 @@ abstract class AppDatabase : RoomDatabase() {
                                 super.onCreate(db)
 
                                 val assetManager = context.resources.assets
-                                var sql:String = ""+"INSERT INTO 'kitanarashino' VALUES"+""
+                                var sql:String = ""+"INSERT INTO 'StationRouteUpDownDaytype' VALUES"+""
                                 try {
-                                    val inputStream = assetManager.open("kitanarashino.csv")
+                                    val inputStream = assetManager.open("StationRouteUpDownDaytype.csv")
                                     val inputStreamReader = InputStreamReader(inputStream)
                                     val bufferedReader = BufferedReader(inputStreamReader)
                                     var line: String? = bufferedReader.readLine()
 
                                     while(line != null){
                                         val rowData = line.split(",")
-                                        sql += "('${rowData[0]}','${rowData[1]}','${rowData[2]}', ${rowData[3]}, ${rowData[4]}, ${rowData[5]}),"
+                                        sql += "('${rowData[0]}','${rowData[1]}','${rowData[2]}', ${rowData[3]}),"
                                         line = bufferedReader.readLine()
                                     }
                                     inputStream.close()
