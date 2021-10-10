@@ -52,12 +52,11 @@ class MainActivity : AppCompatActivity() {
 
         var routeList = mutableListOf<String>()
         val ref = this
-        val lifecycleScope: CoroutineScope
 
 
         class MyViewModel: Fragment() {
             init {
-                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO){ {
+                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO){
                     // Coroutine that will be canceled when the ViewModel is cleared.
                     ref.runOnUiThread{
                         val prefs: SharedPreferences = getSharedPreferences("savedata", MODE_PRIVATE)
@@ -75,9 +74,7 @@ class MainActivity : AppCompatActivity() {
                             routeList.add(stationInfoList[i].route.toString())
                             i++
                         }
-
                     }
-                }
                 }
             }
         }
