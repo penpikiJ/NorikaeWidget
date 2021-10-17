@@ -112,11 +112,11 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.findViewById<Button>(R.id.registButton).setOnClickListener(object:View.OnClickListener {
-            override fun onClick(view: View) {
+            override fun onClick(v :View) { //ここviewじゃなくてvにしたら動いた
                 if (mListener != null) {
                     mListener?.onClickButton()
                 }
-           //     view.findViewById<TextView>(R.id.textView2).text = "フラグメントから入力"
+                view.findViewById<TextView>(R.id.textView2).text = "フラグメントから入力"
             }
         })
     }
