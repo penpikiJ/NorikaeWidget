@@ -40,14 +40,14 @@
 
     <EditText
         android:id="@+id/registeredStation"
-        android:layout_width="382dp"
-        android:layout_height="77dp"
-        android:layout_marginTop="136dp"
+        android:layout_width="234dp"
+        android:layout_height="79dp"
+        android:layout_marginTop="140dp"
         android:ems="10"
         android:hint="乗る駅を入力してください"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.231"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -80,5 +80,25 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/stationButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="160dp"
+        android:layout_marginEnd="16dp"
+        android:text="駅登録"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="412dp"
+        android:layout_height="734dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"></LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
