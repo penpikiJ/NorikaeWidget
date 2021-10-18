@@ -36,12 +36,11 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import android.widget.Toast
 
 
-
-
 class MainActivity : AppCompatActivity(),MyListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         val registButton = findViewById<Button>(R.id.registButton)
         val registeredStationName = findViewById<TextView>(R.id.textView)
@@ -71,11 +70,9 @@ class MainActivity : AppCompatActivity(),MyListener {
             transaction.replace(R.id.container, fragment)
             transaction.commit()
             if (fragment != null && fragment is MainFragment) {
-                //fragment.addItem() 今はライフサイクルの場所的に呼べないっぽいので後で復活させる
+                //今はライフサイクルの場所的に呼べないっぽいので後で復活させる
             }
         }
-
-
 
         val stationButton = findViewById<Button>(R.id.stationButton)
         stationButton.setOnClickListener(){
@@ -119,6 +116,17 @@ class MainFragment : Fragment() {
                 view.findViewById<TextView>(R.id.textView2).text = "フラグメントから入力"
             }
         })
+
+        view.findViewById<Button>(R.id.stationButton).setOnClickListener(object:View.OnClickListener {
+            override fun onClick(v :View) { //ここviewじゃなくてvにしたら動いた
+                if (mListener != null) {
+                    mListener?.onClickButton()
+                }
+                view.findViewById<TextView>(R.id.textView4).text = "フラグメントから入力"
+                addItem()
+            }
+        })
+
     }
 
     // FragmentがActivityに追加されたら呼ばれるメソッド
@@ -140,27 +148,30 @@ class MainFragment : Fragment() {
 //lifecycle呼ぶのこのタイミングじゃダメなんだろうな これはreturnのタイミング変えて対応する感じっぽい？
     fun addItem() {
         viewLifecycleOwner.lifecycleScope.launch {
-            val db = AppDatabase.getInstance(requireContext())
+
             // ここからはIOスレッドで実行してもらう
             withContext(Dispatchers.IO) {
                 // テーブルに追加
+                val db = AppDatabase.getInstance(requireContext())
                 db.spinnerlistDao().insert()
-            }
-            val gotlist = db.spinnerlistDao().getAll()
-            val i: Int = 0
-            var routeList = mutableListOf<String>()
-            while (gotlist[i] != null) {
-                routeList.add(gotlist[i].route.toString())
-            }
-            //returnでリスト返すのはできない模様
-            val routeSpinner = view?.findViewById<Spinner>(R.id.routespinner) as Spinner
-            //var routeList = mutableListOf<String>()
 
-            var adapter =
-                ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, routeList)
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            routeList.add(0, "keisei")
-            routeSpinner.adapter = adapter
+                val gotlist = db.spinnerlistDao().getAll()
+                val i: Int = 0
+                var routeList = mutableListOf<String>()
+                while (gotlist[i] != null) {
+                    routeList.add(gotlist[i].route.toString())
+                }
+                //returnでリスト返すのはできない模様
+                val routeSpinner = view?.findViewById<Spinner>(R.id.routespinner) as Spinner
+                //var routeList = mutableListOf<String>()
+
+                var adapter =
+                    ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, routeList)
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                routeList.add(0, "keisei")
+                routeSpinner.adapter = adapter
+            }
+
         }
     }
 /*
