@@ -25,7 +25,9 @@ import java.io.FileInputStream
 import java.lang.Exception
 import java.nio.BufferUnderflowException
 import android.R.attr.fragment
+import android.R.attr.fragmentEnterTransition
 import android.app.Activity
+import android.os.Handler
 import android.text.Editable
 import android.view.ViewGroup
 
@@ -40,16 +42,17 @@ class MainActivity : AppCompatActivity(),MyListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val Main_Activity_handler: Handler
 
 
         val registButton = findViewById<Button>(R.id.registButton)
         val registeredStationName = findViewById<TextView>(R.id.textView)
 
-        var stationName:String? = ""
+        var stationName: String? = ""
 
-        registButton.setOnClickListener{  //登録ボタンの挙動
-            getSharedPreferences("savedata",0)
-            val prefs:SharedPreferences = getSharedPreferences("savedata", MODE_PRIVATE)
+        registButton.setOnClickListener {  //登録ボタンの挙動
+            getSharedPreferences("savedata", 0)
+            val prefs: SharedPreferences = getSharedPreferences("savedata", MODE_PRIVATE)
             stationName = registeredStationName.text.toString()
             val editor = prefs.edit()
             editor.putString("RegisteredStation", stationName)
@@ -60,7 +63,7 @@ class MainActivity : AppCompatActivity(),MyListener {
         val routeSpinner = findViewById<Spinner>(R.id.routespinner)
         var routeList = mutableListOf<String>()
 
-        var adapter = ArrayAdapter(this,android.R.layout.simple_spinner_item, routeList)
+        var adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, routeList)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         routeSpinner.adapter = adapter
 
@@ -75,7 +78,7 @@ class MainActivity : AppCompatActivity(),MyListener {
         }
 
         val stationButton = findViewById<Button>(R.id.stationButton)
-        stationButton.setOnClickListener(){
+        stationButton.setOnClickListener() {
             //routeList.add(0,"keisei")
             routeSpinner.adapter = adapter
         }
@@ -90,176 +93,145 @@ class MainActivity : AppCompatActivity(),MyListener {
         Toast.makeText(this, "MainFragmentからクリックされました!", Toast.LENGTH_SHORT).show()
     }
 
-}
 
-class MainFragment : Fragment() {
+    class MainFragment : Fragment() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        // 先ほどのレイアウトをここでViewとして作成します
-        return inflater.inflate(R.layout.activity_main, container, false)
-    }
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+        ): View? {
+            super.onCreateView(inflater, container, savedInstanceState)
+            // 先ほどのレイアウトをここでViewとして作成します
+            return inflater.inflate(R.layout.activity_main, container, false)
+        }
 
-    private var mListener: MyListener? = null
+        private var mListener: MyListener? = null
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        view.findViewById<Button>(R.id.registButton).setOnClickListener(object:View.OnClickListener {
-            override fun onClick(v :View) { //ここviewじゃなくてvにしたら動いた
-                if (mListener != null) {
-                    mListener?.onClickButton()
+        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+            super.onViewCreated(view, savedInstanceState)
+            view.findViewById<Button>(R.id.registButton)
+                .setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(v: View) { //ここviewじゃなくてvにしたら動いた
+                        if (mListener != null) {
+                            mListener?.onClickButton()
+                        }
+                        view.findViewById<TextView>(R.id.textView2).text = "フラグメントから入力"
+                    }
+                })
+
+            view.findViewById<Button>(R.id.stationButton)
+                .setOnClickListener(object : View.OnClickListener {
+                    override fun onClick(v: View) { //ここviewじゃなくてvにしたら動いた
+                        if (mListener != null) {
+                            mListener?.onClickButton()
+                        }
+                        view.findViewById<TextView>(R.id.textView4).text = "フラグメントから入力"
+                        addItem()
+                    }
+                })
+
+        }
+
+        // FragmentがActivityに追加されたら呼ばれるメソッド
+        override fun onAttach(context: Context) {
+            super.onAttach(context)
+            // contextクラスがMyListenerを実装しているかをチェックする
+            if (context is MyListener) {
+                // リスナーをここでセットするようにします
+                mListener = context
+            }
+        }
+
+        // FragmentがActivityから離れたら呼ばれるメソッド
+        override fun onDetach() {
+            super.onDetach()
+            // 画面からFragmentが離れたあとに処理が呼ばれることを避けるためにNullで初期化しておく
+            mListener = null
+        }
+
+        fun addItem() {
+            viewLifecycleOwner.lifecycleScope.launch {
+
+                // ここからはIOスレッドで実行してもらう
+                withContext(Dispatchers.IO) {
+                    // テーブルに追加
+                    val db = AppDatabase.getInstance(requireContext())
+                    db.spinnerlistDao().delete()
+                    db.spinnerlistDao().insert()
+
+                    val gotlist = db.spinnerlistDao().getAll()
+                    var i = 0
+                    var routeList = mutableListOf<String>()
+                    while (i < gotlist.size) {
+                        routeList.add(gotlist[i].route.toString()) //この行でメモリエラーしてるっぽいな
+                        i++
+                    }
+                    val routeSpinner = view?.findViewById<Spinner>(R.id.routespinner) as Spinner
+
+                    var adapter = ArrayAdapter(
+                        requireContext(),
+                        android.R.layout.simple_spinner_item,
+                        routeList
+                    )
+                    activity?.runOnUiThread(java.lang.Runnable {
+                        routeSpinner.adapter = adapter})
+
+//ここ消してるところなので注意
                 }
-                view.findViewById<TextView>(R.id.textView2).text = "フラグメントから入力"
-            }
-        })
 
-        view.findViewById<Button>(R.id.stationButton).setOnClickListener(object:View.OnClickListener {
-            override fun onClick(v :View) { //ここviewじゃなくてvにしたら動いた
-                if (mListener != null) {
-                    mListener?.onClickButton()
+            }
+        }
+    }
+}
+
+    interface MyListener {
+        fun onClickButton()
+    }
+
+
+    //簡単なデータベースで取り出せるかの確認
+    @Entity
+    data class spinnerlist(
+        @PrimaryKey(autoGenerate = true) val id: Int,
+        @ColumnInfo(name = "route") val route: String?
+    )
+
+    @Dao
+    interface spinnerlistDao {
+        @Query("select * from spinnerlist")
+        fun getAll(): List<spinnerlist>
+
+        @Query("Insert into spinnerlist (route) values ('京成線'),('新京成線')")
+        fun insert()
+
+        @Update
+        fun update(route: spinnerlist)
+
+        @Query("Delete from spinnerlist")
+        fun delete()
+    }
+
+    @Database(entities = arrayOf(spinnerlist::class), version = 1, exportSchema = false)
+    abstract class AppDatabase : RoomDatabase() {
+        abstract fun spinnerlistDao(): spinnerlistDao
+
+        companion object {
+            val DB_NAME = "user.db"
+            private lateinit var instance: AppDatabase
+
+            fun getInstance(context: Context): AppDatabase {
+                if (!::instance.isInitialized) {
+                    instance = Room.databaseBuilder(
+                        context.applicationContext,
+                        AppDatabase::class.java,
+                        DB_NAME
+                    ).build()
                 }
-                view.findViewById<TextView>(R.id.textView4).text = "フラグメントから入力"
-                addItem()
-            }
-        })
-
-    }
-
-    // FragmentがActivityに追加されたら呼ばれるメソッド
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        // contextクラスがMyListenerを実装しているかをチェックする
-        if (context is MyListener) {
-            // リスナーをここでセットするようにします
-            mListener = context
-        }
-    }
-
-    // FragmentがActivityから離れたら呼ばれるメソッド
-    override fun onDetach() {
-        super.onDetach()
-        // 画面からFragmentが離れたあとに処理が呼ばれることを避けるためにNullで初期化しておく
-        mListener = null
-    }
-//lifecycle呼ぶのこのタイミングじゃダメなんだろうな これはreturnのタイミング変えて対応する感じっぽい？
-    fun addItem() {
-        viewLifecycleOwner.lifecycleScope.launch {
-
-            // ここからはIOスレッドで実行してもらう
-            withContext(Dispatchers.IO) {
-                // テーブルに追加
-                val db = AppDatabase.getInstance(requireContext())
-                db.spinnerlistDao().insert()
-
-                val gotlist = db.spinnerlistDao().getAll()
-                val i: Int = 0
-                var routeList = mutableListOf<String>()
-                while (gotlist[i] != null) {
-                    routeList.add(gotlist[i].route.toString())
-                }
-                //returnでリスト返すのはできない模様
-                val routeSpinner = view?.findViewById<Spinner>(R.id.routespinner) as Spinner
-                //var routeList = mutableListOf<String>()
-
-                var adapter =
-                    ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, routeList)
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                routeList.add(0, "keisei")
-                routeSpinner.adapter = adapter
-            }
-
-        }
-    }
-/*
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val registbutton = view.findViewById<Button>(R.id.registButton)
-        registbutton.setOnClickListener(view.OnCLickListener() {
-            override fun onClick(v: View) {
-                if (mListener != null) {
-                    mListener?.onClickButton()
-                }
-                v.findViewById<TextView>(R.id.textView2).text = "ににん"
-
+                return instance
             }
         }
-        )
     }
- */
-}
-
-    // Viewが生成し終わった時に呼ばれるメソッド
-    /*override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-
-        val stationButton = view.findViewById<Button>(R.id.stationButton)
-        stationButton.setOnClickListener(){ //これがMainActivity下ならちゃんと動作するのは確認済み
-            val routeSpinner = view.findViewById<Spinner>(R.id.routespinner) as Spinner
-            var routeList = mutableListOf<String>()
-
-            var adapter = ArrayAdapter(requireContext(),android.R.layout.simple_spinner_item, routeList)
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            routeList.add(0,"keisei")
-            routeSpinner.adapter = adapter
-        }
-        //え、Fragment内で呼べるの？
-    }
-}
-*/
-interface MyListener {
-    fun onClickButton()
-}
-
-
-//簡単なデータベースで取り出せるかの確認
-@Entity
-data class  spinnerlist(
-    @PrimaryKey(autoGenerate = true)val id:Int,
-    @ColumnInfo(name = "route")val route: String?
-)
-
-@Dao
-interface spinnerlistDao{
-    @Query("select * from spinnerlist")
-    fun getAll():List<spinnerlist>
-
-    @Query("Insert into spinnerlist (route) values ('京成線'),('新京成線')")
-    fun insert()
-
-    @Update
-    fun update(route: spinnerlist)
-
-    @Delete
-    fun delete(route: spinnerlist)
-}
-
-@Database(entities = arrayOf(spinnerlist::class), version = 1,exportSchema = false)
-abstract class AppDatabase : RoomDatabase() {
-    abstract fun spinnerlistDao(): spinnerlistDao
-
-    companion object{
-        val DB_NAME = "user.db"
-        private lateinit var instance: AppDatabase
-
-        fun getInstance(context: Context): AppDatabase {
-            if (!::instance.isInitialized) {
-                instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    AppDatabase::class.java,
-                    DB_NAME
-                ).build()
-            }
-        return instance
-        }
-    }
-}
 
 /*
 //データベースのテーブル定義
