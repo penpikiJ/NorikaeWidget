@@ -104,8 +104,6 @@ class MainActivity : AppCompatActivity(),MyListener {
                         if (mListener != null) {
                             mListener?.onClickButton()
                         }
-                        val path = System.getProperty("user.dir")
-                        view.findViewById<TextView>(R.id.textView2).text = "Working Directory = $path"
                     }
                 })
 
