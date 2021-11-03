@@ -111,6 +111,17 @@ class MainActivity : AppCompatActivity(),MyListener {
                     if (mListener != null) {
                         mListener?.onClickButton()
                     }
+                    val rCont = requireContext()
+                    rCont.getSharedPreferences("savedata", 0)
+                    val prefs: SharedPreferences = rCont.getSharedPreferences("savedata", MODE_PRIVATE)
+                    val stationName = view.findViewById<EditText>(R.id.registeredStation).text.toString()
+                    val routeName = view.findViewById<Spinner>(R.id.routespinner).context.toString()
+                    val direction = view.findViewById<Spinner>(R.id.UpDownSpinner).context.toString()
+                    val editor = prefs.edit()
+                    editor.putString("RegisteredStation", stationName)
+                    editor.putString("RouteSpinner", routeName)
+                    editor.putString("UpDownSpinner", direction)
+                    editor.apply()
                     val intent = Intent(requireContext(), TimeSchedule::class.java)
                     startActivity(intent)
                 }
