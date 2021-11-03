@@ -27,6 +27,7 @@ import java.nio.BufferUnderflowException
 import android.R.attr.fragment
 import android.R.attr.fragmentEnterTransition
 import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import android.os.Handler
 import android.text.Editable
@@ -78,9 +79,7 @@ class MainActivity : AppCompatActivity(),MyListener {
     }
 
     override fun onClickButton() {
-        Toast.makeText(this, "MainFragmentからクリックされました!", Toast.LENGTH_SHORT).show()
     }
-
 
     class MainFragment : Fragment() {
 
@@ -98,14 +97,24 @@ class MainActivity : AppCompatActivity(),MyListener {
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
-            view.findViewById<Button>(R.id.registButton)
-                .setOnClickListener(object : View.OnClickListener {
-                    override fun onClick(v: View) { //ここviewじゃなくてvにしたら動いた
-                        if (mListener != null) {
-                            mListener?.onClickButton()
-                        }
+            val UpDown:List<String> = listOf("上り","下り")
+            var adapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                UpDown
+            )
+            view.findViewById<Spinner>(R.id.UpDownSpinner).adapter = adapter
+
+            view.findViewById<Button>(R.id.registButton).setOnClickListener(object : View.OnClickListener {
+                @RequiresApi(Build.VERSION_CODES.O)
+                override fun onClick(v: View) { //ここviewじゃなくてvにしたら動いた
+                    if (mListener != null) {
+                        mListener?.onClickButton()
                     }
-                })
+                    val intent = Intent(requireContext(), TimeSchedule::class.java)
+                    startActivity(intent)
+                }
+            })
 
             view.findViewById<Button>(R.id.stationButton).setOnClickListener(object : View.OnClickListener {
                 @RequiresApi(Build.VERSION_CODES.O)
@@ -113,7 +122,6 @@ class MainActivity : AppCompatActivity(),MyListener {
                     if (mListener != null) {
                         mListener?.onClickButton()
                     }
-                    view.findViewById<TextView>(R.id.textView4).text = "フラグメントから入力"
                     addItem()
                 }
             })

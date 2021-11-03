@@ -19,8 +19,8 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="381dp"
-        android:layout_height="0dp"
+        android:layout_width="360dp"
+        android:layout_height="28dp"
         android:layout_marginTop="236dp"
         android:text="どの路線を使いますか？"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,9 +29,9 @@
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="381dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="340dp"
+        android:layout_width="359dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="344dp"
         android:text="どちらに向かいますか？"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.533"
@@ -64,22 +64,21 @@
 
     <Spinner
         android:id="@+id/routespinner"
-        android:layout_width="413dp"
-        android:layout_height="44dp"
+        android:layout_width="370dp"
+        android:layout_height="51dp"
         android:layout_marginTop="280dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
-        android:id="@+id/spinner2"
-        android:layout_width="409dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="388dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        android:id="@+id/UpDownSpinner"
+        android:layout_width="376dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <Button
         android:id="@+id/stationButton"
@@ -90,7 +89,6 @@
         android:text="駅登録"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
