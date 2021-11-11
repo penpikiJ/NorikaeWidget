@@ -48,96 +48,7 @@ class TimeListFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.activity_time_schedule, container, false)
     }
-/*
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onViewCreated(v: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(v, savedInstanceState)
-        val rCont = requireContext()
-        rCont.getSharedPreferences("savedata", 0)
-        val prefs: SharedPreferences = rCont.getSharedPreferences("savedata",
-            AppCompatActivity.MODE_PRIVATE
-        )
-        // データの作成
-        val stationName = prefs.getString("RegisteredStation",null)
-        val routeName = prefs.getString("RouteSpinner",null)
-        val direction = prefs.getString("UpDownSpinner",null)
-        val filename = stationName +"_"+ routeName +"_"+ direction + ".csv"
-        val fileInputStream  = resources.assets.open(filename)
-        val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
-        var lineBuffer: String
-        var stationTimeList : ArrayList<String> = arrayListOf()
-        var k = 0
-        var temp :String? = ""
-        while (temp != null) {
-            lineBuffer = temp
-            if (lineBuffer != null) {
-                if (temp != ""){
-                    stationTimeList.add(lineBuffer)
-                }
-                temp = reader.readLine()
-                k++
-            } else {
-                break
-            }
-        }
-        //nowの取得とformat設定
-        val dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
-        val now = LocalDateTime.now()
-        now.format(dtf)
 
-        mTrainList = arrayListOf()
-        var i: Int = 0
-        val launchTimeList:MutableList<LocalDateTime> = arrayListOf()
-        while(i < stationTimeList.size){
-            var sp = stationTimeList[i].split(",")
-            //var schedulecard = DataForSchedule(routeName.toString(),direction.toString(),sp[0]+":"+sp[1],"00:00")
-            //ここに入れる
-            //mTrainList.add(i,schedulecard)
-            launchTimeList.add(i,LocalDateTime.now().with(LocalTime.of(sp[0].toInt(),sp[1].toInt())))
-            i++
-        }
-
-        kotlin.concurrent.timer("timer",false, period = 1000) {
-            var arrivalLocalDateTime: LocalDateTime = now
-            var x = 0
-            while (x < launchTimeList.size) {
-                var leastTime: LocalDateTime = LocalDateTime.now()
-                var sp = stationTimeList[x].split(",")
-                arrivalLocalDateTime =
-                    now.with(LocalTime.of(launchTimeList[x].hour, launchTimeList[x].minute))
-                val min = ChronoUnit.MINUTES.between(now, arrivalLocalDateTime)
-                val sec = ChronoUnit.SECONDS.between(now, arrivalLocalDateTime) - min * 60
-                if (min > 0) {
-                    if (sec > 0) {
-                        var schedulecard = DataForSchedule(
-                            routeName.toString(),
-                            direction.toString(),
-                            sp[0] + ":" + sp[1],
-                            min.toString() + ":" + sec.toString()
-                        )
-                        mTrainList.add(schedulecard)
-                    }
-                }
-                x++
-
-            }
-
-            activity?.runOnUiThread(java.lang.Runnable {
-                // RecyclerViewの取得
-                val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerView) as RecyclerView
-
-                // LayoutManagerの設定
-                recyclerView?.layoutManager = LinearLayoutManager(requireContext())
-
-                // CustomAdapterの生成と設定
-                mAdapter = CustomAdapter(mTrainList)
-                recyclerView?.adapter = mAdapter
-            })
-        }
-    }
-
-
- */
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onStart() {
@@ -151,7 +62,15 @@ class TimeListFragment : Fragment() {
         val stationName = prefs.getString("RegisteredStation",null)
         val routeName = prefs.getString("RouteSpinner",null)
         val direction = prefs.getString("UpDownSpinner",null)
-        val filename = stationName +"_"+ routeName +"_"+ direction + ".csv"
+        //曜日判定
+        val daytype = LocalDate.now().dayOfWeek.value
+        val filename:String
+        if(daytype == 6 or 7){
+            filename = stationName +"_"+ routeName +"_"+ direction +"_H"+ ".csv"
+        }else{
+            filename = stationName +"_"+ routeName +"_"+ direction + ".csv"
+        }
+
         val fileInputStream  = resources.assets.open(filename)
         val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
         var lineBuffer: String

@@ -112,18 +112,28 @@ class MainActivity : AppCompatActivity(),MyListener {
                         mListener?.onClickButton()
                     }
                     val rCont = requireContext()
-                    rCont.getSharedPreferences("savedata", 0)
-                    val prefs: SharedPreferences = rCont.getSharedPreferences("savedata", MODE_PRIVATE)
-                    val stationName = view.findViewById<EditText>(R.id.registeredStation).text.toString()
-                    val routeName = view.findViewById<Spinner>(R.id.routespinner).selectedItem.toString()
-                    val direction = view.findViewById<Spinner>(R.id.UpDownSpinner).selectedItem.toString()
-                    val editor = prefs.edit()
-                    editor.putString("RegisteredStation", stationName)
-                    editor.putString("RouteSpinner", routeName)
-                    editor.putString("UpDownSpinner", direction)
-                    editor.apply()
-                    val intent = Intent(requireContext(), TimeSchedule::class.java)
-                    startActivity(intent)
+                    val station = view.findViewById<EditText>(R.id.registeredStation).text
+                    val route = view.findViewById<Spinner>(R.id.routespinner).selectedItem
+                    if(station.toString() != ""){
+                        if(route != null){
+                            rCont.getSharedPreferences("savedata", 0)
+                            val prefs: SharedPreferences = rCont.getSharedPreferences("savedata", MODE_PRIVATE)
+                            val stationName = view.findViewById<EditText>(R.id.registeredStation).text.toString()
+                            val routeName = view.findViewById<Spinner>(R.id.routespinner).selectedItem.toString()
+                            val direction = view.findViewById<Spinner>(R.id.UpDownSpinner).selectedItem.toString()
+                            val editor = prefs.edit()
+                            editor.putString("RegisteredStation", stationName)
+                            editor.putString("RouteSpinner", routeName)
+                            editor.putString("UpDownSpinner", direction)
+                            editor.apply()
+                            val intent = Intent(requireContext(), TimeSchedule::class.java)
+                            startActivity(intent)
+                        }else{
+                            Toast.makeText(rCont, "路線を入力してください", Toast.LENGTH_SHORT).show()
+                        }
+                    }else{
+                        Toast.makeText(rCont, "駅名を入力してください", Toast.LENGTH_SHORT).show()
+                    }
                 }
             })
 
