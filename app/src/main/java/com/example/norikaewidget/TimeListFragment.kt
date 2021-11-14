@@ -119,7 +119,7 @@ class TimeListFragment : Fragment() {
                 val sec = ChronoUnit.SECONDS.between(now,arrivalLocalDateTime) - min * 60
                 if(min >= 0){
                     if(sec >= 0){
-                        var schedulecard = DataForSchedule(routeName.toString(),direction.toString(),sp[0]+":"+sp[1],min.toString()+":"+sec.toString())
+                        var schedulecard = DataForSchedule(routeName.toString(),direction.toString(),sp[0]+":"+sp[1],min.toString()+":"+"%02d".format(sec))
                         mTrainList.add(y,schedulecard)
                         y++
                     }
