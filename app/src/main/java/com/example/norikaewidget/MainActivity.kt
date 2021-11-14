@@ -42,6 +42,12 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import java.io.File
 import java.nio.file.Paths
+import android.widget.AutoCompleteTextView
+
+import android.widget.ArrayAdapter
+
+
+
 
 
 class MainActivity : AppCompatActivity(),MyListener {
@@ -97,6 +103,34 @@ class MainActivity : AppCompatActivity(),MyListener {
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
+
+            val filename = "stationNameList.csv"
+            val fileInputStream  = resources.assets.open(filename)
+            val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
+            var lineBuffer: String
+            var stationNameList : ArrayList<String> = arrayListOf()
+            var k = 0
+            var temp :String? = ""
+            while (temp != null) {
+                lineBuffer = temp
+                if (lineBuffer != null) {
+                    if (temp != ""){
+                        stationNameList.add(lineBuffer)
+                    }
+                    temp = reader.readLine()
+                    k++
+                } else {
+                    break
+                }
+            }
+
+            var autoCompleteAdapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line, stationNameList
+            )
+            val stationtextList = view.findViewById(R.id.registeredStation) as AutoCompleteTextView
+            stationtextList.setAdapter(autoCompleteAdapter)
+
             val UpDown:List<String> = listOf("上り","下り")
             var adapter = ArrayAdapter(
                 requireContext(),
@@ -173,8 +207,8 @@ class MainActivity : AppCompatActivity(),MyListener {
                 withContext(Dispatchers.IO) {
                     // テーブルに追加
                     val db = AppDatabase.getInstance(requireContext())
-                    db.spinnerlistDao().delete()
-                    db.spinnerlistDao().insert()
+                    db.autocompletelistDao().delete()
+                    db.autocompletelistDao().insert()
 
                     var station = view?.findViewById<EditText>(R.id.registeredStation) as EditText
                     db.StationRouteUpDownDaytypeDao().deleteStationRouteUpDownDaytype()

@@ -17,6 +17,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/app/src/main/assets/stationNameList.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/app/src/main/assets/北習志野_新京成線_上り.csv">
           <value>
             <Attribute>

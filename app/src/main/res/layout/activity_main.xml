@@ -38,7 +38,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/registeredStation"
         android:layout_width="234dp"
         android:layout_height="79dp"
