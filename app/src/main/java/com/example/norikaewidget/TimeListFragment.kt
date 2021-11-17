@@ -73,6 +73,7 @@ class TimeListFragment : Fragment() {
 
         val fileInputStream  = resources.assets.open(filename)
         val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
+        reader.readLine()
         var lineBuffer: String
         var stationTimeList : ArrayList<String> = arrayListOf()
         var k = 0

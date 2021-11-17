@@ -107,6 +107,7 @@ class MainActivity : AppCompatActivity(),MyListener {
             val filename = "stationNameList.csv"
             val fileInputStream  = resources.assets.open(filename)
             val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
+            reader.readLine()
             var lineBuffer: String
             var stationNameList : ArrayList<String> = arrayListOf()
             var k = 0
@@ -215,6 +216,7 @@ class MainActivity : AppCompatActivity(),MyListener {
 
                     val fileInputStream  = resources.assets.open("StationRouteUpDownDaytype.csv")
                     val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
+                    reader.readLine()
                     var lineBuffer: String
                     var stationList : ArrayList<String> = arrayListOf()
                     var k = 0
