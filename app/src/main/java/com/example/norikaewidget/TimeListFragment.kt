@@ -105,6 +105,16 @@ class TimeListFragment : Fragment() {
             launchTimeList.add(i,LocalDateTime.now().with(LocalTime.of(sp[0].toInt(),sp[1].toInt())))
             i++
         }
+//ここの型合わせからやっていく
+        val editor = prefs.edit()
+        val scheduleSet :MutableSet<String> = mutableSetOf()
+        var c = 0
+        while(c < launchTimeList.size){
+            scheduleSet.add(launchTimeList.toString())
+            c++
+        }
+        editor.putStringSet("SelectedTimeSchedule", scheduleSet)
+        editor.apply()
 
         kotlin.concurrent.timer("timer",false, period = 1000){
             val now = LocalDateTime.now()
@@ -113,20 +123,18 @@ class TimeListFragment : Fragment() {
             var x = 0
             var y = 0
             while(x < launchTimeList.size){
-                var leastTime:LocalDateTime = LocalDateTime.now()
                 var sp = stationTimeList[x].split(",")
                 arrivalLocalDateTime =now.with(LocalTime.of(launchTimeList[x].hour,launchTimeList[x].minute))
                 val min = ChronoUnit.MINUTES.between(now,arrivalLocalDateTime)
                 val sec = ChronoUnit.SECONDS.between(now,arrivalLocalDateTime) - min * 60
                 if(min >= 0){
                     if(sec >= 0){
-                        var schedulecard = DataForSchedule(routeName.toString(),direction.toString(),sp[0]+":"+sp[1],min.toString()+":"+"%02d".format(sec))
+                        var schedulecard = DataForSchedule(routeName.toString(),direction.toString(),sp[0]+":"+("%02d".format(sp[1].toInt())).toString(),min.toString()+":"+"%02d".format(sec))
                         mTrainList.add(y,schedulecard)
                         y++
                     }
                 }
                 x++
-
             }
 
             activity?.runOnUiThread(java.lang.Runnable {
