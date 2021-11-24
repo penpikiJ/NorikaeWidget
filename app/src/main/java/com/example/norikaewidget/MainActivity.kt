@@ -54,21 +54,9 @@ class MainActivity : AppCompatActivity(),MyListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.blanklayout)
-/*
-        val registButton = findViewById<Button>(R.id.registButton)
-        val registeredStationName = findViewById<TextView>(R.id.textView)
-*/
+
         var stationName: String? = ""
-/*
-        registButton.setOnClickListener {  //登録ボタンの挙動
-            getSharedPreferences("savedata", 0)
-            val prefs: SharedPreferences = getSharedPreferences("savedata", MODE_PRIVATE)
-            stationName = registeredStationName.text.toString()
-            val editor = prefs.edit()
-            editor.putString("RegisteredStation", stationName)
-            editor.apply()
-        }
-*/
+
         val fragment = MainFragment()
         if (savedInstanceState == null) {
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()

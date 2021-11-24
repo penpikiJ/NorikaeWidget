@@ -62,13 +62,22 @@ class TimeListFragment : Fragment() {
         val stationName = prefs.getString("RegisteredStation",null)
         val routeName = prefs.getString("RouteSpinner",null)
         val direction = prefs.getString("UpDownSpinner",null)
-        //曜日判定
+        //曜日判定、ダイヤに合わせて夜中の０時ではなく土曜日と月曜日の朝３時に平日休日の判定を変更。
+        //そのうちファイル名変わるかも。そもそもDBにしても良い
         val daytype = LocalDate.now().dayOfWeek.value
         val filename:String
         if(daytype == 6 or 7){
-            filename = stationName +"_"+ routeName +"_"+ direction +"_H"+ ".csv"
+            if(daytype == 6 && 0 <= LocalDateTime.now().hour && LocalDateTime.now().hour <= 3 ){
+                filename = stationName +"_"+ routeName +"_"+ direction + ".csv"
+            }else{
+                filename = stationName +"_"+ routeName +"_"+ direction +"_H"+ ".csv"
+            }
         }else{
-            filename = stationName +"_"+ routeName +"_"+ direction + ".csv"
+            if(daytype == 1 && 0 <= LocalDateTime.now().hour && LocalDateTime.now().hour <= 3 ){
+                filename = stationName +"_"+ routeName +"_"+ direction +"_H"+ ".csv"
+            }else{
+                filename = stationName +"_"+ routeName +"_"+ direction +".csv"
+            }
         }
 
         val fileInputStream  = resources.assets.open(filename)
