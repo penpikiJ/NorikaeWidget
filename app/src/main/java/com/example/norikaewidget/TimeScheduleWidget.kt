@@ -72,7 +72,7 @@ internal fun updateAppWidget(
     if (scheduleSet != null) {
         while(i < sl!!.size){
             val sList = LocalDateTime.parse(sl?.get(i)?.trim().
-            replace("[","")?.replace("]","")+":00") //replace("T"," ")?.replace("-","/")
+            replace("[","")?.replace("]","")+":00")
             sList.format(dtf)
             launchTimeList.add(i,sList)
             i++
@@ -92,7 +92,7 @@ internal fun updateAppWidget(
                 if (sec >= 0) {
                     views.setTextViewText(
                         R.id.appwidget_text_departure,
-                        (launchTimeList[x].hour).toString() + ":" + (launchTimeList[x].minute).toString()
+                        "%02d".format(launchTimeList[x].hour) + ":" + "%02d".format(launchTimeList[x].minute)
                     )
                     views.setTextViewText(
                         R.id.appwidget_text_rest,
