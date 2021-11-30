@@ -141,6 +141,7 @@ class MainActivity : AppCompatActivity(),MyListener {
                             editor.putString("RegisteredStation", stationName)
                             editor.putString("RouteSpinner", routeName)
                             editor.putString("UpDownSpinner", direction)
+                            editor.putInt("FromPage", 1)
                             editor.apply()
                             val intent = Intent(requireContext(), TimeSchedule::class.java)
                             startActivity(intent)
