@@ -1,61 +1,34 @@
 package com.example.norikaewidget
 
-import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
-
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.room.*
-import androidx.sqlite.db.SupportSQLiteDatabase
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.selects.select
 import kotlinx.coroutines.withContext
 import java.io.InputStreamReader
 import java.io.BufferedReader
-import java.io.FileInputStream
-import java.lang.Exception
-import java.nio.BufferUnderflowException
-import android.R.attr.fragment
-import android.R.attr.fragmentEnterTransition
-import android.app.Activity
 import android.content.Intent
 import android.os.Build
-import android.os.Handler
-import android.text.Editable
-import android.text.TextUtils.split
 import android.view.ViewGroup
-
 import android.view.LayoutInflater
-import kotlinx.coroutines.Dispatchers.Main
-import android.widget.TextView
-import androidx.core.content.ContentProviderCompat.requireContext
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import java.io.File
-import java.nio.file.Paths
 import android.widget.AutoCompleteTextView
-
 import android.widget.ArrayAdapter
-
-
-
+import androidx.core.text.set
 
 
 class MainActivity : AppCompatActivity(),MyListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.blanklayout)
-
-        var stationName: String? = ""
 
         val fragment = MainFragment()
         if (savedInstanceState == null) {
@@ -89,9 +62,27 @@ class MainActivity : AppCompatActivity(),MyListener {
 
         private var mListener: MyListener? = null
 
+        @RequiresApi(Build.VERSION_CODES.O)
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
 
+            //以前のデータを読み込み
+            val registeredStationName = view.findViewById<EditText>(R.id.registeredStation)
+            val rCont = requireContext()
+            val prefs: SharedPreferences = rCont.getSharedPreferences("savedata", MODE_PRIVATE)
+            registeredStationName.setText(prefs.getString("RegisteredStation",null))
+            if(registeredStationName != null){
+                if(prefs.getInt("FromPage",0) == 1 ){
+                    val editor = prefs.edit()
+                    editor.putInt("FromPage", 0)
+                    editor.apply()
+                    val intent = Intent(rCont, TimeSchedule::class.java)
+                    startActivity(intent)
+                }
+                addItem()
+            }
+
+            //autocomplete用ファイルの設定
             val filename = "stationNameList.csv"
             val fileInputStream  = resources.assets.open(filename)
             val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
@@ -120,6 +111,8 @@ class MainActivity : AppCompatActivity(),MyListener {
             val stationtextList = view.findViewById(R.id.registeredStation) as AutoCompleteTextView
             stationtextList.setAdapter(autoCompleteAdapter)
 
+
+            //上り下りのスピナーの設定
             val UpDown:List<String> = listOf("上り","下り")
             var adapter = ArrayAdapter(
                 requireContext(),
@@ -128,6 +121,7 @@ class MainActivity : AppCompatActivity(),MyListener {
             )
             view.findViewById<Spinner>(R.id.UpDownSpinner).adapter = adapter
 
+            //次ページへの遷移ボタンの処理
             view.findViewById<Button>(R.id.registButton).setOnClickListener(object : View.OnClickListener {
                 @RequiresApi(Build.VERSION_CODES.O)
                 override fun onClick(v: View) { //ここviewじゃなくてvにしたら動いた
@@ -140,7 +134,6 @@ class MainActivity : AppCompatActivity(),MyListener {
                     if(station.toString() != ""){
                         if(route != null){
                             rCont.getSharedPreferences("savedata", 0)
-                            val prefs: SharedPreferences = rCont.getSharedPreferences("savedata", MODE_PRIVATE)
                             val stationName = view.findViewById<EditText>(R.id.registeredStation).text.toString()
                             val routeName = view.findViewById<Spinner>(R.id.routespinner).selectedItem.toString()
                             val direction = view.findViewById<Spinner>(R.id.UpDownSpinner).selectedItem.toString()
@@ -159,7 +152,7 @@ class MainActivity : AppCompatActivity(),MyListener {
                     }
                 }
             })
-
+            //駅を登録してスピナーの準備をするボタンの処理
             view.findViewById<Button>(R.id.stationButton).setOnClickListener(object : View.OnClickListener {
                 @RequiresApi(Build.VERSION_CODES.O)
                 override fun onClick(v: View) { //ここviewじゃなくてvにしたら動いた

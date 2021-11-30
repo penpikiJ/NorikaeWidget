@@ -19,7 +19,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 class TimeSchedule : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.blanklayout)
+        setContentView(R.layout.backgroundofschedule)
 
         val fragment = TimeListFragment()
         if (savedInstanceState == null) {
