@@ -108,13 +108,10 @@ class TimeListFragment : Fragment() {
         val launchTimeList:MutableList<LocalDateTime> = arrayListOf()
         while(i < stationTimeList.size){
             var sp = stationTimeList[i].split(",")
-            //var schedulecard = DataForSchedule(routeName.toString(),direction.toString(),sp[0]+":"+sp[1],"00:00")
-            //ここに入れる
-            //mTrainList.add(i,schedulecard)
             launchTimeList.add(i,LocalDateTime.now().with(LocalTime.of(sp[0].toInt(),sp[1].toInt())))
             i++
         }
-//ここの型合わせからやっていく
+
         val editor = prefs.edit()
         val scheduleSet :MutableSet<String> = mutableSetOf()
         var c = 0
@@ -139,7 +136,7 @@ class TimeListFragment : Fragment() {
                 if(min >= 0){
                     if(sec >= 0){
                         var schedulecard = DataForSchedule(routeName.toString(),direction.toString(),("%02d".format(sp[0].toInt()))+":"+("%02d".format(sp[1].toInt())).toString(),min.toString()+":"+"%02d".format(sec))
-                        mTrainList.add(y,schedulecard)
+                        mTrainList.add(y, schedulecard)
                         y++
                     }
                 }

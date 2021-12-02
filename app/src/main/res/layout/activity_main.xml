@@ -56,7 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="452dp"
-        android:text="登録"
+        android:text="時刻表画面へ"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -86,7 +86,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="160dp"
         android:layout_marginEnd="16dp"
-        android:text="駅登録"
+        android:text="検索"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

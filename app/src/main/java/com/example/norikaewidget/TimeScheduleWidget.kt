@@ -90,6 +90,7 @@ internal fun updateAppWidget(
             var sec = ChronoUnit.SECONDS.between(now, arrivalLocalDateTime) - min * 60
             if (min >= 0) {
                 if (sec >= 0) {
+                    //Widgetに時刻を設定
                     views.setTextViewText(
                         R.id.appwidget_text_departure,
                         "%02d".format(launchTimeList[x].hour) + ":" + "%02d".format(launchTimeList[x].minute)
@@ -98,6 +99,27 @@ internal fun updateAppWidget(
                         R.id.appwidget_text_rest,
                         min.toString() + ":" + "%02d".format(sec)
                     )
+                    //次の１本までの時間表示
+                    if( x+1 < launchTimeList.size){
+                        val secondArrivalTime = now.with(LocalTime.of(launchTimeList[x+1].hour, launchTimeList[x+1].minute))
+                        var mintosecond = ChronoUnit.MINUTES.between(now, secondArrivalTime)
+                        var sectosecond = ChronoUnit.SECONDS.between(now, secondArrivalTime) - mintosecond * 60
+                        views.setTextViewText(
+                            R.id.rest_to_second,
+                            mintosecond.toString() + ":" + "%02d".format(sectosecond)
+                        )
+                    }
+                    //次の次までの時間表示
+                    if( x+2 < launchTimeList.size){
+                        val thirdArrivalTime = now.with(LocalTime.of(launchTimeList[x+2].hour, launchTimeList[x+2].minute))
+                        var mintothird = ChronoUnit.MINUTES.between(now, thirdArrivalTime)
+                        var sectothird = ChronoUnit.SECONDS.between(now, thirdArrivalTime) - mintothird * 60
+                        views.setTextViewText(
+                            R.id.rest_to_third,
+                            mintothird.toString() + ":" + "%02d".format(sectothird)
+                        )
+                    }
+
                     break
                 }
             }

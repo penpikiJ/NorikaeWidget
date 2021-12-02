@@ -81,8 +81,8 @@ class MainActivity : AppCompatActivity(),MyListener {
                 }
                 addItem()
             }
-
-            //autocomplete用ファイルの設定
+/*
+            //autocomplete用ファイルの設定、一時的にコメントアウト
             val filename = "stationNameList.csv"
             val fileInputStream  = resources.assets.open(filename)
             val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity(),MyListener {
             )
             val stationtextList = view.findViewById(R.id.registeredStation) as AutoCompleteTextView
             stationtextList.setAdapter(autoCompleteAdapter)
-
+*/
 
             //上り下りのスピナーの設定
             val UpDown:List<String> = listOf("上り","下り")
