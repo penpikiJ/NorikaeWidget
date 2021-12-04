@@ -45,16 +45,6 @@
             android:text="あと" />
 
         <TextView
-            android:id="@+id/appwidget_text4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/appWidget_text_stationName"
-            android:layout_marginStart="-11dp"
-            android:layout_marginTop="-16dp"
-            android:layout_toEndOf="@+id/appWidget_text_stationName"
-            android:text="発" />
-
-        <TextView
             android:id="@+id/appwidget_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -120,8 +110,8 @@
 
         <TextView
             android:id="@+id/appWidget_text_stationName"
-            android:layout_width="86dp"
-            android:layout_height="33dp"
+            android:layout_width="84dp"
+            android:layout_height="36dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="30dp"
             android:text="○○駅" />
