@@ -53,11 +53,13 @@ internal fun updateAppWidget(
     )
     // データの作成
 
+    val stationName = prefs.getString("RegisteredStation",null) +"駅"
     val routeName = prefs.getString("RouteSpinner",null)
     val updown = prefs.getString("UpDownSpinner",null)
     // Construct the RemoteViews object
     val views = RemoteViews(context.packageName, R.layout.time_schedule_widget)
 
+    views.setTextViewText(R.id.appWidget_text_stationName, stationName)
     views.setTextViewText(R.id.appwidget_text_route, routeName)
     views.setTextViewText(R.id.appwidget_text_updown,updown)
 
