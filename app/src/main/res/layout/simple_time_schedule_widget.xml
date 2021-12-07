@@ -42,8 +42,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/appwidget_text_route"
         android:layout_alignStart="@+id/appwidget_text_route"
-        android:layout_marginStart="-71dp"
-        android:layout_marginTop="9dp"
+        android:layout_marginStart="-72dp"
+        android:layout_marginTop="2dp"
         android:text="あと" />
 
     <TextView
@@ -155,7 +155,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/appwidget_text_rest"
-        android:layout_marginStart="0dp"
+        android:layout_marginStart="-1dp"
         android:layout_marginTop="-30dp"
         android:layout_toEndOf="@+id/appwidget_text_rest"
         android:text="秒" />
