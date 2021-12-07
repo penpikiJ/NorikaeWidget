@@ -9,6 +9,6 @@
     android:previewLayout="@layout/simple_time_schedule_widget"
     android:resizeMode="horizontal|vertical"
     android:targetCellWidth="5"
-    android:targetCellHeight="2"
+    android:targetCellHeight="1"
     android:updatePeriodMillis="1000"
     android:widgetCategory="home_screen|keyguard" />

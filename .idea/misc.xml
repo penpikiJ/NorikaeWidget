@@ -15,7 +15,7 @@
         <entry key="app/src/main/res/layout/fragment_blank.xml" value="0.125" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.15833333333333333" />
         <entry key="app/src/main/res/layout/fragment_time_list.xml" value="0.55" />
-        <entry key="app/src/main/res/layout/simple_time_schedule_widget.xml" value="0.13564814814814816" />
+        <entry key="app/src/main/res/layout/simple_time_schedule_widget.xml" value="0.165" />
         <entry key="app/src/main/res/layout/time_schdule_widget.xml" value="0.25" />
         <entry key="app/src/main/res/layout/time_schedule_widget.xml" value="0.375" />
         <entry key="app/src/main/res/layout/timelistcard.xml" value="0.45" />

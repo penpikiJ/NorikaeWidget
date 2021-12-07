@@ -100,7 +100,7 @@ internal fun updateAppWidget2(
                     )
                     views.setTextViewText(
                         R.id.appwidget_text_rest,
-                        min.toString() + ":" + "%02d".format(sec)
+                        min.toString() + " " + "%02d".format(sec)
                     )
                     //次の１本までの時間表示
                     if( x+1 < launchTimeList.size){
@@ -109,7 +109,7 @@ internal fun updateAppWidget2(
                         var sectosecond = ChronoUnit.SECONDS.between(now, secondArrivalTime) - mintosecond * 60
                         views.setTextViewText(
                             R.id.rest_to_second,
-                            mintosecond.toString() + ":" + "%02d".format(sectosecond)
+                            mintosecond.toString() + " " + "%02d".format(sectosecond)
                         )
                     }
                     //次の次までの時間表示
@@ -119,7 +119,7 @@ internal fun updateAppWidget2(
                         var sectothird = ChronoUnit.SECONDS.between(now, thirdArrivalTime) - mintothird * 60
                         views.setTextViewText(
                             R.id.rest_to_third,
-                            mintothird.toString() + ":" + "%02d".format(sectothird)
+                            mintothird.toString() + " " + "%02d".format(sectothird)
                         )
                     }
 
