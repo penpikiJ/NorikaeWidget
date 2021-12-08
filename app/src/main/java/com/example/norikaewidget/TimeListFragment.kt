@@ -59,7 +59,7 @@ class TimeListFragment : Fragment() {
             AppCompatActivity.MODE_PRIVATE
         )
         // データの作成
-        val stationName = prefs.getString("RegisteredStation",null)
+        val stationName = prefs.getString("RegisteredStation",null)?.replace("駅","")
         val routeName = prefs.getString("RouteSpinner",null)
         val direction = prefs.getString("UpDownSpinner",null)
         //曜日判定、ダイヤに合わせて夜中の０時ではなく土曜日と月曜日の朝３時に平日休日の判定を変更。

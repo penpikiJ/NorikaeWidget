@@ -219,7 +219,7 @@ class MainActivity : AppCompatActivity(),MyListener {
                         db.StationRouteUpDownDaytypeDao().insertStationRouteUpDownDaytype(temp[0],temp[1],temp[2].toInt(),temp[3].toInt())
                         j++
                     }
-                    val gotlist = db.StationRouteUpDownDaytypeDao().loadAllByStation(station.text.toString())
+                    val gotlist = db.StationRouteUpDownDaytypeDao().loadAllByStation(station.text.toString().replace("駅",""))
                     //以下、排他的になるように処理
                     var i = 0
                     var x = 0

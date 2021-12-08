@@ -54,7 +54,7 @@ internal fun updateAppWidget2(
     )
     // データの作成
 
-    val stationName = prefs.getString("RegisteredStation",null) +"駅"
+    val stationName = prefs.getString("RegisteredStation",null)?.replace("駅","") +"駅"
     val routeName = prefs.getString("RouteSpinner",null)
     val updown = prefs.getString("UpDownSpinner",null)
     // Construct the RemoteViews object
