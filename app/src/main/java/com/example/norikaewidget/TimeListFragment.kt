@@ -71,7 +71,7 @@ class TimeListFragment : Fragment(),MyListener {
                 startActivity(intent)
             }
         })
-        /*
+
         //ヴィジェット更新ボタンの処理（sharedpreferenceにデータを入れる）
         view.findViewById<Button>(R.id.buttonUpdateWidget).setOnClickListener(object : View.OnClickListener {
             @RequiresApi(Build.VERSION_CODES.O)
@@ -91,11 +91,9 @@ class TimeListFragment : Fragment(),MyListener {
                 editor.putString("Widget_Route", routeName)
                 editor.putString("Widget_UpDown", direction)
                 editor.apply()
-                val intent = Intent(requireContext(), MainActivity::class.java)
-                startActivity(intent)
+                Toast.makeText(requireContext(), "Widgetを更新しました", Toast.LENGTH_SHORT).show()
             }
         })
-        */
     }
     override fun onClickButton() {
     }

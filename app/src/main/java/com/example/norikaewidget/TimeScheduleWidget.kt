@@ -53,9 +53,9 @@ internal fun updateAppWidget(
     )
     // データの作成
 
-    val stationName = prefs.getString("RegisteredStation",null)?.replace("駅","") +"駅"
-    val routeName = prefs.getString("RouteSpinner",null)
-    val updown = prefs.getString("UpDownSpinner",null)
+    val stationName = prefs.getString("Widget_Station",null)?.replace("駅","") +"駅"
+    val routeName = prefs.getString("Widget_Route",null)
+    val updown = prefs.getString("Widget_UpDown",null)
     // Construct the RemoteViews object
     val views = RemoteViews(context.packageName, R.layout.time_schedule_widget)
 
