@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.provider.ContactsContract
@@ -32,9 +33,10 @@ import kotlin.collections.ArrayList
 import kotlin.concurrent.timer
 
 
-class TimeListFragment : Fragment() {
+class TimeListFragment : Fragment(),MyListener {
     lateinit var mAdapter: CustomAdapter
     lateinit var mTrainList: ArrayList<DataForSchedule>
+    private var mListener: MyListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +49,55 @@ class TimeListFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.activity_time_schedule, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        //検索画面への遷移ボタンの処理
+        view.findViewById<Button>(R.id.buttonToMain).setOnClickListener(object : View.OnClickListener {
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun onClick(v: View) { //ここviewじゃなくてvにしたら動いた
+                if (mListener != null) {
+                    mListener?.onClickButton()
+                }
+                val prefs: SharedPreferences = requireContext().getSharedPreferences(
+                    "savedata",
+                    AppCompatActivity.MODE_PRIVATE
+                )
+                val editor = prefs.edit()
+                editor.putInt("FromPage", 0)
+                editor.apply()
+                val intent = Intent(requireContext(), MainActivity::class.java)
+                startActivity(intent)
+            }
+        })
+        /*
+        //ヴィジェット更新ボタンの処理（sharedpreferenceにデータを入れる）
+        view.findViewById<Button>(R.id.buttonUpdateWidget).setOnClickListener(object : View.OnClickListener {
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun onClick(v: View) { //ここviewじゃなくてvにしたら動いた
+                if (mListener != null) {
+                    mListener?.onClickButton()
+                }
+                val prefs: SharedPreferences = requireContext().getSharedPreferences(
+                    "savedata",
+                    AppCompatActivity.MODE_PRIVATE
+                )
+                val stationName = prefs.getString("RegisteredStation",null)
+                val routeName = prefs.getString("RouteSpinner",null)
+                val direction = prefs.getString("UpDownSpinner",null)
+                val editor = prefs.edit()
+                editor.putString("Widget_Station", stationName)
+                editor.putString("Widget_Route", routeName)
+                editor.putString("Widget_UpDown", direction)
+                editor.apply()
+                val intent = Intent(requireContext(), MainActivity::class.java)
+                startActivity(intent)
+            }
+        })
+        */
+    }
+    override fun onClickButton() {
     }
 
 

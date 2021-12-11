@@ -6,10 +6,32 @@
     tools:context=".TimeSchedule"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <Button
+        android:id="@+id/buttonUpdateWidget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="36dp"
+        android:shadowColor="@color/light_blue_200"
+        android:text="ヴィジェット更新"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/buttonToMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginBottom="36dp"
+        android:text="駅検索画面へ"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="386dp"
-        android:layout_height="656dp"
+        android:layout_width="392dp"
+        android:layout_height="550dp"
+        android:layout_marginBottom="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

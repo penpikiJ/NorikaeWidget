@@ -23,27 +23,15 @@ import androidx.core.content.ContentProviderCompat.requireContext
 class TimeSchedule : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.backgroundofschedule)
+        setContentView(R.layout.blanklayout)
 
-        val buttonToMain = findViewById<Button>(R.id.buttonToMain)
-        buttonToMain.setOnClickListener(listener)
-
-
-        val fragment = TimeListFragment()
+        //Fragmentの適用
+        val timeListFragment = TimeListFragment()
         if (savedInstanceState == null) {
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.container, fragment)
+            //複数ならadd
+            transaction.replace(R.id.container, timeListFragment)
             transaction.commit()
-        }
-    }
-    val listener = object:View.OnClickListener {
-        override fun onClick(v: View?) {
-            val prefs: SharedPreferences = applicationContext.getSharedPreferences("savedata", MODE_PRIVATE)
-            val editor = prefs.edit()
-            editor.putInt("FromPage", 0)
-            editor.apply()
-            val intent = Intent(applicationContext, MainActivity::class.java)
-            startActivity(intent)
         }
     }
 }
