@@ -51,13 +51,23 @@ internal fun updateAppWidget(
     val prefs: SharedPreferences = context.getSharedPreferences("savedata",
         AppCompatActivity.MODE_PRIVATE
     )
-    // データの作成
 
-    val stationName = prefs.getString("Widget_Station",null)?.replace("駅","") +"駅"
-    val routeName = prefs.getString("Widget_Route",null)
+
+    // 代入するデータの作成
+    var stationName = prefs.getString("Widget_Station",null)?.replace("駅","") +"駅"
+    var routeName = prefs.getString("Widget_Route",null)
     val updown = prefs.getString("Widget_UpDown",null)
+
     // Construct the RemoteViews object
     val views = RemoteViews(context.packageName, R.layout.time_schedule_widget)
+
+    //駅名・路線が５文字以上の場合は…で代替できるように変更
+    if(stationName.length > 5){
+        stationName = stationName.substring(0,5) + "…"
+    }
+    if(routeName?.length!! > 5){
+        routeName = routeName.substring(0,5) + "…"
+    }
 
     views.setTextViewText(R.id.appWidget_text_stationName, stationName)
     views.setTextViewText(R.id.appwidget_text_route, routeName)

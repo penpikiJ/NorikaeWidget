@@ -6,11 +6,11 @@
 
     <TextView
         android:id="@+id/appwidget_text_route"
-        android:layout_width="71dp"
-        android:layout_height="32dp"
+        android:layout_width="88dp"
+        android:layout_height="30dp"
         android:layout_below="@+id/appWidget_text_stationName"
         android:layout_marginStart="2dp"
-        android:layout_marginTop="-35dp"
+        android:layout_marginTop="-36dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:layout_toEndOf="@+id/appWidget_text_stationName"
@@ -23,7 +23,7 @@
         android:layout_alignStart="@+id/appwidget_text_route"
         android:layout_alignTop="@+id/appwidget_text_route"
         android:layout_marginStart="79dp"
-        android:layout_marginTop="-1dp"
+        android:layout_marginTop="2dp"
         android:text="(上り)" />
 
     <TextView
@@ -72,8 +72,8 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/appwidget_text_route"
         android:layout_alignTop="@+id/appwidget_text_updown"
-        android:layout_marginStart="119dp"
-        android:layout_marginTop="-5dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="-1dp"
         android:text="00:00"
         android:textSize="20dp" />
 
@@ -112,8 +112,8 @@
 
     <TextView
         android:id="@+id/appWidget_text_stationName"
-        android:layout_width="84dp"
-        android:layout_height="36dp"
+        android:layout_width="88dp"
+        android:layout_height="35dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
         android:text="○○駅" />
