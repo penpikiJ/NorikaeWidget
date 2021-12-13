@@ -8,7 +8,7 @@
         <entry key="..\:/Users/fpenp/AndroidStudioProjects/NorikaeWidget/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3828125" />
         <entry key="app/src/main/res/drawable-v21/app_widget_background.xml" value="0.14895833333333333" />
         <entry key="app/src/main/res/drawable-v21/app_widget_inner_view_background.xml" value="0.14895833333333333" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.3404885796359702" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_time_schedule.xml" value="0.222456916369227" />
         <entry key="app/src/main/res/layout/backgroundofschedule.xml" value="0.165" />
         <entry key="app/src/main/res/layout/blanklayout.xml" value="0.17444240885493503" />
@@ -16,10 +16,10 @@
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.15833333333333333" />
         <entry key="app/src/main/res/layout/fragment_time_list.xml" value="0.55" />
         <entry key="app/src/main/res/layout/fragment_time_list_option.xml" value="0.20694444444444443" />
-        <entry key="app/src/main/res/layout/simple_time_schedule_widget.xml" value="0.55" />
+        <entry key="app/src/main/res/layout/simple_time_schedule_widget.xml" value="0.75" />
         <entry key="app/src/main/res/layout/time_schdule_widget.xml" value="0.25" />
         <entry key="app/src/main/res/layout/time_schedule_widget.xml" value="0.375" />
-        <entry key="app/src/main/res/layout/timelistcard.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/timelistcard.xml" value="0.335" />
       </map>
     </option>
   </component>
