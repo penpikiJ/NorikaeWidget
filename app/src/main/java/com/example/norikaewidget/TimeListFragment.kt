@@ -185,6 +185,9 @@ class TimeListFragment : Fragment(),MyListener {
                 if(min >= 0){
                     if(sec >= 0){
                         var schedulecard = DataForSchedule(routeName.toString(),direction.toString(),("%02d".format(sp[0].toInt()))+":"+("%02d".format(sp[1].toInt())).toString(),min.toString()+":"+"%02d".format(sec))
+                        if(min <10){
+                            schedulecard = DataForSchedule(routeName.toString(),direction.toString(),("%02d".format(sp[0].toInt()))+":"+("%02d".format(sp[1].toInt())).toString(),"  "+min.toString()+":"+"%02d".format(sec))
+                        }
                         mTrainList.add(y, schedulecard)
                         y++
                     }
