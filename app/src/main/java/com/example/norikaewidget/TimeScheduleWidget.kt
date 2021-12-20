@@ -2,9 +2,12 @@ package com.example.norikaewidget
 
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
+import android.os.Bundle
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +24,22 @@ import kotlin.concurrent.timer
  * Implementation of App Widget functionality.
  */
 class TimeScheduleWidget : AppWidgetProvider() {
+
+    companion object{
+        const val ACTION_AUTO_UPDATE= "AUTO_UPDATE"
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onReceive(context: Context, intent: Intent) {
+        super.onReceive(context, intent)
+        if(intent.action.equals(ACTION_AUTO_UPDATE)){
+            val thisAppWidgetComponetName = ComponentName(context.packageName,javaClass.name)
+            val appWidgetIds = AppWidgetManager.getInstance(context).getAppWidgetIds(thisAppWidgetComponetName)
+            if (appWidgetIds != null && appWidgetIds.size > 0) {
+                onUpdate(context, AppWidgetManager.getInstance(context), appWidgetIds)
+            }
+        }
+    }
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onUpdate(
         context: Context,
@@ -35,10 +54,20 @@ class TimeScheduleWidget : AppWidgetProvider() {
 
     override fun onEnabled(context: Context) {
         // Enter relevant functionality for when the first widget is created
+        val appWidgetAlarm = AppWidgetAlarm(context.applicationContext)
+        appWidgetAlarm.startAlarm()
     }
 
     override fun onDisabled(context: Context) {
         // Enter relevant functionality for when the last widget is disabled
+        val appWidgetManager = AppWidgetManager.getInstance(context)
+        val thisAppWidgetComponetName = ComponentName(context.packageName,javaClass.name)
+        val appWidgetIds = appWidgetManager.getAppWidgetIds(thisAppWidgetComponetName)
+        if (appWidgetIds.isEmpty()){
+            //stop Alarm
+            val appWidgetAlarm = AppWidgetAlarm(context.applicationContext)
+            appWidgetAlarm.stopAlarm()
+        }
     }
 }
 
@@ -90,7 +119,7 @@ internal fun updateAppWidget(
             i++
         }
     }
-    timer("timer",false, period = 1000) {
+    //timer("timer",false, period = 1000) {
         val now = LocalDateTime.now()
         now.format(dtf)
         var arrivalLocalDateTime: LocalDateTime = now
@@ -137,6 +166,7 @@ internal fun updateAppWidget(
             }
             x++
         }
+
         appWidgetManager.updateAppWidget(appWidgetId, views)
-    }
+    //}
 }
