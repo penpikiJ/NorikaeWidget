@@ -11,9 +11,6 @@ import android.os.Bundle
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -27,12 +24,21 @@ class TimeScheduleWidget : AppWidgetProvider() {
 
     companion object{
         const val ACTION_AUTO_UPDATE= "AUTO_UPDATE"
+        const val ACTION_BUTTON_PUSHED = "BUTTON_PUSHED"
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         if(intent.action.equals(ACTION_AUTO_UPDATE)){
+            val thisAppWidgetComponetName = ComponentName(context.packageName,javaClass.name)
+            val appWidgetIds = AppWidgetManager.getInstance(context).getAppWidgetIds(thisAppWidgetComponetName)
+            if (appWidgetIds != null && appWidgetIds.size > 0) {
+                onUpdate(context, AppWidgetManager.getInstance(context), appWidgetIds)
+            }
+        }
+        //Button押したときの処理
+        if(intent.action.equals(ACTION_BUTTON_PUSHED)){
             val thisAppWidgetComponetName = ComponentName(context.packageName,javaClass.name)
             val appWidgetIds = AppWidgetManager.getInstance(context).getAppWidgetIds(thisAppWidgetComponetName)
             if (appWidgetIds != null && appWidgetIds.size > 0) {
@@ -119,7 +125,7 @@ internal fun updateAppWidget(
             i++
         }
     }
-    //timer("timer",false, period = 1000) {
+    timer("timer",false, period = 1000) {
         val now = LocalDateTime.now()
         now.format(dtf)
         var arrivalLocalDateTime: LocalDateTime = now
@@ -168,5 +174,5 @@ internal fun updateAppWidget(
         }
 
         appWidgetManager.updateAppWidget(appWidgetId, views)
-    //}
+    }
 }

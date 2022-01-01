@@ -1,0 +1,333 @@
+station,line,destination,day_type,csv,last_update,error_code,url
+川崎,東海道本線,横浜・小田原方面 ,平日,nambu_0.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0526/0526010p.html
+川崎,東海道本線,横浜・小田原方面 ,土・休日,nambu_1.csv,2021-12-19,8,https://www.jreast-timetable.jp/2112/timetable/tt0526/0526011p.html
+川崎,東海道本線(上野東京ライン),東京・宇都宮・高崎方面 ,平日,nambu_2.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0526/0526020p.html
+川崎,東海道本線(上野東京ライン),東京・宇都宮・高崎方面 ,土・休日,nambu_3.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt0526/0526021p.html
+川崎,南武線,登戸・立川方面 ,平日,nambu_4.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0526/0526030p.html
+川崎,南武線,登戸・立川方面 ,土・休日,nambu_5.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0526/0526031p.html
+川崎,京浜東北線・根岸線,横浜・関内方面 ,平日,nambu_6.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0526/0526040p.html
+川崎,京浜東北線・根岸線,横浜・関内方面 ,土・休日,nambu_7.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0526/0526041p.html
+川崎,京浜東北線・根岸線,蒲田・品川方面 ,平日,nambu_8.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0526/0526050p.html
+川崎,京浜東北線・根岸線,蒲田・品川方面 ,土・休日,nambu_9.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0526/0526051p.html
+尻手,南武線,登戸・立川方面 ,平日,nambu_10.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0786/0786010p.html
+尻手,南武線,登戸・立川方面 ,土・休日,nambu_11.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0786/0786011p.html
+尻手,南武線,川崎方面 ,平日,nambu_12.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0786/0786020p.html
+尻手,南武線,川崎方面 ,土・休日,nambu_13.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0786/0786021p.html
+尻手,南武線,浜川崎方面 ,平日,nambu_14.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt0786/0786030p.html
+尻手,南武線,浜川崎方面 ,土・休日,nambu_15.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt0786/0786031p.html
+矢向,南武線,登戸・立川方面 ,平日,nambu_16.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1575/1575010p.html
+矢向,南武線,登戸・立川方面 ,土・休日,nambu_17.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1575/1575011p.html
+矢向,南武線,川崎方面 ,平日,nambu_18.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1575/1575020p.html
+矢向,南武線,川崎方面 ,土・休日,nambu_19.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1575/1575021p.html
+鹿島田,南武線,登戸・立川方面 ,平日,nambu_20.csv,2021-12-19,8,https://www.jreast-timetable.jp/2112/timetable/tt0432/0432010p.html
+鹿島田,南武線,登戸・立川方面 ,土・休日,nambu_21.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0432/0432011p.html
+鹿島田,南武線,川崎方面 ,平日,nambu_22.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0432/0432020p.html
+鹿島田,南武線,川崎方面 ,土・休日,nambu_23.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0432/0432021p.html
+平間,南武線,登戸・立川方面 ,平日,nambu_24.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1341/1341010p.html
+平間,南武線,登戸・立川方面 ,土・休日,nambu_25.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt1341/1341011p.html
+平間,南武線,川崎方面 ,平日,nambu_26.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1341/1341020p.html
+平間,南武線,川崎方面 ,土・休日,nambu_27.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1341/1341021p.html
+向河原,南武線,登戸・立川方面 ,平日,nambu_28.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1521/1521010p.html
+向河原,南武線,登戸・立川方面 ,土・休日,nambu_29.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1521/1521011p.html
+向河原,南武線,川崎方面 ,平日,nambu_30.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1521/1521020p.html
+向河原,南武線,川崎方面 ,土・休日,nambu_31.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1521/1521021p.html
+武蔵小杉,南武線,登戸・立川方面 ,平日,nambu_32.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1527/1527010p.html
+武蔵小杉,南武線,登戸・立川方面 ,土・休日,nambu_33.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1527/1527011p.html
+武蔵小杉,南武線,川崎方面 ,平日,nambu_34.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1527/1527020p.html
+武蔵小杉,南武線,川崎方面 ,土・休日,nambu_35.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1527/1527021p.html
+武蔵小杉,湘南新宿ライン,横浜・大船方面 ,平日,nambu_36.csv,2021-12-19,24,https://www.jreast-timetable.jp/2112/timetable/tt1527/1527030p.html
+武蔵小杉,湘南新宿ライン,横浜・大船方面 ,土・休日,nambu_37.csv,2021-12-19,24,https://www.jreast-timetable.jp/2112/timetable/tt1527/1527031p.html
+武蔵小杉,湘南新宿ライン,高崎・宇都宮方面 ,平日,nambu_38.csv,2021-12-19,24,https://www.jreast-timetable.jp/2112/timetable/tt1527/1527040p.html
+武蔵小杉,湘南新宿ライン,高崎・宇都宮方面 ,土・休日,nambu_39.csv,2021-12-19,24,https://www.jreast-timetable.jp/2112/timetable/tt1527/1527041p.html
+武蔵小杉,横須賀線,横浜・鎌倉方面 ,平日,nambu_40.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1527/1527050p.html
+武蔵小杉,横須賀線,横浜・鎌倉方面 ,土・休日,nambu_41.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1527/1527051p.html
+武蔵小杉,横須賀線,東京方面 ,平日,nambu_42.csv,2021-12-19,2,https://www.jreast-timetable.jp/2112/timetable/tt1527/1527060p.html
+武蔵小杉,横須賀線,東京方面 ,土・休日,nambu_43.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt1527/1527061p.html
+武蔵小杉,相鉄線直通,相鉄線方面 ,平日,nambu_44.csv,2021-12-19,24,https://www.jreast-timetable.jp/2112/timetable/tt1527/1527910p.html
+武蔵小杉,相鉄線直通,相鉄線方面 ,土・休日,nambu_45.csv,2021-12-19,24,https://www.jreast-timetable.jp/2112/timetable/tt1527/1527911p.html
+武蔵小杉,相鉄線直通,埼京線方面 ,平日,nambu_46.csv,2021-12-19,28,https://www.jreast-timetable.jp/2112/timetable/tt1527/1527920p.html
+武蔵小杉,相鉄線直通,埼京線方面 ,土・休日,nambu_47.csv,2021-12-19,28,https://www.jreast-timetable.jp/2112/timetable/tt1527/1527921p.html
+武蔵中原,南武線,登戸・立川方面 ,平日,nambu_48.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1532/1532010p.html
+武蔵中原,南武線,登戸・立川方面 ,土・休日,nambu_49.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1532/1532011p.html
+武蔵中原,南武線,川崎方面 ,平日,nambu_50.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1532/1532020p.html
+武蔵中原,南武線,川崎方面 ,土・休日,nambu_51.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1532/1532021p.html
+武蔵新城,南武線,登戸・立川方面 ,平日,nambu_52.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1530/1530010p.html
+武蔵新城,南武線,登戸・立川方面 ,土・休日,nambu_53.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1530/1530011p.html
+武蔵新城,南武線,川崎方面 ,平日,nambu_54.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1530/1530020p.html
+武蔵新城,南武線,川崎方面 ,土・休日,nambu_55.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1530/1530021p.html
+武蔵溝ノ口,南武線,登戸・立川方面 ,平日,nambu_56.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1535/1535010p.html
+武蔵溝ノ口,南武線,登戸・立川方面 ,土・休日,nambu_57.csv,2021-12-19,8,https://www.jreast-timetable.jp/2112/timetable/tt1535/1535011p.html
+武蔵溝ノ口,南武線,川崎方面 ,平日,nambu_58.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1535/1535020p.html
+武蔵溝ノ口,南武線,川崎方面 ,土・休日,nambu_59.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1535/1535021p.html
+津田山,南武線,登戸・立川方面 ,平日,nambu_60.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt1010/1010010p.html
+津田山,南武線,登戸・立川方面 ,土・休日,nambu_61.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1010/1010011p.html
+津田山,南武線,川崎方面 ,平日,nambu_62.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1010/1010020p.html
+津田山,南武線,川崎方面 ,土・休日,nambu_63.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1010/1010021p.html
+久地,南武線,登戸・立川方面 ,平日,nambu_64.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0615/0615010p.html
+久地,南武線,登戸・立川方面 ,土・休日,nambu_65.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0615/0615011p.html
+久地,南武線,川崎方面 ,平日,nambu_66.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0615/0615020p.html
+久地,南武線,川崎方面 ,土・休日,nambu_67.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0615/0615021p.html
+宿河原,南武線,登戸・立川方面 ,平日,nambu_68.csv,2021-12-19,8,https://www.jreast-timetable.jp/2112/timetable/tt0839/0839010p.html
+宿河原,南武線,登戸・立川方面 ,土・休日,nambu_69.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0839/0839011p.html
+宿河原,南武線,川崎方面 ,平日,nambu_70.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0839/0839020p.html
+宿河原,南武線,川崎方面 ,土・休日,nambu_71.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0839/0839021p.html
+登戸,南武線,立川方面 ,平日,nambu_72.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1212/1212010p.html
+登戸,南武線,立川方面 ,土・休日,nambu_73.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1212/1212011p.html
+登戸,南武線,川崎方面 ,平日,nambu_74.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1212/1212020p.html
+登戸,南武線,川崎方面 ,土・休日,nambu_75.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt1212/1212021p.html
+中野島,南武線,立川方面 ,平日,nambu_76.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt1107/1107010p.html
+中野島,南武線,立川方面 ,土・休日,nambu_77.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1107/1107011p.html
+中野島,南武線,登戸・川崎方面 ,平日,nambu_78.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1107/1107020p.html
+中野島,南武線,登戸・川崎方面 ,土・休日,nambu_79.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1107/1107021p.html
+稲田堤,南武線,立川方面 ,平日,nambu_80.csv,2021-12-19,8,https://www.jreast-timetable.jp/2112/timetable/tt0149/0149010p.html
+稲田堤,南武線,立川方面 ,土・休日,nambu_81.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0149/0149011p.html
+稲田堤,南武線,登戸・川崎方面 ,平日,nambu_82.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0149/0149020p.html
+稲田堤,南武線,登戸・川崎方面 ,土・休日,nambu_83.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0149/0149021p.html
+矢野口,南武線,立川方面 ,平日,nambu_84.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1591/1591010p.html
+矢野口,南武線,立川方面 ,土・休日,nambu_85.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1591/1591011p.html
+矢野口,南武線,登戸・川崎方面 ,平日,nambu_86.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1591/1591020p.html
+矢野口,南武線,登戸・川崎方面 ,土・休日,nambu_87.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1591/1591021p.html
+稲城長沼,南武線,立川方面 ,平日,nambu_88.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0145/0145010p.html
+稲城長沼,南武線,立川方面 ,土・休日,nambu_89.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0145/0145011p.html
+稲城長沼,南武線,登戸・川崎方面 ,平日,nambu_90.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0145/0145020p.html
+稲城長沼,南武線,登戸・川崎方面 ,土・休日,nambu_91.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0145/0145021p.html
+南多摩,南武線,立川方面 ,平日,nambu_92.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1490/1490010p.html
+南多摩,南武線,立川方面 ,土・休日,nambu_93.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1490/1490011p.html
+南多摩,南武線,登戸・川崎方面 ,平日,nambu_94.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1490/1490020p.html
+南多摩,南武線,登戸・川崎方面 ,土・休日,nambu_95.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1490/1490021p.html
+府中本町,武蔵野線,武蔵浦和・新松戸・西船橋方面 ,平日,nambu_96.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1374/1374010p.html
+府中本町,武蔵野線,武蔵浦和・新松戸・西船橋方面 ,土・休日,nambu_97.csv,2021-12-19,8,https://www.jreast-timetable.jp/2112/timetable/tt1374/1374011p.html
+府中本町,南武線,立川方面 ,平日,nambu_98.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1374/1374020p.html
+府中本町,南武線,立川方面 ,土・休日,nambu_99.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1374/1374021p.html
+府中本町,南武線,登戸・川崎方面 ,平日,nambu_100.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1374/1374030p.html
+府中本町,南武線,登戸・川崎方面 ,土・休日,nambu_101.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt1374/1374031p.html
+分倍河原,南武線,立川方面 ,平日,nambu_102.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1385/1385010p.html
+分倍河原,南武線,立川方面 ,土・休日,nambu_103.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1385/1385011p.html
+分倍河原,南武線,登戸・川崎方面 ,平日,nambu_104.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1385/1385020p.html
+分倍河原,南武線,登戸・川崎方面 ,土・休日,nambu_105.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt1385/1385021p.html
+西府,南武線,立川方面 ,平日,nambu_106.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1724/1724010p.html
+西府,南武線,立川方面 ,土・休日,nambu_107.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1724/1724011p.html
+西府,南武線,登戸・川崎方面 ,平日,nambu_108.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1724/1724020p.html
+西府,南武線,登戸・川崎方面 ,土・休日,nambu_109.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1724/1724021p.html
+谷保,南武線,立川方面 ,平日,nambu_110.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1599/1599010p.html
+谷保,南武線,立川方面 ,土・休日,nambu_111.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1599/1599011p.html
+谷保,南武線,登戸・川崎方面 ,平日,nambu_112.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1599/1599020p.html
+谷保,南武線,登戸・川崎方面 ,土・休日,nambu_113.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1599/1599021p.html
+矢川,南武線,立川方面 ,平日,nambu_114.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1571/1571010p.html
+矢川,南武線,立川方面 ,土・休日,nambu_115.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1571/1571011p.html
+矢川,南武線,登戸・川崎方面 ,平日,nambu_116.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1571/1571020p.html
+矢川,南武線,登戸・川崎方面 ,土・休日,nambu_117.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1571/1571021p.html
+西国立,南武線,立川方面 ,平日,nambu_118.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1155/1155010p.html
+西国立,南武線,立川方面 ,土・休日,nambu_119.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1155/1155011p.html
+西国立,南武線,登戸・川崎方面 ,平日,nambu_120.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1155/1155020p.html
+西国立,南武線,登戸・川崎方面 ,土・休日,nambu_121.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt1155/1155021p.html
+立川,中央本線・中央線快速,八王子・大月方面 ,平日,nambu_122.csv,2021-12-19,4,https://www.jreast-timetable.jp/2112/timetable/tt0958/0958010p.html
+立川,中央本線・中央線快速,八王子・大月方面 ,土・休日,nambu_123.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt0958/0958011p.html
+立川,中央本線・中央線快速,新宿・東京方面 ,平日,nambu_124.csv,2021-12-19,8,https://www.jreast-timetable.jp/2112/timetable/tt0958/0958020p.html
+立川,中央本線・中央線快速,新宿・東京方面 ,土・休日,nambu_125.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt0958/0958021p.html
+立川,青梅線・五日市線,拝島・青梅・奥多摩・武蔵五日市方面 ,平日,nambu_126.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0958/0958030p.html
+立川,青梅線・五日市線,拝島・青梅・奥多摩・武蔵五日市方面 ,土・休日,nambu_127.csv,2021-12-19,8,https://www.jreast-timetable.jp/2112/timetable/tt0958/0958031p.html
+立川,南武線,登戸・川崎方面 ,平日,nambu_128.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0958/0958040p.html
+立川,南武線,登戸・川崎方面 ,土・休日,nambu_129.csv,2021-12-19,0,https://www.jreast-timetable.jp/2112/timetable/tt0958/0958041p.html
+浜川崎,鶴見線,扇町方面 ,平日,nambu_130.csv,2021-12-19,28,https://www.jreast-timetable.jp/2112/timetable/tt1246/1246010p.html
+浜川崎,鶴見線,扇町方面 ,土・休日,nambu_131.csv,2021-12-19,28,https://www.jreast-timetable.jp/2112/timetable/tt1246/1246011p.html
+浜川崎,鶴見線,鶴見方面 ,平日,nambu_132.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt1246/1246020p.html
+浜川崎,鶴見線,鶴見方面 ,土・休日,nambu_133.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt1246/1246021p.html
+浜川崎,南武線,尻手方面 ,平日,nambu_134.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt1246/1246030p.html
+浜川崎,南武線,尻手方面 ,土・休日,nambu_135.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt1246/1246031p.html
+小田栄,南武線,尻手方面 ,平日,nambu_136.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt1736/1736020p.html
+小田栄,南武線,尻手方面 ,土・休日,nambu_137.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt1736/1736021p.html
+小田栄,南武線,浜川崎方面 ,平日,nambu_138.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt1736/1736010p.html
+小田栄,南武線,浜川崎方面 ,土・休日,nambu_139.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt1736/1736011p.html
+川崎新町,南武線,尻手方面 ,平日,nambu_140.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt0528/0528010p.html
+川崎新町,南武線,尻手方面 ,土・休日,nambu_141.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt0528/0528011p.html
+川崎新町,南武線,浜川崎方面 ,平日,nambu_142.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt0528/0528020p.html
+川崎新町,南武線,浜川崎方面 ,土・休日,nambu_143.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt0528/0528021p.html
+八丁畷,南武線,尻手方面 ,平日,nambu_144.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt1235/1235010p.html
+八丁畷,南武線,尻手方面 ,土・休日,nambu_145.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt1235/1235011p.html
+八丁畷,南武線,浜川崎方面 ,平日,nambu_146.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt1235/1235020p.html
+八丁畷,南武線,浜川崎方面 ,土・休日,nambu_147.csv,2021-12-19,12,https://www.jreast-timetable.jp/2112/timetable/tt1235/1235021p.html
+中野,東西線,西船橋方面,平日,tozai_0.csv,2021-12-30,24,https://www.tokyometro.jp/station/nakano/timetable/tozai/a/index_print.html
+中野,東西線,西船橋方面,土・休日,tozai_1.csv,2021-12-30,24,https://www.tokyometro.jp/station/nakano/timetable/tozai/a/holiday_print.html
+落合,東西線,中野方面,平日,tozai_2.csv,2021-12-30,12,https://www.tokyometro.jp/station/ochiai/timetable/tozai/b/index_print.html
+落合,東西線,中野方面,土・休日,tozai_3.csv,2021-12-30,8,https://www.tokyometro.jp/station/ochiai/timetable/tozai/b/holiday_print.html
+落合,東西線,西船橋方面,平日,tozai_4.csv,2021-12-30,24,https://www.tokyometro.jp/station/ochiai/timetable/tozai/a/index_print.html
+落合,東西線,西船橋方面,土・休日,tozai_5.csv,2021-12-30,24,https://www.tokyometro.jp/station/ochiai/timetable/tozai/a/holiday_print.html
+高田馬場,東西線,中野方面,平日,tozai_6.csv,2021-12-30,8,https://www.tokyometro.jp/station/takadanobaba/timetable/tozai/b/index_print.html
+高田馬場,東西線,中野方面,土・休日,tozai_7.csv,2021-12-30,8,https://www.tokyometro.jp/station/takadanobaba/timetable/tozai/b/holiday_print.html
+高田馬場,東西線,西船橋方面,平日,tozai_8.csv,2021-12-30,24,https://www.tokyometro.jp/station/takadanobaba/timetable/tozai/a/index_print.html
+高田馬場,東西線,西船橋方面,土・休日,tozai_9.csv,2021-12-30,24,https://www.tokyometro.jp/station/takadanobaba/timetable/tozai/a/holiday_print.html
+早稲田,東西線,中野方面,平日,tozai_10.csv,2021-12-30,12,https://www.tokyometro.jp/station/waseda/timetable/tozai/b/index_print.html
+早稲田,東西線,中野方面,土・休日,tozai_11.csv,2021-12-30,8,https://www.tokyometro.jp/station/waseda/timetable/tozai/b/holiday_print.html
+早稲田,東西線,西船橋方面,平日,tozai_12.csv,2021-12-30,8,https://www.tokyometro.jp/station/waseda/timetable/tozai/a/index_print.html
+早稲田,東西線,西船橋方面,土・休日,tozai_13.csv,2021-12-30,8,https://www.tokyometro.jp/station/waseda/timetable/tozai/a/holiday_print.html
+神楽坂,東西線,中野方面,平日,tozai_14.csv,2021-12-30,8,https://www.tokyometro.jp/station/kagurazaka/timetable/tozai/b/index_print.html
+神楽坂,東西線,中野方面,土・休日,tozai_15.csv,2021-12-30,8,https://www.tokyometro.jp/station/kagurazaka/timetable/tozai/b/holiday_print.html
+神楽坂,東西線,西船橋方面,平日,tozai_16.csv,2021-12-30,8,https://www.tokyometro.jp/station/kagurazaka/timetable/tozai/a/index_print.html
+神楽坂,東西線,西船橋方面,土・休日,tozai_17.csv,2021-12-30,8,https://www.tokyometro.jp/station/kagurazaka/timetable/tozai/a/holiday_print.html
+飯田橋,東西線,中野方面,平日,tozai_18.csv,2021-12-30,8,https://www.tokyometro.jp/station/iidabashi/timetable/tozai/b/index_print.html
+飯田橋,東西線,中野方面,土・休日,tozai_19.csv,2021-12-30,8,https://www.tokyometro.jp/station/iidabashi/timetable/tozai/b/holiday_print.html
+飯田橋,東西線,西船橋方面,平日,tozai_20.csv,2021-12-30,8,https://www.tokyometro.jp/station/iidabashi/timetable/tozai/a/index_print.html
+飯田橋,東西線,西船橋方面,土・休日,tozai_21.csv,2021-12-30,8,https://www.tokyometro.jp/station/iidabashi/timetable/tozai/a/holiday_print.html
+九段下,東西線,中野方面,平日,tozai_22.csv,2021-12-30,8,https://www.tokyometro.jp/station/kudanshita/timetable/tozai/b/index_print.html
+九段下,東西線,中野方面,土・休日,tozai_23.csv,2021-12-30,8,https://www.tokyometro.jp/station/kudanshita/timetable/tozai/b/holiday_print.html
+九段下,東西線,西船橋方面,平日,tozai_24.csv,2021-12-30,8,https://www.tokyometro.jp/station/kudanshita/timetable/tozai/a/index_print.html
+九段下,東西線,西船橋方面,土・休日,tozai_25.csv,2021-12-30,8,https://www.tokyometro.jp/station/kudanshita/timetable/tozai/a/holiday_print.html
+竹橋,東西線,中野方面,平日,tozai_26.csv,2021-12-30,8,https://www.tokyometro.jp/station/takebashi/timetable/tozai/b/index_print.html
+竹橋,東西線,中野方面,土・休日,tozai_27.csv,2021-12-30,8,https://www.tokyometro.jp/station/takebashi/timetable/tozai/b/holiday_print.html
+竹橋,東西線,西船橋方面,平日,tozai_28.csv,2021-12-30,8,https://www.tokyometro.jp/station/takebashi/timetable/tozai/a/index_print.html
+竹橋,東西線,西船橋方面,土・休日,tozai_29.csv,2021-12-30,8,https://www.tokyometro.jp/station/takebashi/timetable/tozai/a/holiday_print.html
+大手町,東西線,中野方面,平日,tozai_30.csv,2021-12-30,8,https://www.tokyometro.jp/station/otemachi/timetable/tozai/b/index_print.html
+大手町,東西線,中野方面,土・休日,tozai_31.csv,2021-12-30,8,https://www.tokyometro.jp/station/otemachi/timetable/tozai/b/holiday_print.html
+大手町,東西線,西船橋方面,平日,tozai_32.csv,2021-12-30,8,https://www.tokyometro.jp/station/otemachi/timetable/tozai/a/index_print.html
+大手町,東西線,西船橋方面,土・休日,tozai_33.csv,2021-12-30,8,https://www.tokyometro.jp/station/otemachi/timetable/tozai/a/holiday_print.html
+日本橋,東西線,中野方面,平日,tozai_34.csv,2021-12-30,8,https://www.tokyometro.jp/station/nihombashi/timetable/tozai/b/index_print.html
+日本橋,東西線,中野方面,土・休日,tozai_35.csv,2021-12-30,8,https://www.tokyometro.jp/station/nihombashi/timetable/tozai/b/holiday_print.html
+日本橋,東西線,西船橋方面,平日,tozai_36.csv,2021-12-30,8,https://www.tokyometro.jp/station/nihombashi/timetable/tozai/a/index_print.html
+日本橋,東西線,西船橋方面,土・休日,tozai_37.csv,2021-12-30,8,https://www.tokyometro.jp/station/nihombashi/timetable/tozai/a/holiday_print.html
+茅場町,東西線,中野方面,平日,tozai_38.csv,2021-12-30,8,https://www.tokyometro.jp/station/kayabacho/timetable/tozai/b/index_print.html
+茅場町,東西線,中野方面,土・休日,tozai_39.csv,2021-12-30,8,https://www.tokyometro.jp/station/kayabacho/timetable/tozai/b/holiday_print.html
+茅場町,東西線,西船橋方面,平日,tozai_40.csv,2021-12-30,12,https://www.tokyometro.jp/station/kayabacho/timetable/tozai/a/index_print.html
+茅場町,東西線,西船橋方面,土・休日,tozai_41.csv,2021-12-30,12,https://www.tokyometro.jp/station/kayabacho/timetable/tozai/a/holiday_print.html
+門前仲町,東西線,中野方面,平日,tozai_42.csv,2021-12-30,8,https://www.tokyometro.jp/station/monzen-nakacho/timetable/tozai/b/index_print.html
+門前仲町,東西線,中野方面,土・休日,tozai_43.csv,2021-12-30,8,https://www.tokyometro.jp/station/monzen-nakacho/timetable/tozai/b/holiday_print.html
+門前仲町,東西線,西船橋方面,平日,tozai_44.csv,2021-12-30,8,https://www.tokyometro.jp/station/monzen-nakacho/timetable/tozai/a/index_print.html
+門前仲町,東西線,西船橋方面,土・休日,tozai_45.csv,2021-12-30,8,https://www.tokyometro.jp/station/monzen-nakacho/timetable/tozai/a/holiday_print.html
+木場,東西線,中野方面,平日,tozai_46.csv,2021-12-30,8,https://www.tokyometro.jp/station/kiba/timetable/tozai/b/index_print.html
+木場,東西線,中野方面,土・休日,tozai_47.csv,2021-12-30,8,https://www.tokyometro.jp/station/kiba/timetable/tozai/b/holiday_print.html
+木場,東西線,西船橋方面,平日,tozai_48.csv,2021-12-30,8,https://www.tokyometro.jp/station/kiba/timetable/tozai/a/index_print.html
+木場,東西線,西船橋方面,土・休日,tozai_49.csv,2021-12-30,8,https://www.tokyometro.jp/station/kiba/timetable/tozai/a/holiday_print.html
+東陽町,東西線,中野方面,平日,tozai_50.csv,2021-12-30,8,https://www.tokyometro.jp/station/toyocho/timetable/tozai/b/index_print.html
+東陽町,東西線,中野方面,土・休日,tozai_51.csv,2021-12-30,8,https://www.tokyometro.jp/station/toyocho/timetable/tozai/b/holiday_print.html
+東陽町,東西線,西船橋方面,平日,tozai_52.csv,2021-12-30,8,https://www.tokyometro.jp/station/toyocho/timetable/tozai/a/index_print.html
+東陽町,東西線,西船橋方面,土・休日,tozai_53.csv,2021-12-30,8,https://www.tokyometro.jp/station/toyocho/timetable/tozai/a/holiday_print.html
+南砂町,東西線,中野方面,平日,tozai_54.csv,2021-12-30,8,https://www.tokyometro.jp/station/minami-sunamachi/timetable/tozai/b/index_print.html
+南砂町,東西線,中野方面,土・休日,tozai_55.csv,2021-12-30,8,https://www.tokyometro.jp/station/minami-sunamachi/timetable/tozai/b/holiday_print.html
+南砂町,東西線,西船橋方面,平日,tozai_56.csv,2021-12-30,12,https://www.tokyometro.jp/station/minami-sunamachi/timetable/tozai/a/index_print.html
+南砂町,東西線,西船橋方面,土・休日,tozai_57.csv,2021-12-30,8,https://www.tokyometro.jp/station/minami-sunamachi/timetable/tozai/a/holiday_print.html
+西葛西,東西線,中野方面,平日,tozai_58.csv,2021-12-30,8,https://www.tokyometro.jp/station/nishi-kasai/timetable/tozai/b/index_print.html
+西葛西,東西線,中野方面,土・休日,tozai_59.csv,2021-12-30,8,https://www.tokyometro.jp/station/nishi-kasai/timetable/tozai/b/holiday_print.html
+西葛西,東西線,西船橋方面,平日,tozai_60.csv,2021-12-30,8,https://www.tokyometro.jp/station/nishi-kasai/timetable/tozai/a/index_print.html
+西葛西,東西線,西船橋方面,土・休日,tozai_61.csv,2021-12-30,12,https://www.tokyometro.jp/station/nishi-kasai/timetable/tozai/a/holiday_print.html
+葛西,東西線,中野方面,平日,tozai_62.csv,2021-12-30,8,https://www.tokyometro.jp/station/kasai/timetable/tozai/b/index_print.html
+葛西,東西線,中野方面,土・休日,tozai_63.csv,2021-12-30,8,https://www.tokyometro.jp/station/kasai/timetable/tozai/b/holiday_print.html
+葛西,東西線,西船橋方面,平日,tozai_64.csv,2021-12-30,12,https://www.tokyometro.jp/station/kasai/timetable/tozai/a/index_print.html
+葛西,東西線,西船橋方面,土・休日,tozai_65.csv,2021-12-30,8,https://www.tokyometro.jp/station/kasai/timetable/tozai/a/holiday_print.html
+浦安,東西線,中野方面,平日,tozai_66.csv,2021-12-30,8,https://www.tokyometro.jp/station/urayasu/timetable/tozai/b/index_print.html
+浦安,東西線,中野方面,土・休日,tozai_67.csv,2021-12-30,8,https://www.tokyometro.jp/station/urayasu/timetable/tozai/b/holiday_print.html
+浦安,東西線,西船橋方面,平日,tozai_68.csv,2021-12-30,8,https://www.tokyometro.jp/station/urayasu/timetable/tozai/a/index_print.html
+浦安,東西線,西船橋方面,土・休日,tozai_69.csv,2021-12-30,8,https://www.tokyometro.jp/station/urayasu/timetable/tozai/a/holiday_print.html
+南行徳,東西線,中野方面,平日,tozai_70.csv,2021-12-30,8,https://www.tokyometro.jp/station/minami-gyotoku/timetable/tozai/b/index_print.html
+南行徳,東西線,中野方面,土・休日,tozai_71.csv,2021-12-30,8,https://www.tokyometro.jp/station/minami-gyotoku/timetable/tozai/b/holiday_print.html
+南行徳,東西線,西船橋方面,平日,tozai_72.csv,2021-12-30,12,https://www.tokyometro.jp/station/minami-gyotoku/timetable/tozai/a/index_print.html
+南行徳,東西線,西船橋方面,土・休日,tozai_73.csv,2021-12-30,8,https://www.tokyometro.jp/station/minami-gyotoku/timetable/tozai/a/holiday_print.html
+行徳,東西線,中野方面,平日,tozai_74.csv,2021-12-30,8,https://www.tokyometro.jp/station/gyotoku/timetable/tozai/b/index_print.html
+行徳,東西線,中野方面,土・休日,tozai_75.csv,2021-12-30,8,https://www.tokyometro.jp/station/gyotoku/timetable/tozai/b/holiday_print.html
+行徳,東西線,西船橋方面,平日,tozai_76.csv,2021-12-30,8,https://www.tokyometro.jp/station/gyotoku/timetable/tozai/a/index_print.html
+行徳,東西線,西船橋方面,土・休日,tozai_77.csv,2021-12-30,8,https://www.tokyometro.jp/station/gyotoku/timetable/tozai/a/holiday_print.html
+妙典,東西線,中野方面,平日,tozai_78.csv,2021-12-30,8,https://www.tokyometro.jp/station/myoden/timetable/tozai/b/index_print.html
+妙典,東西線,中野方面,土・休日,tozai_79.csv,2021-12-30,8,https://www.tokyometro.jp/station/myoden/timetable/tozai/b/holiday_print.html
+妙典,東西線,西船橋方面,平日,tozai_80.csv,2021-12-30,8,https://www.tokyometro.jp/station/myoden/timetable/tozai/a/index_print.html
+妙典,東西線,西船橋方面,土・休日,tozai_81.csv,2021-12-30,8,https://www.tokyometro.jp/station/myoden/timetable/tozai/a/holiday_print.html
+原木中山,東西線,中野方面,平日,tozai_82.csv,2021-12-30,8,https://www.tokyometro.jp/station/baraki-nakayama/timetable/tozai/b/index_print.html
+原木中山,東西線,中野方面,土・休日,tozai_83.csv,2021-12-30,8,https://www.tokyometro.jp/station/baraki-nakayama/timetable/tozai/b/holiday_print.html
+原木中山,東西線,西船橋方面,平日,tozai_84.csv,2021-12-30,8,https://www.tokyometro.jp/station/baraki-nakayama/timetable/tozai/a/index_print.html
+原木中山,東西線,西船橋方面,土・休日,tozai_85.csv,2021-12-30,8,https://www.tokyometro.jp/station/baraki-nakayama/timetable/tozai/a/holiday_print.html
+西船橋,東西線,中野方面,平日,tozai_86.csv,2021-12-30,8,https://www.tokyometro.jp/station/nishi-funabashi/timetable/tozai/b/index_print.html
+西船橋,東西線,中野方面,土・休日,tozai_87.csv,2021-12-30,8,https://www.tokyometro.jp/station/nishi-funabashi/timetable/tozai/b/holiday_print.html
+高根公団,新京成線,上り,平日,takanekodan_weekday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/takanekodan_weekday_up/
+鎌ヶ谷大仏,新京成線,上り,平日,kamagayadaibutsu_weekday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/kamagayadaibutsu_weekday_up/
+新鎌ヶ谷,新京成線,上り,平日,shinkamagaya_weekday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/shinkamagaya_weekday_up/
+みのり台,新京成線,上り,平日,minoridai_weekday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/minoridai_weekday_up/
+初富,新京成線,上り,平日,hatsutomi_weekday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/hatsutomi_weekday_up/
+北初富,新京成線,上り,平日,kitahatsutomi_weekday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/kitahatsutomi_weekday_up/
+薬園台,新京成線,上り,平日,yakuendai_weekday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/yakuendai_weekday_up/
+二和向台,新京成線,上り,平日,futawamukodai_weekday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/futawamukodai_weekday_up/
+高根木戸,新京成線,上り,平日,takanekido_weekday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/takanekido_weekday_up/
+元山,新京成線,上り,平日,motoyama_weekday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/motoyama_weekday_up/
+くぬぎ山,新京成線,上り,平日,kunugiyama_weekday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/kunugiyama_weekday_up/
+松戸新田,新京成線,上り,平日,matsudoshinden_weekday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/matsudoshinden_weekday_up/
+八柱,新京成線,上り,平日,yabashira_weekday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/yabashira_weekday_up/
+前原,新京成線,上り,平日,maebara_weekday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/maebara_weekday_up/
+三咲,新京成線,上り,平日,misaki_weekday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/misaki_weekday_up/
+新津田沼,新京成線,上り,平日,shintsudanuma_weekday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/shintsudanuma_weekday_up/
+五香,新京成線,上り,平日,goko_weekday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/goko_weekday_up/
+滝不動,新京成線,上り,平日,takifudou_weekday_up.csv,2021-11-30,2,https://www.shinkeisei.co.jp/train/timetable/takifudou_weekday_up/
+常盤平,新京成線,上り,平日,tokiwadaira_weekday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/tokiwadaira_weekday_up/
+北習志野,新京成線,上り,平日,kitanarashino_weekday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/kitanarashino_weekday_up/
+習志野,新京成線,上り,平日,narashino_weekday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/narashino_weekday_up/
+京成津田沼,新京成線,上り,平日,keiseitsudanuma_weekday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/keiseitsudanuma_weekday_up/
+松戸,新京成線,上り,平日,matsudo_weekday_up.csv,2021-11-30,2,https://www.shinkeisei.co.jp/train/timetable/matsudo_weekday_up/
+上本郷,新京成線,上り,平日,kamihongou_weekday_up.csv,2021-11-30,2,https://www.shinkeisei.co.jp/train/timetable/kamihongou_weekday_up/
+高根公団,新京成線,下り,平日,takanekodan_weekday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/takanekodan_weekday_down/
+鎌ヶ谷大仏,新京成線,下り,平日,kamagayadaibutsu_weekday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/kamagayadaibutsu_weekday_down/
+新鎌ヶ谷,新京成線,下り,平日,shinkamagaya_weekday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/shinkamagaya_weekday_down/
+みのり台,新京成線,下り,平日,minoridai_weekday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/minoridai_weekday_down/
+初富,新京成線,下り,平日,hatsutomi_weekday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/hatsutomi_weekday_down/
+北初富,新京成線,下り,平日,kitahatsutomi_weekday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/kitahatsutomi_weekday_down/
+薬園台,新京成線,下り,平日,yakuendai_weekday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/yakuendai_weekday_down/
+二和向台,新京成線,下り,平日,futawamukodai_weekday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/futawamukodai_weekday_down/
+高根木戸,新京成線,下り,平日,takanekido_weekday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/takanekido_weekday_down/
+元山,新京成線,下り,平日,motoyama_weekday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/motoyama_weekday_down/
+くぬぎ山,新京成線,下り,平日,kunugiyama_weekday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/kunugiyama_weekday_down/
+松戸新田,新京成線,下り,平日,matsudoshinden_weekday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/matsudoshinden_weekday_down/
+八柱,新京成線,下り,平日,yabashira_weekday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/yabashira_weekday_down/
+前原,新京成線,下り,平日,maebara_weekday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/maebara_weekday_down/
+三咲,新京成線,下り,平日,misaki_weekday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/misaki_weekday_down/
+新津田沼,新京成線,下り,平日,shintsudanuma_weekday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/shintsudanuma_weekday_down/
+五香,新京成線,下り,平日,goko_weekday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/goko_weekday_down/
+滝不動,新京成線,下り,平日,takifudou_weekday_down.csv,2021-11-30,2,https://www.shinkeisei.co.jp/train/timetable/takifudou_weekday_down/
+常盤平,新京成線,下り,平日,tokiwadaira_weekday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/tokiwadaira_weekday_down/
+北習志野,新京成線,下り,平日,kitanarashino_weekday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/kitanarashino_weekday_down/
+習志野,新京成線,下り,平日,narashino_weekday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/narashino_weekday_down/
+京成津田沼,新京成線,下り,平日,keiseitsudanuma_weekday_down.csv,2021-11-30,8,https://www.shinkeisei.co.jp/train/timetable/keiseitsudanuma_weekday_down/
+松戸,新京成線,下り,平日,matsudo_weekday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/matsudo_weekday_down/
+上本郷,新京成線,下り,平日,kamihongou_weekday_down.csv,2021-11-30,2,https://www.shinkeisei.co.jp/train/timetable/kamihongou_weekday_down/
+高根公団,新京成線,上り,土・休日,takanekodan_holiday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/takanekodan_holiday_up/
+鎌ヶ谷大仏,新京成線,上り,土・休日,kamagayadaibutsu_holiday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/kamagayadaibutsu_holiday_up/
+新鎌ヶ谷,新京成線,上り,土・休日,shinkamagaya_holiday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/shinkamagaya_holiday_up/
+みのり台,新京成線,上り,土・休日,minoridai_holiday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/minoridai_holiday_up/
+初富,新京成線,上り,土・休日,hatsutomi_holiday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/hatsutomi_holiday_up/
+北初富,新京成線,上り,土・休日,kitahatsutomi_holiday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/kitahatsutomi_holiday_up/
+薬園台,新京成線,上り,土・休日,yakuendai_holiday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/yakuendai_holiday_up/
+二和向台,新京成線,上り,土・休日,futawamukodai_holiday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/futawamukodai_holiday_up/
+高根木戸,新京成線,上り,土・休日,takanekido_holiday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/takanekido_holiday_up/
+元山,新京成線,上り,土・休日,motoyama_holiday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/motoyama_holiday_up/
+くぬぎ山,新京成線,上り,土・休日,kunugiyama_holiday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/kunugiyama_holiday_up/
+松戸新田,新京成線,上り,土・休日,matsudoshinden_holiday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/matsudoshinden_holiday_up/
+八柱,新京成線,上り,土・休日,yabashira_holiday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/yabashira_holiday_up/
+前原,新京成線,上り,土・休日,maebara_holiday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/maebara_holiday_up/
+三咲,新京成線,上り,土・休日,misaki_holiday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/misaki_holiday_up/
+新津田沼,新京成線,上り,土・休日,shintsudanuma_holiday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/shintsudanuma_holiday_up/
+五香,新京成線,上り,土・休日,goko_holiday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/goko_holiday_up/
+滝不動,新京成線,上り,土・休日,takifudou_holiday_up.csv,2021-11-30,2,https://www.shinkeisei.co.jp/train/timetable/takifudou_holiday_up/
+常盤平,新京成線,上り,土・休日,tokiwadaira_holiday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/tokiwadaira_holiday_up/
+北習志野,新京成線,上り,土・休日,kitanarashino_holiday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/kitanarashino_holiday_up/
+習志野,新京成線,上り,土・休日,narashino_holiday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/narashino_holiday_up/
+京成津田沼,新京成線,上り,土・休日,keiseitsudanuma_holiday_up.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/keiseitsudanuma_holiday_up/
+松戸,新京成線,上り,土・休日,matsudo_holiday_up.csv,2021-11-30,2,https://www.shinkeisei.co.jp/train/timetable/matsudo_holiday_up/
+上本郷,新京成線,上り,土・休日,kamihongou_holiday_up.csv,2021-11-30,2,https://www.shinkeisei.co.jp/train/timetable/kamihongou_holiday_up/
+高根公団,新京成線,下り,土・休日,takanekodan_holiday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/takanekodan_holiday_down/
+鎌ヶ谷大仏,新京成線,下り,土・休日,kamagayadaibutsu_holiday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/kamagayadaibutsu_holiday_down/
+新鎌ヶ谷,新京成線,下り,土・休日,shinkamagaya_holiday_down.csv,2021-11-30,12,https://www.shinkeisei.co.jp/train/timetable/shinkamagaya_holiday_down/
+みのり台,新京成線,下り,土・休日,minoridai_holiday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/minoridai_holiday_down/
+初富,新京成線,下り,土・休日,hatsutomi_holiday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/hatsutomi_holiday_down/
+北初富,新京成線,下り,土・休日,kitahatsutomi_holiday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/kitahatsutomi_holiday_down/
+薬園台,新京成線,下り,土・休日,yakuendai_holiday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/yakuendai_holiday_down/
+二和向台,新京成線,下り,土・休日,futawamukodai_holiday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/futawamukodai_holiday_down/
+高根木戸,新京成線,下り,土・休日,takanekido_holiday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/takanekido_holiday_down/
+元山,新京成線,下り,土・休日,motoyama_holiday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/motoyama_holiday_down/
+くぬぎ山,新京成線,下り,土・休日,kunugiyama_holiday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/kunugiyama_holiday_down/
+松戸新田,新京成線,下り,土・休日,matsudoshinden_holiday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/matsudoshinden_holiday_down/
+八柱,新京成線,下り,土・休日,yabashira_holiday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/yabashira_holiday_down/
+前原,新京成線,下り,土・休日,maebara_holiday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/maebara_holiday_down/
+三咲,新京成線,下り,土・休日,misaki_holiday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/misaki_holiday_down/
+新津田沼,新京成線,下り,土・休日,shintsudanuma_holiday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/shintsudanuma_holiday_down/
+五香,新京成線,下り,土・休日,goko_holiday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/goko_holiday_down/
+滝不動,新京成線,下り,土・休日,takifudou_holiday_down.csv,2021-11-30,2,https://www.shinkeisei.co.jp/train/timetable/takifudou_holiday_down/
+常盤平,新京成線,下り,土・休日,tokiwadaira_holiday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/tokiwadaira_holiday_down/
+北習志野,新京成線,下り,土・休日,kitanarashino_holiday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/kitanarashino_holiday_down/
+習志野,新京成線,下り,土・休日,narashino_holiday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/narashino_holiday_down/
+京成津田沼,新京成線,下り,土・休日,keiseitsudanuma_holiday_down.csv,2021-11-30,8,https://www.shinkeisei.co.jp/train/timetable/keiseitsudanuma_holiday_down/
+松戸,新京成線,下り,土・休日,matsudo_holiday_down.csv,2021-11-30,0,https://www.shinkeisei.co.jp/train/timetable/matsudo_holiday_down/
+上本郷,新京成線,下り,土・休日,kamihongou_holiday_down.csv,2021-11-30,2,https://www.shinkeisei.co.jp/train/timetable/kamihongou_holiday_down/

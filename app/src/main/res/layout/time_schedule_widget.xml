@@ -115,4 +115,14 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="30dp"
             android:text="○○駅" />
+
+        <Button
+            android:id="@+id/updateButton"
+            android:layout_width="82dp"
+            android:layout_height="36dp"
+            android:layout_alignTop="@+id/appwidget_text_rest"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="19dp"
+            android:layout_toEndOf="@+id/appwidget_text_rest"
+            android:text="更新" />
 </RelativeLayout>

@@ -23,6 +23,14 @@ import androidx.annotation.RequiresApi
 import android.widget.AutoCompleteTextView
 import android.widget.ArrayAdapter
 import androidx.core.text.set
+import androidx.core.view.isNotEmpty
+import java.util.ArrayList
+
+import android.widget.Spinner
+
+
+
+
 
 
 class MainActivity : AppCompatActivity(),MyListener {
@@ -79,7 +87,30 @@ class MainActivity : AppCompatActivity(),MyListener {
                     val intent = Intent(rCont, TimeSchedule::class.java)
                     startActivity(intent)
                 }
-                addItem()
+                //駅名が空でなければ駅名から路線を検索して、得られたリストから選択肢を前回のものに設定
+                addRoute()
+                val routeName = view.findViewById<Spinner>(R.id.routespinner)
+                if(routeName.adapter != null){
+                    val preselectedRoute = prefs.getString("RouteSpinner",null)
+                    val routeNameList = retrieveAllItems(routeName)
+                    val preselectedIndexOfRoute = getIndexofSelectedinSpinner(routeNameList!!,
+                        preselectedRoute.toString()
+                    )
+                    routeName.setSelection(preselectedIndexOfRoute)
+
+                }
+
+                //駅名から方向を検索して、得られたリストから選択肢を前回のものに設定（路線は前回のデータがなければ１番上のデータが採用される様に設計）
+                addDirection()
+                val direction = view.findViewById<Spinner>(R.id.UpDownSpinner)
+                if(direction.adapter != null){
+                    val preselectedDirection = prefs.getString("UpDownSpinner",null)
+                    val directionList = retrieveAllItems(direction)
+                    val preselectedIndexOfDirection = getIndexofSelectedinSpinner(directionList!!,
+                        preselectedDirection.toString()
+                    )
+                    direction.setSelection(preselectedIndexOfDirection)
+                }
             }
 /*
             //autocomplete用ファイルの設定、一時的にコメントアウト
@@ -111,16 +142,6 @@ class MainActivity : AppCompatActivity(),MyListener {
             val stationtextList = view.findViewById(R.id.registeredStation) as AutoCompleteTextView
             stationtextList.setAdapter(autoCompleteAdapter)
 */
-
-            //上り下りのスピナーの設定
-            val UpDown:List<String> = listOf("上り","下り")
-            var adapter = ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_spinner_item,
-                UpDown
-            )
-            view.findViewById<Spinner>(R.id.UpDownSpinner).adapter = adapter
-
             //次ページへの遷移ボタンの処理
             view.findViewById<Button>(R.id.registButton).setOnClickListener(object : View.OnClickListener {
                 @RequiresApi(Build.VERSION_CODES.O)
@@ -131,20 +152,25 @@ class MainActivity : AppCompatActivity(),MyListener {
                     val rCont = requireContext()
                     val station = view.findViewById<EditText>(R.id.registeredStation).text
                     val route = view.findViewById<Spinner>(R.id.routespinner).selectedItem
+                    val direction = view.findViewById<Spinner>(R.id.UpDownSpinner).selectedItem
                     if(station.toString() != ""){
                         if(route != null){
-                            rCont.getSharedPreferences("savedata", 0)
-                            val stationName = view.findViewById<EditText>(R.id.registeredStation).text.toString()
-                            val routeName = view.findViewById<Spinner>(R.id.routespinner).selectedItem.toString()
-                            val direction = view.findViewById<Spinner>(R.id.UpDownSpinner).selectedItem.toString()
-                            val editor = prefs.edit()
-                            editor.putString("RegisteredStation", stationName)
-                            editor.putString("RouteSpinner", routeName)
-                            editor.putString("UpDownSpinner", direction)
-                            editor.putInt("FromPage", 1)
-                            editor.apply()
-                            val intent = Intent(requireContext(), TimeSchedule::class.java)
-                            startActivity(intent)
+                            if(direction != null){
+                                rCont.getSharedPreferences("savedata", 0)
+                                val stationName = view.findViewById<EditText>(R.id.registeredStation).text.toString()
+                                val routeName = view.findViewById<Spinner>(R.id.routespinner).selectedItem.toString()
+                                val direction = view.findViewById<Spinner>(R.id.UpDownSpinner).selectedItem.toString()
+                                val editor = prefs.edit()
+                                editor.putString("RegisteredStation", stationName)
+                                editor.putString("RouteSpinner", routeName)
+                                editor.putString("UpDownSpinner", direction)
+                                editor.putInt("FromPage", 1)
+                                editor.apply()
+                                val intent = Intent(requireContext(), TimeSchedule::class.java)
+                                startActivity(intent)
+                            }else{
+                                Toast.makeText(rCont, "方向を入力してください", Toast.LENGTH_SHORT).show()
+                            }
                         }else{
                             Toast.makeText(rCont, "路線を入力してください", Toast.LENGTH_SHORT).show()
                         }
@@ -160,7 +186,16 @@ class MainActivity : AppCompatActivity(),MyListener {
                     if (mListener != null) {
                         mListener?.onClickButton()
                     }
-                    addItem()
+                    addRoute()
+                }
+            })
+            view.findViewById<Button>(R.id.directionButton).setOnClickListener(object : View.OnClickListener {
+                @RequiresApi(Build.VERSION_CODES.O)
+                override fun onClick(v: View) { //ここviewじゃなくてvにしたら動いた
+                    if (mListener != null) {
+                        mListener?.onClickButton()
+                    }
+                    addDirection()
                 }
             })
         }
@@ -182,21 +217,18 @@ class MainActivity : AppCompatActivity(),MyListener {
             mListener = null
         }
 
-        @RequiresApi(Build.VERSION_CODES.O)
-        fun addItem() {
+        fun addRoute() {
             viewLifecycleOwner.lifecycleScope.launch {
 
                 // ここからはIOスレッドで実行してもらう
                 withContext(Dispatchers.IO) {
                     // テーブルに追加
                     val db = AppDatabase.getInstance(requireContext())
-                    db.autocompletelistDao().delete()
-                    db.autocompletelistDao().insert()
 
                     var station = view?.findViewById<EditText>(R.id.registeredStation) as EditText
                     db.StationRouteUpDownDaytypeDao().deleteStationRouteUpDownDaytype()
 
-                    val fileInputStream  = resources.assets.open("StationRouteUpDownDaytype.csv")
+                    val fileInputStream  = resources.assets.open("schedule_files_merged.csv")
                     val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
                     reader.readLine()
                     var lineBuffer: String
@@ -216,40 +248,107 @@ class MainActivity : AppCompatActivity(),MyListener {
                     var j = 0
                     while (j < stationList.size) {
                         var temp = stationList[j].split(",")
-                        db.StationRouteUpDownDaytypeDao().insertStationRouteUpDownDaytype(temp[0],temp[1],temp[2].toInt(),temp[3].toInt())
+                        db.StationRouteUpDownDaytypeDao().insertStationRouteUpDownDaytype(temp[0],temp[1],temp[2],temp[3],temp[4])
                         j++
                     }
-                    val gotlist = db.StationRouteUpDownDaytypeDao().loadAllByStation(station.text.toString().replace("駅",""))
-                    //以下、排他的になるように処理
-                    var i = 0
-                    var x = 0
-                    var flag = 0
-                    var routeList = mutableListOf<String>()
-                    while (i < gotlist.size) {
-                        while(x < routeList.size){
-                            if(routeList[x] == gotlist[i].route.toString()){
-                                flag = 1
-                                break
-                            }
-                            x++
-                        }
-                        if(flag == 0){
-                            routeList.add(gotlist[i].route.toString())
-                        }
-                        flag = 0
-                        x=0
-                        i++
-                    }
+                    val gotlist = db.StationRouteUpDownDaytypeDao().getRouteByStation(station.text.toString().replace("駅",""))
+
+                    //路線スピナーへの代入
                     val routeSpinner = view?.findViewById<Spinner>(R.id.routespinner) as Spinner
 
                     var adapter = ArrayAdapter(
                         requireContext(),
                         android.R.layout.simple_spinner_item,
-                        routeList
+                        gotlist
                     )
                     activity?.runOnUiThread(java.lang.Runnable {routeSpinner.adapter = adapter})
                 }
             }
+        }
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun addDirection() {
+            viewLifecycleOwner.lifecycleScope.launch {
+
+                // ここからはIOスレッドで実行してもらう
+                withContext(Dispatchers.IO) {
+                    // テーブルに追加
+                    val db = AppDatabase.getInstance(requireContext())
+                    //db.autocompletelistDao().delete()
+                    //db.autocompletelistDao().insert()
+
+                    var station = view?.findViewById<EditText>(R.id.registeredStation) as EditText
+                    var route = view?.findViewById<Spinner>(R.id.routespinner) as Spinner
+                    db.StationRouteUpDownDaytypeDao().deleteStationRouteUpDownDaytype()
+
+                    val fileInputStream  = resources.assets.open("schedule_files_merged.csv")
+                    val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
+                    reader.readLine()
+                    var lineBuffer: String
+                    var stationList : ArrayList<String> = arrayListOf()
+                    var k = 0
+                    //readLineは呼び出しごとに次の行にいくみたいなので、この実装だと１行飛ばしで読み込んでしまう。Fragmentの感じでやると思うけど、コピペだとエラーあるので対処
+                    while (reader.readLine() != null) {
+                        lineBuffer = reader.readLine()
+                        if (lineBuffer != null) {
+                            stationList.add(lineBuffer) //これ１行で読み込まれる
+                            k++
+                        } else {
+                            break
+                        }
+                    }
+
+                    var j = 0
+                    while (j < stationList.size) {
+                        var temp = stationList[j].split(",")
+                        db.StationRouteUpDownDaytypeDao().insertStationRouteUpDownDaytype(temp[0],temp[1],temp[2],temp[3],temp[4])
+                        j++
+                    }
+
+                    val rCont = requireContext()
+                    val prefs: SharedPreferences = rCont.getSharedPreferences("savedata", MODE_PRIVATE)
+                    var routeText = prefs.getString("UpDownSpinner","")
+                    if(route.isNotEmpty()){
+                        routeText = route.selectedItem.toString()
+                    }else{
+                    }
+
+                    val gotlist = db.StationRouteUpDownDaytypeDao().getDirectionByStationRoutes(station.text.toString().replace("駅",""),routeText.toString())
+
+                    //方向スピナーへの代入
+                    val destinationSpinner = view?.findViewById<Spinner>(R.id.UpDownSpinner) as Spinner
+
+                    var destinationadapter = ArrayAdapter(
+                        requireContext(),
+                        android.R.layout.simple_spinner_item,
+                        gotlist
+                    )
+                    activity?.runOnUiThread(java.lang.Runnable {destinationSpinner.adapter = destinationadapter})
+                }
+            }
+        }
+        //スピナーの中のアイテムを全てリストで取り出す関数
+        fun retrieveAllItems(theSpinner: Spinner): List<String>? {
+            val adapter: Adapter = theSpinner.adapter
+            val n = adapter.count
+            val items: MutableList<String> = ArrayList<String>(n)
+            for (i in 0 until n) {
+                val item: String = adapter.getItem(i) as String
+                items.add(item)
+            }
+            return items
+        }
+        //リストの番号と一致する場合、そのindexを返す関数
+        fun getIndexofSelectedinSpinner(list:List<String>,item:String): Int{
+            var x = 0
+            var index = 0
+            while(x < list.size){
+                if(item.equals(list[x])){
+                    index = x
+                    break
+                }
+                x++
+            }
+            return index
         }
     }
 }

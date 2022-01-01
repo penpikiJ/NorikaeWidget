@@ -7,7 +7,7 @@
     android:minHeight="40dp"
     android:previewImage="@drawable/example_appwidget_preview"
     android:previewLayout="@layout/simple_time_schedule_widget"
-    android:resizeMode="horizontal|vertical"
+    android:resizeMode="horizontal"
     android:targetCellWidth="5"
     android:targetCellHeight="1"
     android:updatePeriodMillis="0"

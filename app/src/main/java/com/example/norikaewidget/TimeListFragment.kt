@@ -20,6 +20,10 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.time.LocalDate
@@ -114,99 +118,116 @@ class TimeListFragment : Fragment(),MyListener {
         //曜日判定、ダイヤに合わせて夜中の０時ではなく土曜日と月曜日の朝３時に平日休日の判定を変更。
         //そのうちファイル名変わるかも。そもそもDBにしても良い
         val daytype = LocalDate.now().dayOfWeek.value
-        val filename:String
+        var dtypestr = "平日"
         if(daytype == 6 or 7){
             if(daytype == 6 && 0 <= LocalDateTime.now().hour && LocalDateTime.now().hour <= 3 ){
-                filename = stationName +"_"+ routeName +"_"+ direction + ".csv"
             }else{
-                filename = stationName +"_"+ routeName +"_"+ direction +"_H"+ ".csv"
+                dtypestr = "土・休日"
             }
         }else{
             if(daytype == 1 && 0 <= LocalDateTime.now().hour && LocalDateTime.now().hour <= 3 ){
-                filename = stationName +"_"+ routeName +"_"+ direction +"_H"+ ".csv"
+                dtypestr = "土・休日"
             }else{
-                filename = stationName +"_"+ routeName +"_"+ direction +".csv"
             }
         }
-
-        val fileInputStream  = resources.assets.open(filename)
-        val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
-        reader.readLine()
-        var lineBuffer: String
-        var stationTimeList : ArrayList<String> = arrayListOf()
-        var k = 0
-        var temp :String? = ""
-        while (temp != null) {
-            lineBuffer = temp
-            if (lineBuffer != null) {
-                if (temp != ""){
-                    stationTimeList.add(lineBuffer)
-                }
-                temp = reader.readLine()
-                k++
-            } else {
-                break
-            }
-        }
-        //nowの取得とformat設定
-        val dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
-
-
-        mTrainList = arrayListOf()
-        var i: Int = 0
-        val launchTimeList:MutableList<LocalDateTime> = arrayListOf()
-        while(i < stationTimeList.size){
-            var sp = stationTimeList[i].split(",")
-            launchTimeList.add(i,LocalDateTime.now().with(LocalTime.of(sp[0].toInt(),sp[1].toInt())))
-            i++
-        }
-
-        val editor = prefs.edit()
-        val scheduleSet :MutableSet<String> = mutableSetOf()
-        var c = 0
-        while(c < launchTimeList.size){
-            scheduleSet.add(launchTimeList.toString())
-            c++
-        }
-        editor.putStringSet("SelectedTimeSchedule", scheduleSet)
-        editor.apply()
-
-        kotlin.concurrent.timer("timer",false, period = 1000){
-            val now = LocalDateTime.now()
-            now.format(dtf)
-            var arrivalLocalDateTime:LocalDateTime = now
-            var x = 0
-            var y = 0
-            while(x < launchTimeList.size){
-                var sp = stationTimeList[x].split(",")
-                arrivalLocalDateTime =now.with(LocalTime.of(launchTimeList[x].hour,launchTimeList[x].minute))
-                val min = ChronoUnit.MINUTES.between(now,arrivalLocalDateTime)
-                val sec = ChronoUnit.SECONDS.between(now,arrivalLocalDateTime) - min * 60
-                if(min >= 0){
-                    if(sec >= 0){
-                        var schedulecard = DataForSchedule(routeName.toString(),direction.toString(),("%02d".format(sp[0].toInt()))+":"+("%02d".format(sp[1].toInt())).toString(),min.toString()+":"+"%02d".format(sec))
-                        if(min <10){
-                            schedulecard = DataForSchedule(routeName.toString(),direction.toString(),("%02d".format(sp[0].toInt()))+":"+("%02d".format(sp[1].toInt())).toString(),"  "+min.toString()+":"+"%02d".format(sec))
-                        }
-                        mTrainList.add(y, schedulecard)
-                        y++
+        var filename:String = ""
+        //時刻表ファイルの呼び出し
+        viewLifecycleOwner.lifecycleScope.launch {
+            // ここからはIOスレッドで実行してもらう
+            withContext(Dispatchers.IO) {
+                val db = AppDatabase.getInstance(requireContext())
+                if (direction != null) {
+                    if (stationName != null) {
+                        filename = db.StationRouteUpDownDaytypeDao().getCsvnameByInfo(stationName,routeName,direction,dtypestr)
                     }
                 }
-                x++
+            }
+        }
+        try {
+            val fileInputStream  = resources.assets.open(filename)
+            val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
+            reader.readLine()
+            var lineBuffer: String
+            var stationTimeList : ArrayList<String> = arrayListOf()
+            var k = 0
+            var temp :String? = ""
+            while (temp != null) {
+                lineBuffer = temp
+                if (lineBuffer != null) {
+                    if (temp != ""){
+                        stationTimeList.add(lineBuffer)
+                    }
+                    temp = reader.readLine()
+                    k++
+                } else {
+                    break
+                }
+            }
+            //nowの取得とformat設定
+            val dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
+
+
+            mTrainList = arrayListOf()
+            var i: Int = 0
+            val launchTimeList:MutableList<LocalDateTime> = arrayListOf()
+            while(i < stationTimeList.size){
+                var sp = stationTimeList[i].split(",")
+                launchTimeList.add(i,LocalDateTime.now().with(LocalTime.of(sp[0].toInt(),sp[1].toInt())))
+                i++
             }
 
-            activity?.runOnUiThread(java.lang.Runnable {
-                // RecyclerViewの取得
-                val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerView) as RecyclerView
+            val editor = prefs.edit()
+            val scheduleSet :MutableSet<String> = mutableSetOf()
+            var c = 0
+            while(c < launchTimeList.size){
+                scheduleSet.add(launchTimeList.toString())
+                c++
+            }
+            editor.putStringSet("SelectedTimeSchedule", scheduleSet)
+            editor.apply()
 
-                // LayoutManagerの設定
-                recyclerView?.layoutManager = LinearLayoutManager(requireContext())
+            timer("timer",false, period = 1000){
+                val now = LocalDateTime.now()
+                now.format(dtf)
+                var arrivalLocalDateTime:LocalDateTime = now
+                var x = 0
+                var y = 0
+                while(x < launchTimeList.size){
+                    var sp = stationTimeList[x].split(",")
+                    arrivalLocalDateTime =now.with(LocalTime.of(launchTimeList[x].hour,launchTimeList[x].minute))
+                    val min = ChronoUnit.MINUTES.between(now,arrivalLocalDateTime)
+                    val sec = ChronoUnit.SECONDS.between(now,arrivalLocalDateTime) - min * 60
+                    if(min >= 0){
+                        if(sec >= 0){
+                            var schedulecard = DataForSchedule(routeName.toString(),direction.toString(),("%02d".format(sp[0].toInt()))+":"+("%02d".format(sp[1].toInt())).toString(),min.toString()+":"+"%02d".format(sec))
+                            if(min <10){
+                                schedulecard = DataForSchedule(routeName.toString(),direction.toString(),("%02d".format(sp[0].toInt()))+":"+("%02d".format(sp[1].toInt())).toString(),"  "+min.toString()+":"+"%02d".format(sec))
+                            }
+                            mTrainList.add(y, schedulecard)
+                            y++
+                        }
+                    }
+                    x++
+                }
 
-                // CustomAdapterの生成と設定
-                mAdapter = CustomAdapter(mTrainList)
-                recyclerView?.adapter = mAdapter
-            })
+                activity?.runOnUiThread(Runnable {
+                    // RecyclerViewの取得
+                    val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerView) as RecyclerView
+
+                    // LayoutManagerの設定
+                    recyclerView?.layoutManager = LinearLayoutManager(requireContext())
+
+                    // CustomAdapterの生成と設定
+                    mAdapter = CustomAdapter(mTrainList)
+                    recyclerView?.adapter = mAdapter
+                })
+            }
+        }catch (e:Exception){
+            Toast.makeText(rCont, "処理中です", Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireContext(), MainActivity::class.java)
+            startActivity(intent)
         }
+
     }
 }
 

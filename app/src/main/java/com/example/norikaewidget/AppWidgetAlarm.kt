@@ -7,7 +7,7 @@ import java.util.*
 
 class AppWidgetAlarm(context: Context) {
     private val ALARM_ID = 0
-    private val INTERVAL_MILLIS = 500
+    private val INTERVAL_MILLIS = 1000
     private val mContext: Context
     fun startAlarm() {
         val calendar: Calendar = Calendar.getInstance()
@@ -18,16 +18,31 @@ class AppWidgetAlarm(context: Context) {
             mContext,
             ALARM_ID,
             alarmIntent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
         val alarmManager = mContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         // RTC does not wake the device up
-        alarmManager.setInexactRepeating(
+/*
+        alarmManager.setRepeating(
             AlarmManager.RTC,
             calendar.getTimeInMillis(),
             INTERVAL_MILLIS.toLong(),
             pendingIntent
         )
+        */
+        alarmManager.setExact(
+            AlarmManager.RTC,
+            INTERVAL_MILLIS.toLong(),
+            pendingIntent
+        )
+        val startMillis = System.currentTimeMillis() + INTERVAL_MILLIS.toLong()
+        if(alarmManager != null){
+            // Android Oreo 以上を想定
+            alarmManager.setExact(AlarmManager.RTC,
+                startMillis, pendingIntent);
+        }
+
+
     }
 
     fun stopAlarm() {
@@ -36,7 +51,7 @@ class AppWidgetAlarm(context: Context) {
             mContext,
             ALARM_ID,
             alarmIntent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
         val alarmManager = mContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         alarmManager.cancel(pendingIntent)

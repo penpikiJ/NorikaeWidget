@@ -23,7 +23,7 @@ interface autocompletelistDao {
     fun delete()
 }
 
-@Database(entities = arrayOf(autocompletelist::class,StationRouteUpDownDaytype::class), version = 3, exportSchema = false)
+@Database(entities = arrayOf(autocompletelist::class,StationRouteUpDownDaytype::class), version = 5, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun autocompletelistDao(): autocompletelistDao
     abstract fun StationRouteUpDownDaytypeDao():StationRouteUpDownDaytypeDao
@@ -54,8 +54,9 @@ data class StationRouteUpDownDaytype(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "station") val station: String?,
     @ColumnInfo(name = "route") val route: String?,
-    @ColumnInfo(name = "updown") val updown: Int,
-    @ColumnInfo(name = "daytype") val daytype: Int
+    @ColumnInfo(name = "direction") val direction: String,
+    @ColumnInfo(name = "daytype") val daytype: String,
+    @ColumnInfo(name = "csv") val csv: String
 )
 
 @Dao
@@ -64,14 +65,20 @@ interface StationRouteUpDownDaytypeDao {
     @Query("SELECT * FROM StationRouteUpDownDaytype WHERE station = :station")
     fun  loadAllByStation(station: String): List<StationRouteUpDownDaytype>
 
+    @Query("SELECT DISTINCT route FROM StationRouteUpDownDaytype WHERE station = :station")
+    fun  getRouteByStation(station: String): List<String>
+
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
-    @Query("SELECT DISTINCT * FROM StationRouteUpDownDaytype WHERE station = :station AND route = :route")
-    fun getDirectionByStationRoutes(station: String,route:String): List<StationRouteUpDownDaytype>
+    @Query("SELECT DISTINCT direction FROM StationRouteUpDownDaytype WHERE station = :station AND route = :route")
+    fun getDirectionByStationRoutes(station: String,route:String): List<String>
+
+    @Query("SELECT DISTINCT csv FROM StationRouteUpDownDaytype WHERE station = :station AND route = :route AND direction= :direction AND daytype = :daytype")
+    fun getCsvnameByInfo(station: String,route: String?,direction: String,daytype: String): String
 
     @Query("DELETE FROM StationRouteUpDownDaytype")
     fun deleteStationRouteUpDownDaytype()
 
-    @Query("INSERT INTO StationRouteUpDownDaytype(station,route,updown,daytype) VALUES (:station,:route,:updown,:daytype)")
-    fun insertStationRouteUpDownDaytype(station: String,route: String?,updown: Int,daytype: Int)
+    @Query("INSERT INTO StationRouteUpDownDaytype(station,route,direction,daytype,csv) VALUES (:station,:route,:direction,:daytype,:csv)")
+    fun insertStationRouteUpDownDaytype(station: String,route: String?,direction: String,daytype: String,csv: String)
 }
 

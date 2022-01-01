@@ -63,10 +63,11 @@
 
     <Spinner
         android:id="@+id/routespinner"
-        android:layout_width="370dp"
-        android:layout_height="51dp"
+        android:layout_width="233dp"
+        android:layout_height="54dp"
         android:layout_marginTop="280dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.112"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -85,10 +86,22 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="172dp"
         android:layout_marginEnd="16dp"
-        android:text="検索"
+        android:text="路線検索"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/registeredStation"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/directionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="284dp"
+        android:layout_marginEnd="16dp"
+        android:text="方向検索"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/routespinner"
         app:layout_constraintTop_toTopOf="parent" />
 
 
