@@ -18,7 +18,7 @@ import android.util.AttributeSet
 import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContentProviderCompat.requireContext
-import com.example.norikaewidget.R
+import com.aaa.norikaewidget.R
 
 
 class TimeSchedule : AppCompatActivity() {

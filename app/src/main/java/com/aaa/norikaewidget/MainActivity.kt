@@ -27,7 +27,7 @@ import androidx.core.view.isNotEmpty
 import java.util.ArrayList
 
 import android.widget.Spinner
-import com.example.norikaewidget.R
+import com.aaa.norikaewidget.R
 
 
 class MainActivity : AppCompatActivity(), MyListener {
