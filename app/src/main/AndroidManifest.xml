@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.norikaewidget">
+    package="com.aaa.norikaewidget">
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <application
         android:allowBackup="true"
@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NorikaeWidget">
         <receiver
-            android:name=".SimpleTimeScheduleWidget"
+            android:name="com.aaa.norikaewidget.SimpleTimeScheduleWidget"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -25,10 +25,10 @@
         </receiver>
 
         <activity
-            android:name=".TimeSchedule"
+            android:name="com.aaa.norikaewidget.TimeSchedule"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.aaa.norikaewidget.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
