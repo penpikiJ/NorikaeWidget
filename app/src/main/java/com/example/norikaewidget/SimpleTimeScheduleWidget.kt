@@ -16,7 +16,6 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import kotlin.concurrent.timer
-import com.example.norikaewidget.updateAppWidget as updateAppWidget
 
 /**
  * Implementation of App Widget functionality.
