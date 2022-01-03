@@ -23,7 +23,7 @@ interface autocompletelistDao {
     fun delete()
 }
 
-@Database(entities = arrayOf(autocompletelist::class,StationRouteUpDownDaytype::class), version = 5, exportSchema = false)
+@Database(entities = arrayOf(autocompletelist::class,StationRouteUpDownDaytype::class), version = 6, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun autocompletelistDao(): autocompletelistDao
     abstract fun StationRouteUpDownDaytypeDao():StationRouteUpDownDaytypeDao
@@ -56,7 +56,9 @@ data class StationRouteUpDownDaytype(
     @ColumnInfo(name = "route") val route: String?,
     @ColumnInfo(name = "direction") val direction: String,
     @ColumnInfo(name = "daytype") val daytype: String,
-    @ColumnInfo(name = "csv") val csv: String
+    @ColumnInfo(name = "csv") val csv: String,
+    @ColumnInfo(name = "last_update") val last_update: String,
+    @ColumnInfo(name = "error_code") val error_code: Int
 )
 
 @Dao
@@ -75,10 +77,13 @@ interface StationRouteUpDownDaytypeDao {
     @Query("SELECT DISTINCT csv FROM StationRouteUpDownDaytype WHERE station = :station AND route = :route AND direction= :direction AND daytype = :daytype")
     fun getCsvnameByInfo(station: String,route: String?,direction: String,daytype: String): String
 
+    @Query("SELECT DISTINCT error_code FROM StationRouteUpDownDaytype WHERE station = :station AND route = :route AND direction= :direction AND daytype = :daytype")
+    fun getErrorCodeByInfo(station: String,route: String?,direction: String,daytype: String): Int
+
     @Query("DELETE FROM StationRouteUpDownDaytype")
     fun deleteStationRouteUpDownDaytype()
 
-    @Query("INSERT INTO StationRouteUpDownDaytype(station,route,direction,daytype,csv) VALUES (:station,:route,:direction,:daytype,:csv)")
-    fun insertStationRouteUpDownDaytype(station: String,route: String?,direction: String,daytype: String,csv: String)
+    @Query("INSERT INTO StationRouteUpDownDaytype(station,route,direction,daytype,csv,last_update,error_code) VALUES (:station,:route,:direction,:daytype,:csv,:last_update,:error_code)")
+    fun insertStationRouteUpDownDaytype(station: String,route: String?,direction: String,daytype: String, csv:String, last_update: String, error_code:Int)
 }
 

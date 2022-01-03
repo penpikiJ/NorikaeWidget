@@ -248,7 +248,7 @@ class MainActivity : AppCompatActivity(),MyListener {
                     var j = 0
                     while (j < stationList.size) {
                         var temp = stationList[j].split(",")
-                        db.StationRouteUpDownDaytypeDao().insertStationRouteUpDownDaytype(temp[0],temp[1],temp[2],temp[3],temp[4])
+                        db.StationRouteUpDownDaytypeDao().insertStationRouteUpDownDaytype(temp[0],temp[1],temp[2],temp[3],temp[4],temp[5],temp[6].toInt())
                         j++
                     }
                     val gotlist = db.StationRouteUpDownDaytypeDao().getRouteByStation(station.text.toString().replace("駅",""))
@@ -300,7 +300,7 @@ class MainActivity : AppCompatActivity(),MyListener {
                     var j = 0
                     while (j < stationList.size) {
                         var temp = stationList[j].split(",")
-                        db.StationRouteUpDownDaytypeDao().insertStationRouteUpDownDaytype(temp[0],temp[1],temp[2],temp[3],temp[4])
+                        db.StationRouteUpDownDaytypeDao().insertStationRouteUpDownDaytype(temp[0],temp[1],temp[2],temp[3],temp[4],temp[5],temp[6].toInt())
                         j++
                     }
 

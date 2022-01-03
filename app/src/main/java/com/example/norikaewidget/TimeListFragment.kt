@@ -138,7 +138,14 @@ class TimeListFragment : Fragment(),MyListener {
                 val db = AppDatabase.getInstance(requireContext())
                 if (direction != null) {
                     if (stationName != null) {
-                        filename = db.StationRouteUpDownDaytypeDao().getCsvnameByInfo(stationName,routeName,direction,dtypestr)
+                        var x = 0
+                        x = db.StationRouteUpDownDaytypeDao().getErrorCodeByInfo(stationName,routeName,direction,dtypestr)
+                        if(x == 0){
+                            filename = db.StationRouteUpDownDaytypeDao().getCsvnameByInfo(stationName,routeName,direction,dtypestr)
+                        }else{
+                        //処理上この時点ではToastは使えないらしい。処理的には後ここなんらかのものにするだけ
+                        // Toast.makeText(rCont, "指定した時刻表が見つかりませんでした。", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             }
