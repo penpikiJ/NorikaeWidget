@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.android.awaitFrame
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
@@ -34,6 +35,7 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.concurrent.thread
 import kotlin.concurrent.timer
 
 
@@ -136,22 +138,27 @@ class TimeListFragment : Fragment(),MyListener {
             // ここからはIOスレッドで実行してもらう
             withContext(Dispatchers.IO) {
                 val db = AppDatabase.getInstance(requireContext())
-                if (direction != null) {
-                    if (stationName != null) {
+               // if (direction != null) {
+                 //   if (stationName != null) {
                         var x = 0
-                        x = db.StationRouteUpDownDaytypeDao().getErrorCodeByInfo(stationName,routeName,direction,dtypestr)
-                        if(x == 0){
-                            filename = db.StationRouteUpDownDaytypeDao().getCsvnameByInfo(stationName,routeName,direction,dtypestr)
-                        }else{
+                        x = db.StationRouteUpDownDaytypeDao().getErrorCodeByInfo(stationName.toString(),routeName,direction.toString(),dtypestr)
+                   //     if(x != 1){
+                            filename = db.StationRouteUpDownDaytypeDao().getCsvnameByInfo(stationName.toString(),routeName,direction.toString(),dtypestr)
+                     //   }else{
                         //処理上この時点ではToastは使えないらしい。処理的には後ここなんらかのものにするだけ
                         // Toast.makeText(rCont, "指定した時刻表が見つかりませんでした。", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                }
+                       // }
+                   // }
+               // }
             }
         }
         try {
+            while(filename == ""){
+                Toast.makeText(rCont, "処理をお待ちください。", Toast.LENGTH_SHORT).show()
+                Thread.sleep(1_000)  // wait for 1 second
+            }
             val fileInputStream  = resources.assets.open(filename)
+
             val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
             reader.readLine()
             var lineBuffer: String
