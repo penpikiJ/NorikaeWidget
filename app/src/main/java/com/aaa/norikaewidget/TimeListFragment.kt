@@ -154,9 +154,17 @@ class TimeListFragment : Fragment(), MyListener {
             }
         }
         try {
+            //filenameが入るまで3秒までは待つ様に変更
+            var x = 0
             while(filename == ""){
-                Toast.makeText(rCont, "処理をお待ちください。", Toast.LENGTH_SHORT).show()
-                Thread.sleep(1_000)  // wait for 1 second
+                Thread.sleep(500)  // wait for 0.5 second
+                x++
+                if((x % 4) == 0){
+                    Toast.makeText(rCont, "処理をお待ちください。", Toast.LENGTH_SHORT).show()
+                }
+                if(x > 6){
+                    break
+                }
             }
             val fileInputStream  = resources.assets.open(filename)
 

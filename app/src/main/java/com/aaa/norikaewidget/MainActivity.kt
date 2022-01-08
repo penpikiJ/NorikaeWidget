@@ -86,7 +86,19 @@ class MainActivity : AppCompatActivity(), MyListener {
                 }
                 //駅名が空でなければ駅名から路線を検索して、得られたリストから選択肢を前回のものに設定
                 addRoute()
-                val routeName = view.findViewById<Spinner>(R.id.routespinner)
+                //addRouteが終了するまで2秒までなら待つ様に設定
+                var routeName = view.findViewById<Spinner>(R.id.routespinner)
+                var c = 0
+                while(routeName.adapter == null){
+                    Thread.sleep(500)  // wait for 0.5 second
+                    c++
+                    if((c % 3) == 0){
+                        Toast.makeText(rCont, "処理をお待ちください。", Toast.LENGTH_SHORT).show()
+                    }
+                    if(c > 4){
+                        break
+                    }
+                }
                 if(routeName.adapter != null){
                     val preselectedRoute = prefs.getString("RouteSpinner",null)
                     val routeNameList = retrieveAllItems(routeName)
@@ -94,12 +106,23 @@ class MainActivity : AppCompatActivity(), MyListener {
                         preselectedRoute.toString()
                     )
                     routeName.setSelection(preselectedIndexOfRoute)
-
                 }
 
                 //駅名から方向を検索して、得られたリストから選択肢を前回のものに設定（路線は前回のデータがなければ１番上のデータが採用される様に設計）
                 addDirection()
+                //addDirectionが終了するまで2秒までなら待つ様に設定
                 val direction = view.findViewById<Spinner>(R.id.UpDownSpinner)
+                c = 0
+                while(direction.adapter == null){
+                    Thread.sleep(500)  // wait for 0.5 second
+                    c++
+                    if((c % 3) == 0){
+                        Toast.makeText(rCont, "処理をお待ちください。", Toast.LENGTH_SHORT).show()
+                    }
+                    if(c > 4){
+                        break
+                    }
+                }
                 if(direction.adapter != null){
                     val preselectedDirection = prefs.getString("UpDownSpinner",null)
                     val directionList = retrieveAllItems(direction)
@@ -219,7 +242,7 @@ class MainActivity : AppCompatActivity(), MyListener {
 
                 // ここからはIOスレッドで実行してもらう
                 withContext(Dispatchers.IO) {
-                    // テーブルに追加
+                    // テーブル初期化してファイルの内容を追加
                     val db = AppDatabase.getInstance(requireContext())
 
                     var station = view?.findViewById<EditText>(R.id.registeredStation) as EditText
@@ -228,13 +251,18 @@ class MainActivity : AppCompatActivity(), MyListener {
                     val fileInputStream  = resources.assets.open("schedule_files_merged.csv")
                     val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
                     reader.readLine()
-                    var lineBuffer: String
+                    var lineBuffer: String = ""
                     var stationList : ArrayList<String> = arrayListOf()
                     var k = 0
-                    //readLineは呼び出しごとに次の行にいくみたいなので、この実装だと１行飛ばしで読み込んでしまう。Fragmentの感じでやると思うけど、コピペだとエラーあるので対処
-                    while (reader.readLine() != null) {
-                        lineBuffer = reader.readLine()
-                        if (lineBuffer != null) {
+                    //readLineは呼び出しごとに次の行にいくので、一回別の変数に格納して回避
+                    while (lineBuffer != null) {
+                        val tempLine = reader.readLine()
+                        if(tempLine != null){
+                            lineBuffer = tempLine
+                        }else{
+                            lineBuffer = "end"
+                        }
+                        if (lineBuffer != "end") {
                             stationList.add(lineBuffer) //これ１行で読み込まれる
                             k++
                         } else {
@@ -268,7 +296,7 @@ class MainActivity : AppCompatActivity(), MyListener {
 
                 // ここからはIOスレッドで実行してもらう
                 withContext(Dispatchers.IO) {
-                    // テーブルに追加
+                    // テーブル初期化してファイルの内容を追加
                     val db = AppDatabase.getInstance(requireContext())
                     //db.autocompletelistDao().delete()
                     //db.autocompletelistDao().insert()
@@ -280,13 +308,18 @@ class MainActivity : AppCompatActivity(), MyListener {
                     val fileInputStream  = resources.assets.open("schedule_files_merged.csv")
                     val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
                     reader.readLine()
-                    var lineBuffer: String
+                    var lineBuffer: String = ""
                     var stationList : ArrayList<String> = arrayListOf()
                     var k = 0
                     //readLineは呼び出しごとに次の行にいくみたいなので、この実装だと１行飛ばしで読み込んでしまう。Fragmentの感じでやると思うけど、コピペだとエラーあるので対処
-                    while (reader.readLine() != null) {
-                        lineBuffer = reader.readLine()
-                        if (lineBuffer != null) {
+                    while (lineBuffer != null) {
+                        val tempLine = reader.readLine()
+                        if(tempLine != null){
+                            lineBuffer = tempLine
+                        }else{
+                            lineBuffer = "end"
+                        }
+                        if (lineBuffer != "end") {
                             stationList.add(lineBuffer) //これ１行で読み込まれる
                             k++
                         } else {
