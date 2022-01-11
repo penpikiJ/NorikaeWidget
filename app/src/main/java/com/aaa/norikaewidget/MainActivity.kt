@@ -90,12 +90,9 @@ class MainActivity : AppCompatActivity(), MyListener {
                 var routeName = view.findViewById<Spinner>(R.id.routespinner)
                 var c = 0
                 while(routeName.adapter == null){
-                    Thread.sleep(500)  // wait for 0.5 second
+                    Thread.sleep(100)  // wait for 0.5 second
                     c++
-                    if((c % 3) == 0){
-                        Toast.makeText(rCont, "処理をお待ちください。", Toast.LENGTH_SHORT).show()
-                    }
-                    if(c > 4){
+                    if(c > 5){
                         break
                     }
                 }
@@ -114,12 +111,9 @@ class MainActivity : AppCompatActivity(), MyListener {
                 val direction = view.findViewById<Spinner>(R.id.UpDownSpinner)
                 c = 0
                 while(direction.adapter == null){
-                    Thread.sleep(500)  // wait for 0.5 second
+                    Thread.sleep(100)  // wait for 0.5 second
                     c++
-                    if((c % 3) == 0){
-                        Toast.makeText(rCont, "処理をお待ちください。", Toast.LENGTH_SHORT).show()
-                    }
-                    if(c > 4){
+                    if(c > 5){
                         break
                     }
                 }
