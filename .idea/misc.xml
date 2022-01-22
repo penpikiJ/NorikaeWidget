@@ -20,6 +20,8 @@
         <entry key="app/src/main/res/layout/time_schdule_widget.xml" value="0.25" />
         <entry key="app/src/main/res/layout/time_schedule_widget.xml" value="0.335" />
         <entry key="app/src/main/res/layout/timelistcard.xml" value="0.335" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.24479166666666666" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.24479166666666666" />
       </map>
     </option>
   </component>
