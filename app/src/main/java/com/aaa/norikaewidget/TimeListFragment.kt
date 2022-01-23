@@ -8,23 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
-import android.provider.ContactsContract
 
 import androidx.recyclerview.widget.LinearLayoutManager
 
-import android.util.AttributeSet
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
-import com.aaa.norikaewidget.R
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.android.awaitFrame
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
@@ -32,12 +26,9 @@ import java.io.InputStreamReader
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.Period
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
-import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.concurrent.thread
 import kotlin.concurrent.timer
 
 
@@ -100,6 +91,12 @@ class TimeListFragment : Fragment(), MyListener {
                 editor.putString("Widget_UpDown", direction)
                 editor.apply()
                 Toast.makeText(requireContext(), "Widgetを更新しました", Toast.LENGTH_SHORT).show()
+
+                //Serviceを呼び出し
+                val intent = Intent(requireContext(), ControlScheduleWidgetService::class.java)
+                intent.putExtra("REQUEST_CODE", 1)
+                // Serviceの開始
+                requireContext()?.startForegroundService(intent)
             }
         })
     }
