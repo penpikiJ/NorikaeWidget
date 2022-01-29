@@ -62,14 +62,14 @@
 
     <Spinner
         android:id="@+id/routespinner"
-        android:layout_width="233dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="276dp"
+        android:layout_width="205dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="12dp"
         android:background="@color/light_blue_50"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.258"
+        app:layout_constraintHorizontal_bias="0.208"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <Spinner
         android:id="@+id/UpDownSpinner"
