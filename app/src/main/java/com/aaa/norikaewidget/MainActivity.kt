@@ -158,6 +158,7 @@ class MainActivity : AppCompatActivity(), MyListener {
             val stationtextList = view.findViewById(R.id.registeredStation) as AutoCompleteTextView
             stationtextList.setAdapter(autoCompleteAdapter)
 */
+            //検索でのkeyboardがEnterで閉じるように変更
             val inputMethodManager = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             registeredStationName.setOnKeyListener OnKeyListener@{ v, keyCode, keyEvent ->
                 if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
