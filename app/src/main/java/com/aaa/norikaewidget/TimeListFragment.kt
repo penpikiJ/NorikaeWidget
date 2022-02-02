@@ -193,7 +193,9 @@ class TimeListFragment : Fragment(), MyListener {
             val launchTimeList:MutableList<LocalDateTime> = arrayListOf()
             while(i < stationTimeList.size){
                 var sp = stationTimeList[i].split(",")
-                launchTimeList.add(i,LocalDateTime.now().with(LocalTime.of(sp[0].toInt(),sp[1].toInt())))
+                if(sp[1] != ""){
+                    launchTimeList.add(i,LocalDateTime.now().with(LocalTime.of(sp[0].toInt(),sp[1].toInt())))
+                }
                 i++
             }
 
