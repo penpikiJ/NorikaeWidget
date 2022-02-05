@@ -14,21 +14,29 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 import android.content.SharedPreferences
+import android.util.Log
 import android.widget.RemoteViews
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import java.time.format.DateTimeFormatter
 
 class ControlScheduleWidgetService : IntentService("ControlScheduleWidgetService") {
-
+    var destroyFlag = 0
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("TAG", "onDestroy来た")
+        destroyFlag = 1
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onHandleIntent(intent: Intent?) {
+
         //利用者への通知をサービス作成から５秒以内に作成（intentservriceの仕様上必須）
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val name = "SABAの時刻表ヴィジェット"
+        val name = "SABAの時刻表ウィジェット"
         val id = "norikaeWidget_foreground"
-        val notifyDescription = "時刻表のヴィジェットが動作中です。"
+        val notifyDescription = "時刻表のウィジェットが動作中です。"
 
         if (manager.getNotificationChannel(id) == null) {
             val mChannel = NotificationChannel(id, name, NotificationManager.IMPORTANCE_HIGH)
@@ -100,7 +108,10 @@ class ControlScheduleWidgetService : IntentService("ControlScheduleWidgetService
         }
         while(c< count) {
             c++
-
+            if( destroyFlag == 1){
+                destroyFlag = 0
+                break
+            }
             val now = LocalDateTime.now()
             now.format(dtf)
             var arrivalLocalDateTime: LocalDateTime = now

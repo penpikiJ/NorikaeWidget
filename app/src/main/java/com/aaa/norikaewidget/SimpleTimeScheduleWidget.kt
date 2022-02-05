@@ -33,6 +33,17 @@ class SimpleTimeScheduleWidget : AppWidgetProvider() {
         for (appWidgetId in appWidgetIds) {
             updateAppWidget2(context, appWidgetManager, appWidgetId)
         }
+/*
+        //Serviceを呼び出し
+        val intent = Intent(context, ControlScheduleWidgetService::class.java)
+        intent.putExtra("REQUEST_CODE", 1)
+        context.stopService(intent)
+        // Serviceの開始
+        context.startForegroundService(intent)
+
+ */
+
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -130,7 +141,6 @@ internal fun updateAppWidget2(
                             mintothird.toString() + " " + "%02d".format(sectothird)
                         )
                     }
-
                     break
                 }
             }
