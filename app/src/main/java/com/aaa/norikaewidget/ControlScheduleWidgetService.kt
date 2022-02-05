@@ -26,9 +26,9 @@ class ControlScheduleWidgetService : IntentService("ControlScheduleWidgetService
     override fun onHandleIntent(intent: Intent?) {
         //利用者への通知をサービス作成から５秒以内に作成（intentservriceの仕様上必須）
         val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val name = "通知のタイトル的情報を設定"
+        val name = "SABAの時刻表ヴィジェット"
         val id = "norikaeWidget_foreground"
-        val notifyDescription = "この通知の詳細情報を設定します"
+        val notifyDescription = "時刻表のヴィジェットが動作中です。"
 
         if (manager.getNotificationChannel(id) == null) {
             val mChannel = NotificationChannel(id, name, NotificationManager.IMPORTANCE_HIGH)
