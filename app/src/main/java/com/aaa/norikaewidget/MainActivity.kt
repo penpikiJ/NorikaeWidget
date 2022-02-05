@@ -16,8 +16,10 @@ import java.io.InputStreamReader
 import java.io.BufferedReader
 import android.content.Intent
 import android.os.Build
+import android.view.KeyEvent
 import android.view.ViewGroup
 import android.view.LayoutInflater
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import android.widget.AutoCompleteTextView
@@ -156,6 +158,16 @@ class MainActivity : AppCompatActivity(), MyListener {
             val stationtextList = view.findViewById(R.id.registeredStation) as AutoCompleteTextView
             stationtextList.setAdapter(autoCompleteAdapter)
 */
+            //検索でのkeyboardがEnterで閉じるように変更
+            val inputMethodManager = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            registeredStationName.setOnKeyListener OnKeyListener@{ v, keyCode, keyEvent ->
+                if (keyEvent.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
+                    inputMethodManager.hideSoftInputFromWindow(registeredStationName.windowToken,
+                        InputMethodManager.RESULT_UNCHANGED_SHOWN)
+                    return@OnKeyListener true
+                }
+                false
+            }
             //次ページへの遷移ボタンの処理
             view.findViewById<Button>(R.id.registButton).setOnClickListener(object : View.OnClickListener {
                 @RequiresApi(Build.VERSION_CODES.O)

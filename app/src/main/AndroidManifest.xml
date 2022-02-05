@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.aaa.norikaewidget">
+
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,8 +11,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NorikaeWidget">
+        <service
+            android:name=".ControlScheduleWidgetService"
+            android:exported="false"></service>
+
         <receiver
-            android:name="com.aaa.norikaewidget.SimpleTimeScheduleWidget"
+            android:name=".SimpleTimeScheduleWidget"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -25,10 +31,10 @@
         </receiver>
 
         <activity
-            android:name="com.aaa.norikaewidget.TimeSchedule"
+            android:name=".TimeSchedule"
             android:exported="true" />
         <activity
-            android:name="com.aaa.norikaewidget.MainActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

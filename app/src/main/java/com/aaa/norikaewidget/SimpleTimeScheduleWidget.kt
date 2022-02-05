@@ -3,6 +3,7 @@ package com.aaa.norikaewidget
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.widget.RemoteViews
@@ -32,8 +33,20 @@ class SimpleTimeScheduleWidget : AppWidgetProvider() {
         for (appWidgetId in appWidgetIds) {
             updateAppWidget2(context, appWidgetManager, appWidgetId)
         }
+/*
+        //Serviceを呼び出し
+        val intent = Intent(context, ControlScheduleWidgetService::class.java)
+        intent.putExtra("REQUEST_CODE", 1)
+        context.stopService(intent)
+        // Serviceの開始
+        context.startForegroundService(intent)
+
+ */
+
+
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onEnabled(context: Context) {
         // Enter relevant functionality for when the first widget is created
     }
@@ -87,7 +100,7 @@ internal fun updateAppWidget2(
             i++
         }
     }
-    timer("timer",false, period = 1000) {
+    //timer("timer",false, period = 1000) {
         val now = LocalDateTime.now()
         now.format(dtf)
         var arrivalLocalDateTime: LocalDateTime = now
@@ -128,12 +141,10 @@ internal fun updateAppWidget2(
                             mintothird.toString() + " " + "%02d".format(sectothird)
                         )
                     }
-
                     break
                 }
             }
             x++
         }
-        appWidgetManager.updateAppWidget(appWidgetId, views)
-    }
+    appWidgetManager.updateAppWidget(appWidgetId, views)
 }

@@ -1,5 +1,6 @@
 package com.aaa.norikaewidget
 
+
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,23 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
-import android.provider.ContactsContract
 
 import androidx.recyclerview.widget.LinearLayoutManager
 
-import android.util.AttributeSet
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
-import com.aaa.norikaewidget.R
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.android.awaitFrame
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
@@ -31,13 +26,19 @@ import java.io.InputStreamReader
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.Period
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
-import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.concurrent.thread
 import kotlin.concurrent.timer
+import android.app.ActivityManager
+import android.app.Service
+import android.content.Context
+import androidx.core.app.ServiceCompat.stopForeground
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
+
+
+
 
 
 class TimeListFragment : Fragment(), MyListener {
@@ -45,14 +46,9 @@ class TimeListFragment : Fragment(), MyListener {
     lateinit var mTrainList: ArrayList<DataForSchedule>
     private var mListener: MyListener? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.activity_time_schedule, container, false)
@@ -78,8 +74,10 @@ class TimeListFragment : Fragment(), MyListener {
                 startActivity(intent)
             }
         })
+        //サービス用のintentを定義
+        val serviceIntent = Intent(requireContext(), ControlScheduleWidgetService::class.java)
 
-        //ヴィジェット更新ボタンの処理（sharedpreferenceにデータを入れる）
+        //ウィジェット更新ボタンの処理（sharedpreferenceにデータを入れる）
         view.findViewById<Button>(R.id.buttonUpdateWidget).setOnClickListener(object : View.OnClickListener {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onClick(v: View) { //ここviewじゃなくてvにしたら動いた
@@ -99,6 +97,11 @@ class TimeListFragment : Fragment(), MyListener {
                 editor.putString("Widget_UpDown", direction)
                 editor.apply()
                 Toast.makeText(requireContext(), "Widgetを更新しました", Toast.LENGTH_SHORT).show()
+
+                // Serviceの停止
+                requireContext().stopService(serviceIntent)
+                // Serviceの開始
+                requireContext().startForegroundService(serviceIntent)
             }
         })
     }
@@ -190,12 +193,13 @@ class TimeListFragment : Fragment(), MyListener {
             val dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
 
 
-            mTrainList = arrayListOf()
             var i: Int = 0
             val launchTimeList:MutableList<LocalDateTime> = arrayListOf()
             while(i < stationTimeList.size){
                 var sp = stationTimeList[i].split(",")
-                launchTimeList.add(i,LocalDateTime.now().with(LocalTime.of(sp[0].toInt(),sp[1].toInt())))
+                if(sp[1] != ""){
+                    launchTimeList.add(i,LocalDateTime.now().with(LocalTime.of(sp[0].toInt(),sp[1].toInt())))
+                }
                 i++
             }
 
@@ -210,6 +214,7 @@ class TimeListFragment : Fragment(), MyListener {
             editor.apply()
 
             timer("timer",false, period = 1000){
+                mTrainList = arrayListOf()
                 val now = LocalDateTime.now()
                 now.format(dtf)
                 var arrivalLocalDateTime:LocalDateTime = now
@@ -218,8 +223,8 @@ class TimeListFragment : Fragment(), MyListener {
                 while(x < launchTimeList.size){
                     var sp = stationTimeList[x].split(",")
                     arrivalLocalDateTime =now.with(LocalTime.of(launchTimeList[x].hour,launchTimeList[x].minute))
-                    val min = ChronoUnit.MINUTES.between(now,arrivalLocalDateTime)
-                    val sec = ChronoUnit.SECONDS.between(now,arrivalLocalDateTime) - min * 60
+                    val min = ChronoUnit.MINUTES.between(now,arrivalLocalDateTime) % (24*60)
+                    val sec = ChronoUnit.SECONDS.between(now,arrivalLocalDateTime) % (24*60*60) - min * 60
                     if(min >= 0){
                         if(sec >= 0){
                             var schedulecard = DataForSchedule(routeName.toString(),direction.toString(),("%02d".format(sp[0].toInt()))+":"+("%02d".format(sp[1].toInt())).toString(),min.toString()+":"+"%02d".format(sec))
@@ -255,10 +260,10 @@ class TimeListFragment : Fragment(), MyListener {
 }
 
 data class DataForSchedule(
-    val route :String,
-    val updown :String,
-    val arrivalTime :String, //とりあえずString Dateにするかも
-    val leastTime :String
+    val route: String,
+    val updown: String,
+    val arrivalTime: String, //とりあえずString Dateにするかも
+    val leastTime: String,
 )
 
 class CustomAdapter(private val trainList: ArrayList<DataForSchedule>): RecyclerView.Adapter<CustomAdapter.ViewHolder>() {

@@ -18,7 +18,7 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="360dp"
+        android:layout_width="320dp"
         android:layout_height="28dp"
         android:layout_marginTop="236dp"
         android:text="どの路線を使いますか？"
@@ -28,53 +28,55 @@
 
     <TextView
         android:id="@+id/textView4"
-        android:layout_width="359dp"
+        android:layout_width="320dp"
         android:layout_height="29dp"
-        android:layout_marginTop="344dp"
+        android:layout_marginTop="20dp"
         android:text="どちらに向かいますか？"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/routespinner" />
 
     <AutoCompleteTextView
         android:id="@+id/registeredStation"
         android:layout_width="234dp"
         android:layout_height="79dp"
-        android:layout_marginTop="144dp"
+        android:layout_marginTop="28dp"
         android:ems="10"
         android:hint="乗る駅を入力してください"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.276"
+        app:layout_constraintHorizontal_bias="0.245"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
         android:id="@+id/registButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="452dp"
+        android:layout_marginTop="28dp"
         android:text="時刻表画面へ"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/UpDownSpinner" />
 
     <Spinner
         android:id="@+id/routespinner"
-        android:layout_width="233dp"
-        android:layout_height="54dp"
-        android:layout_marginTop="280dp"
+        android:layout_width="205dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/light_blue_50"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.112"
+        app:layout_constraintHorizontal_bias="0.208"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <Spinner
         android:id="@+id/UpDownSpinner"
-        android:layout_width="376dp"
-        android:layout_height="49dp"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
         android:layout_marginTop="12dp"
+        android:background="@color/light_blue_50"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -83,25 +85,36 @@
         android:id="@+id/stationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="172dp"
-        android:layout_marginEnd="16dp"
-        android:text="路線検索"
+        android:layout_marginTop="56dp"
+        android:text="駅決定"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.384"
         app:layout_constraintStart_toEndOf="@+id/registeredStation"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
         android:id="@+id/directionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="284dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
-        android:text="方向検索"
+        android:text="路線決定"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/routespinner"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/releaseVersionText"
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:text="version1.1.0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.928"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.974" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
