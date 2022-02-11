@@ -26,10 +26,12 @@ import android.widget.AutoCompleteTextView
 import android.widget.ArrayAdapter
 import androidx.core.text.set
 import androidx.core.view.isNotEmpty
-import java.util.ArrayList
 
 import android.widget.Spinner
+import androidx.room.ColumnInfo
+import androidx.room.PrimaryKey
 import com.aaa.norikaewidget.R
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity(), MyListener {
@@ -68,10 +70,19 @@ class MainActivity : AppCompatActivity(), MyListener {
         }
 
         private var mListener: MyListener? = null
+        //時刻表リストデータを定義しておく
+        val filename = "schedule_files_merged.csv"
+        var stationList = arrayListOf<String>()
+        var givenEachStationSet = eachStationSet(arrayListOf(), arrayListOf(), arrayListOf(), arrayListOf(), arrayListOf(), arrayListOf(), arrayListOf())
+
 
         @RequiresApi(Build.VERSION_CODES.O)
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
+
+            //Fragment作成時に時刻表リストデータを先に読み込みしてする
+            stationList = inputAssetsFile(filename)
+            givenEachStationSet = getEachStationSet(stationList)
 
             //以前のデータを読み込み
             val registeredStationName = view.findViewById<EditText>(R.id.registeredStation)
@@ -128,36 +139,7 @@ class MainActivity : AppCompatActivity(), MyListener {
                     direction.setSelection(preselectedIndexOfDirection)
                 }
             }
-/*
-            //autocomplete用ファイルの設定、一時的にコメントアウト
-            val filename = "stationNameList.csv"
-            val fileInputStream  = resources.assets.open(filename)
-            val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
-            reader.readLine()
-            var lineBuffer: String
-            var stationNameList : ArrayList<String> = arrayListOf()
-            var k = 0
-            var temp :String? = ""
-            while (temp != null) {
-                lineBuffer = temp
-                if (lineBuffer != null) {
-                    if (temp != ""){
-                        stationNameList.add(lineBuffer)
-                    }
-                    temp = reader.readLine()
-                    k++
-                } else {
-                    break
-                }
-            }
 
-            var autoCompleteAdapter = ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_dropdown_item_1line, stationNameList
-            )
-            val stationtextList = view.findViewById(R.id.registeredStation) as AutoCompleteTextView
-            stationtextList.setAdapter(autoCompleteAdapter)
-*/
             //検索でのkeyboardがEnterで閉じるように変更
             val inputMethodManager = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             registeredStationName.setOnKeyListener OnKeyListener@{ v, keyCode, keyEvent ->
@@ -243,125 +225,49 @@ class MainActivity : AppCompatActivity(), MyListener {
             mListener = null
         }
 
-        fun addRoute() {
-            viewLifecycleOwner.lifecycleScope.launch {
+        fun addRoute() {// テーブル初期化してファイルの内容を追加
 
-                // ここからはIOスレッドで実行してもらう
-                withContext(Dispatchers.IO) {
-                    // テーブル初期化してファイルの内容を追加
-                    val db = AppDatabase.getInstance(requireContext())
 
-                    var station = view?.findViewById<EditText>(R.id.registeredStation) as EditText
-                    db.StationRouteUpDownDaytypeDao().deleteStationRouteUpDownDaytype()
+            var station = view?.findViewById<EditText>(R.id.registeredStation) as EditText
+            var route = view?.findViewById<Spinner>(R.id.routespinner) as Spinner
+            val numbersOfStation = getNumbersOfStation(station.text.toString().replace("駅",""))
+            val gotlist = getRouteSet(numbersOfStation)
+            //路線スピナーへの代入
+            val routeSpinner = view?.findViewById<Spinner>(R.id.routespinner) as Spinner
 
-                    val fileInputStream  = resources.assets.open("schedule_files_merged.csv")
-                    val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
-                    reader.readLine()
-                    var lineBuffer: String = ""
-                    var stationList : ArrayList<String> = arrayListOf()
-                    var k = 0
-                    //readLineは呼び出しごとに次の行にいくので、一回別の変数に格納して回避
-                    while (lineBuffer != null) {
-                        val tempLine = reader.readLine()
-                        if(tempLine != null){
-                            lineBuffer = tempLine
-                        }else{
-                            lineBuffer = "end"
-                        }
-                        if (lineBuffer != "end") {
-                            stationList.add(lineBuffer) //これ１行で読み込まれる
-                            k++
-                        } else {
-                            break
-                        }
-                    }
-
-                    var j = 0
-                    while (j < stationList.size) {
-                        var temp = stationList[j].split(",")
-                        db.StationRouteUpDownDaytypeDao().insertStationRouteUpDownDaytype(temp[0],temp[1],temp[2],temp[3],temp[4],temp[5],temp[6].toInt())
-                        j++
-                    }
-                    val gotlist = db.StationRouteUpDownDaytypeDao().getRouteByStation(station.text.toString().replace("駅",""))
-
-                    //路線スピナーへの代入
-                    val routeSpinner = view?.findViewById<Spinner>(R.id.routespinner) as Spinner
-
-                    var adapter = ArrayAdapter(
-                        requireContext(),
-                        android.R.layout.simple_spinner_item,
-                        gotlist
-                    )
-                    activity?.runOnUiThread(java.lang.Runnable {routeSpinner.adapter = adapter})
-                }
-            }
+            var adapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                gotlist
+            )
+            activity?.runOnUiThread(java.lang.Runnable {routeSpinner.adapter = adapter})
         }
         @RequiresApi(Build.VERSION_CODES.O)
         fun addDirection() {
-            viewLifecycleOwner.lifecycleScope.launch {
 
-                // ここからはIOスレッドで実行してもらう
-                withContext(Dispatchers.IO) {
-                    // テーブル初期化してファイルの内容を追加
-                    val db = AppDatabase.getInstance(requireContext())
-                    //db.autocompletelistDao().delete()
-                    //db.autocompletelistDao().insert()
+            var station = view?.findViewById<EditText>(R.id.registeredStation) as EditText
+            var route = view?.findViewById<Spinner>(R.id.routespinner) as Spinner
+            val numbersOfStation = getNumbersOfStation(station.text.toString().replace("駅",""))
 
-                    var station = view?.findViewById<EditText>(R.id.registeredStation) as EditText
-                    var route = view?.findViewById<Spinner>(R.id.routespinner) as Spinner
-                    db.StationRouteUpDownDaytypeDao().deleteStationRouteUpDownDaytype()
-
-                    val fileInputStream  = resources.assets.open("schedule_files_merged.csv")
-                    val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
-                    reader.readLine()
-                    var lineBuffer: String = ""
-                    var stationList : ArrayList<String> = arrayListOf()
-                    var k = 0
-                    //readLineは呼び出しごとに次の行にいくみたいなので、この実装だと１行飛ばしで読み込んでしまう。Fragmentの感じでやると思うけど、コピペだとエラーあるので対処
-                    while (lineBuffer != null) {
-                        val tempLine = reader.readLine()
-                        if(tempLine != null){
-                            lineBuffer = tempLine
-                        }else{
-                            lineBuffer = "end"
-                        }
-                        if (lineBuffer != "end") {
-                            stationList.add(lineBuffer) //これ１行で読み込まれる
-                            k++
-                        } else {
-                            break
-                        }
-                    }
-
-                    var j = 0
-                    while (j < stationList.size) {
-                        var temp = stationList[j].split(",")
-                        db.StationRouteUpDownDaytypeDao().insertStationRouteUpDownDaytype(temp[0],temp[1],temp[2],temp[3],temp[4],temp[5],temp[6].toInt())
-                        j++
-                    }
-
-                    val rCont = requireContext()
-                    val prefs: SharedPreferences = rCont.getSharedPreferences("savedata", MODE_PRIVATE)
-                    var routeText = prefs.getString("UpDownSpinner","")
-                    if(route.isNotEmpty()){
-                        routeText = route.selectedItem.toString()
-                    }else{
-                    }
-
-                    val gotlist = db.StationRouteUpDownDaytypeDao().getDirectionByStationRoutes(station.text.toString().replace("駅",""),routeText.toString())
-
-                    //方向スピナーへの代入
-                    val destinationSpinner = view?.findViewById<Spinner>(R.id.UpDownSpinner) as Spinner
-
-                    var destinationadapter = ArrayAdapter(
-                        requireContext(),
-                        android.R.layout.simple_spinner_item,
-                        gotlist
-                    )
-                    activity?.runOnUiThread(java.lang.Runnable {destinationSpinner.adapter = destinationadapter})
-                }
+            val rCont = requireContext()
+            val prefs: SharedPreferences = rCont.getSharedPreferences("savedata", MODE_PRIVATE)
+            var routeText = prefs.getString("UpDownSpinner","")
+            if(route.isNotEmpty()){
+                routeText = route.selectedItem.toString()
             }
+
+            val gotlist = getDirectionSet(numbersOfStation, routeText.toString())
+
+            //方向スピナーへの代入
+            val destinationSpinner = view?.findViewById<Spinner>(R.id.UpDownSpinner) as Spinner
+            var destinationadapter = ArrayAdapter(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                gotlist
+            )
+            activity?.runOnUiThread(java.lang.Runnable {destinationSpinner.adapter = destinationadapter})
         }
+
         //スピナーの中のアイテムを全てリストで取り出す関数
         fun retrieveAllItems(theSpinner: Spinner): List<String>? {
             val adapter: Adapter = theSpinner.adapter
@@ -374,7 +280,7 @@ class MainActivity : AppCompatActivity(), MyListener {
             return items
         }
         //リストの番号と一致する場合、そのindexを返す関数
-        fun getIndexofSelectedinSpinner(list:List<String>,item:String): Int{
+        private fun getIndexofSelectedinSpinner(list:List<String>,item:String): Int{
             var x = 0
             var index = 0
             while(x < list.size){
@@ -386,6 +292,128 @@ class MainActivity : AppCompatActivity(), MyListener {
             }
             return index
         }
+
+        private fun inputAssetsFile (filename:String) : ArrayList<String> {
+            val fileInputStream  = resources.assets.open(filename)
+            val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
+            reader.readLine()
+            var lineBuffer: String = ""
+            var stationList : ArrayList<String> = arrayListOf()
+            var k = 0
+            //readLineは呼び出しごとに次の行にいくので、一回別の変数に格納して回避
+            while (lineBuffer != null) {
+                val tempLine = reader.readLine()
+                if(tempLine != null){
+                    lineBuffer = tempLine
+                }else{
+                    lineBuffer = "end"
+                }
+                if (lineBuffer != "end") {
+                    stationList.add(lineBuffer) //これ１行で読み込まれる
+                    k++
+                } else {
+                    break
+                }
+            }
+            return stationList
+        }
+
+        private fun getEachStationSet(stationList: ArrayList<String>): eachStationSet{
+            //読み込んだ行をそれぞれの変数ごとに格納するために、格納先を作成。
+            val stationSet: ArrayList<String> = arrayListOf()  //駅名
+            val routeSet: ArrayList<String> = arrayListOf()  //路線名
+            val directionSet: ArrayList<String> = arrayListOf()  //方向
+            val daytypeSet: ArrayList<String> = arrayListOf()  //休日・平日
+            val csvSet: ArrayList<String> = arrayListOf()  //csvファイル名
+            val last_updateSet: ArrayList<String> = arrayListOf()  //最終更新日
+            val error_codeSet: ArrayList<String> = arrayListOf()  //エラーコード
+
+            val rowNumber= stationList.size
+            var i = 0
+            while(i < rowNumber){
+                //csv取得した行を「,」で変数ごとに分ける
+                var temp = stationList[i].split(",")
+                //変数ごとに格納
+                stationSet.add(temp[0])
+                routeSet.add(temp[1])
+                directionSet.add(temp[2])
+                daytypeSet.add(temp[3])
+                csvSet.add(temp[4])
+                last_updateSet.add(temp[5])
+                error_codeSet.add(temp[6])
+                i++
+            }
+            val eachStationSet = eachStationSet(stationSet,routeSet,directionSet,daytypeSet,csvSet,last_updateSet,error_codeSet)
+
+            //それぞれの変数ごとに分離したArrayListを返す
+            return eachStationSet
+        }
+        private fun getNumbersOfStation(stationName:String):ArrayList<Int>{
+            val numbersOfStation:ArrayList<Int> = arrayListOf()
+            var j = 0
+            val stationList = givenEachStationSet.stationSet
+            //駅名が検索したいものと一致すればその列番号を返す。
+            while (j < stationList.size){
+                if(stationList[j].equals(stationName)){
+                    numbersOfStation.add(j)
+                }
+                j++
+            }
+            return numbersOfStation
+        }
+        private fun getRouteSet(numbersOfStation:ArrayList<Int>):ArrayList<String>{
+            val givenRouteSet = arrayListOf<String>()
+            var k = 0
+            //路線のリストを作成する。
+            while (k < numbersOfStation.size){
+                //重複確認
+                var uniqueFlag = 0
+                var i = 0
+                while(i<givenRouteSet.size){
+                    if(givenRouteSet[i] == givenEachStationSet.routeSet[numbersOfStation[k]]){
+                        uniqueFlag = 1
+                    }
+                    i++
+                }
+                //重複なしであれば追加
+                if(uniqueFlag == 0){
+                    givenRouteSet.add(givenEachStationSet.routeSet[numbersOfStation[k]])
+                }else{
+                    uniqueFlag = 0
+                }
+                k++
+            }
+            //検索駅に対する路線リストを変換
+            return givenRouteSet
+        }
+        private fun getDirectionSet(numbersOfStation:ArrayList<Int>,routeName:String):ArrayList<String>{
+            val givenDirectionSet = arrayListOf<String>()
+            var k = 0
+            //駅名で選択したデータから路線の合うデータ列を抜き出して、方向のリストを作成する
+            while (k < numbersOfStation.size){
+                //駅名・路線が定まったため重複はない前提
+                if(routeName == givenEachStationSet.routeSet[numbersOfStation[k]]){
+                    givenDirectionSet.add(givenEachStationSet.directionSet[numbersOfStation[k]])
+                }
+                k++
+            }
+            //検索駅に対する方向リストを返す
+            return givenDirectionSet
+        }
+        private fun getCsvName(numbersOfStation:ArrayList<Int>,routeName:String,directionName:String):String{
+            var csvName: String = ""
+            var k = 0
+            //駅名・路線・方向で選択したデータからcsvのデータ列を抜き出す。
+            while (k < numbersOfStation.size){
+                //駅名・路線が定まったため重複はない前提
+                if(routeName == givenEachStationSet.routeSet[numbersOfStation[k]] && directionName == givenEachStationSet.directionSet[numbersOfStation[k]]){
+                    csvName = givenEachStationSet.csvSet[numbersOfStation[k]]
+                }
+                k++
+            }
+            //csvの名前を返す
+            return csvName
+        }
     }
 }
 
@@ -393,3 +421,13 @@ class MainActivity : AppCompatActivity(), MyListener {
         fun onClickButton()
     }
 
+//まとめて返り値を返す用のDataClass
+data class eachStationSet(
+    val stationSet: ArrayList<String>,
+    val routeSet: ArrayList<String>,
+    val directionSet: ArrayList<String>,
+    val daytypeSet: ArrayList<String>,
+    val csvSet: ArrayList<String>,
+    val last_updateSet: ArrayList<String>,
+    val error_codeSet: ArrayList<String>
+)
