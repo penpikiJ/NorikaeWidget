@@ -26,10 +26,10 @@ import android.widget.AutoCompleteTextView
 import android.widget.ArrayAdapter
 import androidx.core.text.set
 import androidx.core.view.isNotEmpty
-import java.util.ArrayList
 
 import android.widget.Spinner
 import com.aaa.norikaewidget.R
+import java.util.*
 
 
 class MainActivity : AppCompatActivity(), MyListener {
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity(), MyListener {
         override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
-            savedInstanceState: Bundle?
+            savedInstanceState: Bundle?,
         ): View? {
             super.onCreateView(inflater, container, savedInstanceState)
             // 先ほどのレイアウトをここでViewとして作成します
@@ -73,6 +73,9 @@ class MainActivity : AppCompatActivity(), MyListener {
         @RequiresApi(Build.VERSION_CODES.O)
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
+
+            //画面生成時に一度DBのデータを格納する。
+            createDBdata()
 
             //以前のデータを読み込み
             val registeredStationName = view.findViewById<EditText>(R.id.registeredStation)
@@ -215,15 +218,12 @@ class MainActivity : AppCompatActivity(), MyListener {
             mListener = null
         }
 
-        fun addRoute() {
+        fun createDBdata(){
             viewLifecycleOwner.lifecycleScope.launch {
-
                 // ここからはIOスレッドで実行してもらう
                 withContext(Dispatchers.IO) {
                     // テーブル初期化してファイルの内容を追加
                     val db = AppDatabase.getInstance(requireContext())
-
-                    var station = view?.findViewById<EditText>(R.id.registeredStation) as EditText
                     db.StationRouteUpDownDaytypeDao().deleteStationRouteUpDownDaytype()
 
                     val fileInputStream  = resources.assets.open("schedule_files_merged.csv")
@@ -254,6 +254,19 @@ class MainActivity : AppCompatActivity(), MyListener {
                         db.StationRouteUpDownDaytypeDao().insertStationRouteUpDownDaytype(temp[0],temp[1],temp[2],temp[3],temp[4],temp[5],temp[6].toInt())
                         j++
                     }
+                }
+            }
+        }
+
+        fun addRoute() {
+            viewLifecycleOwner.lifecycleScope.launch {
+                // ここからはIOスレッドで実行してもらう
+                withContext(Dispatchers.IO) {
+                    // テーブル初期化してファイルの内容を追加
+                    val db = AppDatabase.getInstance(requireContext())
+
+                    var station = view?.findViewById<EditText>(R.id.registeredStation) as EditText
+
                     val gotlist = db.StationRouteUpDownDaytypeDao().getRouteByStation(station.text.toString().replace("駅",""))
 
                     //路線スピナーへの代入
@@ -271,7 +284,6 @@ class MainActivity : AppCompatActivity(), MyListener {
         @RequiresApi(Build.VERSION_CODES.O)
         fun addDirection() {
             viewLifecycleOwner.lifecycleScope.launch {
-
                 // ここからはIOスレッドで実行してもらう
                 withContext(Dispatchers.IO) {
                     // テーブル初期化してファイルの内容を追加
@@ -279,36 +291,6 @@ class MainActivity : AppCompatActivity(), MyListener {
 
                     var station = view?.findViewById<EditText>(R.id.registeredStation) as EditText
                     var route = view?.findViewById<Spinner>(R.id.routespinner) as Spinner
-                    db.StationRouteUpDownDaytypeDao().deleteStationRouteUpDownDaytype()
-
-                    val fileInputStream  = resources.assets.open("schedule_files_merged.csv")
-                    val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
-                    reader.readLine()
-                    var lineBuffer: String = ""
-                    var stationList : ArrayList<String> = arrayListOf()
-                    var k = 0
-                    //readLineは呼び出しごとに次の行にいくみたいなので、この実装だと１行飛ばしで読み込んでしまう。Fragmentの感じでやると思うけど、コピペだとエラーあるので対処
-                    while (lineBuffer != null) {
-                        val tempLine = reader.readLine()
-                        if(tempLine != null){
-                            lineBuffer = tempLine
-                        }else{
-                            lineBuffer = "end"
-                        }
-                        if (lineBuffer != "end") {
-                            stationList.add(lineBuffer) //これ１行で読み込まれる
-                            k++
-                        } else {
-                            break
-                        }
-                    }
-
-                    var j = 0
-                    while (j < stationList.size) {
-                        var temp = stationList[j].split(",")
-                        db.StationRouteUpDownDaytypeDao().insertStationRouteUpDownDaytype(temp[0],temp[1],temp[2],temp[3],temp[4],temp[5],temp[6].toInt())
-                        j++
-                    }
 
                     val rCont = requireContext()
                     val prefs: SharedPreferences = rCont.getSharedPreferences("savedata", MODE_PRIVATE)
