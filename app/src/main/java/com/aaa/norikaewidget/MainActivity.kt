@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity(), MyListener {
 
         private var mListener: MyListener? = null
 
+
         @RequiresApi(Build.VERSION_CODES.O)
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
@@ -128,36 +129,7 @@ class MainActivity : AppCompatActivity(), MyListener {
                     direction.setSelection(preselectedIndexOfDirection)
                 }
             }
-/*
-            //autocomplete用ファイルの設定、一時的にコメントアウト
-            val filename = "stationNameList.csv"
-            val fileInputStream  = resources.assets.open(filename)
-            val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
-            reader.readLine()
-            var lineBuffer: String
-            var stationNameList : ArrayList<String> = arrayListOf()
-            var k = 0
-            var temp :String? = ""
-            while (temp != null) {
-                lineBuffer = temp
-                if (lineBuffer != null) {
-                    if (temp != ""){
-                        stationNameList.add(lineBuffer)
-                    }
-                    temp = reader.readLine()
-                    k++
-                } else {
-                    break
-                }
-            }
 
-            var autoCompleteAdapter = ArrayAdapter(
-                requireContext(),
-                android.R.layout.simple_dropdown_item_1line, stationNameList
-            )
-            val stationtextList = view.findViewById(R.id.registeredStation) as AutoCompleteTextView
-            stationtextList.setAdapter(autoCompleteAdapter)
-*/
             //検索でのkeyboardがEnterで閉じるように変更
             val inputMethodManager = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             registeredStationName.setOnKeyListener OnKeyListener@{ v, keyCode, keyEvent ->
@@ -304,8 +276,6 @@ class MainActivity : AppCompatActivity(), MyListener {
                 withContext(Dispatchers.IO) {
                     // テーブル初期化してファイルの内容を追加
                     val db = AppDatabase.getInstance(requireContext())
-                    //db.autocompletelistDao().delete()
-                    //db.autocompletelistDao().insert()
 
                     var station = view?.findViewById<EditText>(R.id.registeredStation) as EditText
                     var route = view?.findViewById<Spinner>(R.id.routespinner) as Spinner
