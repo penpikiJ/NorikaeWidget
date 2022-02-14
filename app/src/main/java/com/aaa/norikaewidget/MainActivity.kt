@@ -35,8 +35,10 @@ import java.util.*
 class MainActivity : AppCompatActivity(), MyListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //無地の背景を設定
         setContentView(R.layout.blanklayout)
 
+        //画面上にFragmentを呼び出し。画面操作の処理はFragment上で行う。
         val fragment = MainFragment()
         if (savedInstanceState == null) {
             val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
@@ -55,6 +57,8 @@ class MainActivity : AppCompatActivity(), MyListener {
     override fun onClickButton() {
     }
 
+
+    //Fragmentの定義
     class MainFragment : Fragment() {
 
         override fun onCreateView(
@@ -146,7 +150,7 @@ class MainActivity : AppCompatActivity(), MyListener {
             //次ページへの遷移ボタンの処理
             view.findViewById<Button>(R.id.registButton).setOnClickListener(object : View.OnClickListener {
                 @RequiresApi(Build.VERSION_CODES.O)
-                override fun onClick(v: View) { //ここviewじゃなくてvにしたら動いた
+                override fun onClick(v: View) {
                     if (mListener != null) {
                         mListener?.onClickButton()
                     }
@@ -218,6 +222,7 @@ class MainActivity : AppCompatActivity(), MyListener {
             mListener = null
         }
 
+        //DBデータを初回作成する関数。画面作成時に１度よぶ。
         fun createDBdata(){
             viewLifecycleOwner.lifecycleScope.launch {
                 // ここからはIOスレッドで実行してもらう
@@ -258,6 +263,7 @@ class MainActivity : AppCompatActivity(), MyListener {
             }
         }
 
+        //駅名から路線を検索し、路線ボックスに結果を表示する。
         fun addRoute() {
             viewLifecycleOwner.lifecycleScope.launch {
                 // ここからはIOスレッドで実行してもらう
@@ -281,6 +287,9 @@ class MainActivity : AppCompatActivity(), MyListener {
                 }
             }
         }
+
+
+        //駅名から方向を検索し、方向ボックスに結果を表示する。
         @RequiresApi(Build.VERSION_CODES.O)
         fun addDirection() {
             viewLifecycleOwner.lifecycleScope.launch {
