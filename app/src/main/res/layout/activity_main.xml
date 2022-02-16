@@ -37,7 +37,7 @@
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="80dp"
         android:ems="10"
         android:hint="乗る駅を入力してください"
         android:inputType="textPersonName"
@@ -47,11 +47,13 @@
 
     <Button
         android:id="@+id/registButton"
-        android:layout_width="150dp"
+        android:layout_width="160dp"
         android:layout_height="60dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="16dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
         android:text="時刻表画面へ"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
