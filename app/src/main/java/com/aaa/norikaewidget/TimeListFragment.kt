@@ -30,14 +30,6 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import kotlin.collections.ArrayList
 import kotlin.concurrent.timer
-import android.app.ActivityManager
-import android.app.Service
-import android.content.Context
-import androidx.core.app.ServiceCompat.stopForeground
-import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
-
-
 
 
 
@@ -118,129 +110,120 @@ class TimeListFragment : Fragment(), MyListener {
             AppCompatActivity.MODE_PRIVATE
         )
         // データの作成
-        val stationName = prefs.getString("RegisteredStation",null)?.replace("駅","")
-        val routeName = prefs.getString("RouteSpinner",null)
-        val direction = prefs.getString("UpDownSpinner",null)
-        //曜日判定、ダイヤに合わせて夜中の０時ではなく土曜日と月曜日の朝３時に平日休日の判定を変更。
-        //そのうちファイル名変わるかも。そもそもDBにしても良い
-        val daytype = LocalDate.now().dayOfWeek.value
-        var dtypestr = "平日"
-        if(daytype == 6 or 7){
-            if(daytype == 6 && 0 <= LocalDateTime.now().hour && LocalDateTime.now().hour <= 3 ){
-            }else{
-                dtypestr = "土・休日"
-            }
-        }else{
-            if(daytype == 1 && 0 <= LocalDateTime.now().hour && LocalDateTime.now().hour <= 3 ){
-                dtypestr = "土・休日"
-            }else{
-            }
-        }
-        var filename:String = ""
-        //時刻表ファイルの呼び出し
-        viewLifecycleOwner.lifecycleScope.launch {
-            // ここからはIOスレッドで実行してもらう
-            withContext(Dispatchers.IO) {
-                val db = AppDatabase.getInstance(requireContext())
-               // if (direction != null) {
-                 //   if (stationName != null) {
-                        var x = 0
-                        x = db.StationRouteUpDownDaytypeDao().getErrorCodeByInfo(stationName.toString(),routeName,direction.toString(),dtypestr)
-                   //     if(x != 1){
-                            filename = db.StationRouteUpDownDaytypeDao().getCsvnameByInfo(stationName.toString(),routeName,direction.toString(),dtypestr)
-                     //   }else{
-                        //処理上この時点ではToastは使えないらしい。処理的には後ここなんらかのものにするだけ
-                        // Toast.makeText(rCont, "指定した時刻表が見つかりませんでした。", Toast.LENGTH_SHORT).show()
-                       // }
-                   // }
-               // }
-            }
-        }
-        try {
-            //filenameが入るまで3秒までは待つ様に変更
-            var x = 0
-            while(filename == ""){
-                Thread.sleep(500)  // wait for 0.5 second
-                x++
-                if((x % 4) == 0){
-                    Toast.makeText(rCont, "処理をお待ちください。", Toast.LENGTH_SHORT).show()
-                }
-                if(x > 6){
-                    break
-                }
-            }
-            val fileInputStream  = resources.assets.open(filename)
+        val stationName = prefs.getString("RegisteredStation", null)?.replace("駅", "")
+        val routeName = prefs.getString("RouteSpinner", null)
+        val direction = prefs.getString("UpDownSpinner", null)
 
-            val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
-            reader.readLine()
-            var lineBuffer: String
-            var stationTimeList : ArrayList<String> = arrayListOf()
-            var k = 0
-            var temp :String? = ""
-            while (temp != null) {
-                lineBuffer = temp
-                if (lineBuffer != null) {
-                    if (temp != ""){
-                        stationTimeList.add(lineBuffer)
-                    }
-                    temp = reader.readLine()
-                    k++
-                } else {
-                    break
-                }
-            }
+        try {
+            //平日の時刻表を取得
+            var dayTypeStr = "平日"
+            val filenameWeekDay = getTimeScheduleFilename(dayTypeStr)
+            var filename = filenameWeekDay
+
+            //平日の時刻表を取得
+            val stationTimeList_Weekday = loadTimeSchedule(filename)
+            //時刻表をLocalDateTime型に変換して保持
+            val launchTimeList_Weekday = convertTimeScheduletoLocalDateTime(stationTimeList_Weekday)
+
+            //土・休日の時刻表を取得
+            dayTypeStr = "土・休日"
+            val filenameHoliday = getTimeScheduleFilename(dayTypeStr)
+            filename = filenameHoliday
+
+            //土・休日の時刻表を取得
+            val stationTimeList_Holiday = loadTimeSchedule(filename)
+            //時刻表をLocalDateTime型に変換して保持
+            val launchTimeList_Holiday = convertTimeScheduletoLocalDateTime(stationTimeList_Holiday)
+
+            //平日と土・休日の時刻表を別々に保存
+            saveScheduleData(launchTimeList_Weekday,launchTimeList_Holiday)
+
             //nowの取得とformat設定
             val dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
 
+            timer("timer", false, period = 1000) {
+                //曜日の判定
+                val todayDaytype = LocalDate.now().dayOfWeek.value
+                val tomorrowDaytype = LocalDate.now().plusDays(1).dayOfWeek.value
 
-            var i: Int = 0
-            val launchTimeList:MutableList<LocalDateTime> = arrayListOf()
-            while(i < stationTimeList.size){
-                var sp = stationTimeList[i].split(",")
-                if(sp[1] != ""){
-                    launchTimeList.add(i,LocalDateTime.now().with(LocalTime.of(sp[0].toInt(),sp[1].toInt())))
+                //曜日によって格納する時刻表を判断して格納するための変数
+                var todayStationTimeList :ArrayList<String> = arrayListOf()
+                var tomorrowStationTimeList :ArrayList<String> = arrayListOf()
+
+                //曜日によって格納する時刻表を判断して格納するための変数(LocalDateTime)
+                var todayLaunchTimeList : MutableList<LocalDateTime> = arrayListOf()
+                var tomorrowLaunchTimeList : MutableList<LocalDateTime> = arrayListOf()
+
+                if(todayDaytype == 6 or 7){
+                    //"土・休日"
+                    todayStationTimeList = stationTimeList_Holiday
+                    todayLaunchTimeList = launchTimeList_Holiday
+                }else{
+                    //"平日"
+                    todayStationTimeList = stationTimeList_Weekday
+                    todayLaunchTimeList = launchTimeList_Weekday
                 }
-                i++
-            }
 
-            val editor = prefs.edit()
-            val scheduleSet :MutableSet<String> = mutableSetOf()
-            var c = 0
-            while(c < launchTimeList.size){
-                scheduleSet.add(launchTimeList.toString())
-                c++
-            }
-            editor.putStringSet("SelectedTimeSchedule", scheduleSet)
-            editor.apply()
+                if(tomorrowDaytype == 6 or 7){
+                    //"土・休日"
+                    tomorrowStationTimeList = stationTimeList_Holiday
+                    tomorrowLaunchTimeList = launchTimeList_Holiday
+                }else{
+                    //"平日"
+                    tomorrowStationTimeList = stationTimeList_Weekday
+                    tomorrowLaunchTimeList = launchTimeList_Weekday
+                }
 
-            timer("timer",false, period = 1000){
+                //描画用の時刻表リスト
                 mTrainList = arrayListOf()
+
+                //現在時刻を取得し、フォーマット
                 val now = LocalDateTime.now()
                 now.format(dtf)
-                var arrivalLocalDateTime:LocalDateTime = now
-                var x = 0
+
                 var y = 0
-                while(x < launchTimeList.size){
-                    var sp = stationTimeList[x].split(",")
-                    arrivalLocalDateTime =now.with(LocalTime.of(launchTimeList[x].hour,launchTimeList[x].minute))
-                    val min = ChronoUnit.MINUTES.between(now,arrivalLocalDateTime) % (24*60)
-                    val sec = ChronoUnit.SECONDS.between(now,arrivalLocalDateTime) % (24*60*60) - min * 60
-                    if(min >= 0){
-                        if(sec >= 0){
-                            var schedulecard = DataForSchedule(routeName.toString(),direction.toString(),("%02d".format(sp[0].toInt()))+":"+("%02d".format(sp[1].toInt())).toString(),min.toString()+":"+"%02d".format(sec))
-                            if(min <10){
-                                schedulecard = DataForSchedule(routeName.toString(),direction.toString(),("%02d".format(sp[0].toInt()))+":"+("%02d".format(sp[1].toInt())).toString(),"  "+min.toString()+":"+"%02d".format(sec))
+                fun addToTrainList(stationTimeList:ArrayList<String>,launchTimeList: MutableList<LocalDateTime>,todayFlag:Int){
+                    var arrivalLocalDateTime: LocalDateTime = now
+                    var x = 0
+
+                    while (x < launchTimeList.size) {
+                        var sp = stationTimeList[x].split(",")
+                        arrivalLocalDateTime =
+                            now.with(LocalTime.of(launchTimeList[x].hour, launchTimeList[x].minute))
+                        var min = ChronoUnit.MINUTES.between(now, arrivalLocalDateTime) % (24 * 60)
+                        val sec = ChronoUnit.SECONDS.between(now,
+                            arrivalLocalDateTime) % (24 * 60 * 60) - min * 60
+                        if (min >= 0 || todayFlag == 0) {
+                            if(min < 0){
+                                min += 60 * 24  //次の日はマイナスになるため1日の分数を加算
                             }
-                            mTrainList.add(y, schedulecard)
-                            y++
+                            if (sec >= 0 || todayFlag == 0) {
+                                var schedulecard = DataForSchedule(routeName.toString(),
+                                    direction.toString(),
+                                    ("%02d".format(sp[0].toInt())) + ":" + ("%02d".format(sp[1].toInt())).toString(),
+                                    min.toString() + ":" + "%02d".format(sec))
+                                if (min < 10) {
+                                    schedulecard = DataForSchedule(routeName.toString(),
+                                        direction.toString(),
+                                        ("%02d".format(sp[0].toInt())) + ":" + ("%02d".format(sp[1].toInt())).toString(),
+                                        "  " + min.toString() + ":" + "%02d".format(sec))
+                                }
+                                mTrainList.add(y, schedulecard)
+                                y++
+                            }
                         }
+                        x++
                     }
-                    x++
                 }
+                var todayFlag = 1
+                addToTrainList(todayStationTimeList,todayLaunchTimeList,todayFlag)
+                todayFlag = 0
+                addToTrainList(tomorrowStationTimeList,tomorrowLaunchTimeList,todayFlag)
 
                 activity?.runOnUiThread(Runnable {
                     // RecyclerViewの取得
-                    val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerView) as RecyclerView
+                    val recyclerView =
+                        view?.findViewById<RecyclerView>(R.id.recyclerView) as RecyclerView
 
                     // LayoutManagerの設定
                     recyclerView?.layoutManager = LinearLayoutManager(requireContext())
@@ -250,12 +233,118 @@ class TimeListFragment : Fragment(), MyListener {
                     recyclerView?.adapter = mAdapter
                 })
             }
-        }catch (e:Exception){
+        } catch (e: Exception) {
             Toast.makeText(rCont, "処理中です", Toast.LENGTH_SHORT).show()
             val intent = Intent(requireContext(), MainActivity::class.java)
             startActivity(intent)
         }
+    }
 
+    fun getTimeScheduleFilename(dayTypeStr:String): String {
+        var filename: String = ""
+        val rCont = requireContext()
+        rCont.getSharedPreferences("savedata", 0)
+        val prefs: SharedPreferences = rCont.getSharedPreferences("savedata",
+            AppCompatActivity.MODE_PRIVATE
+        )
+        // データの作成
+        val stationName = prefs.getString("RegisteredStation", null)?.replace("駅", "")
+        val routeName = prefs.getString("RouteSpinner", null)
+        val direction = prefs.getString("UpDownSpinner", null)
+
+        //時刻表ファイルの呼び出し
+        viewLifecycleOwner.lifecycleScope.launch {
+            // ここからはIOスレッドで実行してもらう
+            withContext(Dispatchers.IO) {
+                val db = AppDatabase.getInstance(requireContext())
+                var x = 0
+                //x = db.StationRouteUpDownDaytypeDao().getErrorCodeByInfo(stationName.toString(),routeName,direction.toString(),dayTypeStr)
+                //if(x != 1){
+                    filename = db.StationRouteUpDownDaytypeDao().getCsvnameByInfo(stationName.toString(),routeName,direction.toString(),dayTypeStr)
+                //}
+            }
+        }
+        //filenameが入るまで3秒までは待つ様に変更
+        var x = 0
+        while (filename == "") {
+            Thread.sleep(200)  // wait for 0.5 second
+            x++
+            if ((x % 4) == 0) {
+                Toast.makeText(rCont, "処理をお待ちください。", Toast.LENGTH_SHORT).show()
+            }
+            if (x > 6) {
+                break
+            }
+        }
+        return filename
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun loadTimeSchedule(filename:String):ArrayList<String>{
+        val fileInputStream = resources.assets.open(filename)
+        val reader = BufferedReader(InputStreamReader(fileInputStream, "UTF-8"))
+        reader.readLine()
+        var lineBuffer: String
+        var stationTimeList: ArrayList<String> = arrayListOf()
+        var k = 0
+        var temp: String? = ""
+        while (temp != null) {
+            lineBuffer = temp
+            if (lineBuffer != null) {
+                if (temp != "") {
+                    stationTimeList.add(lineBuffer)
+                }
+                temp = reader.readLine()
+                k++
+            } else {
+                break
+            }
+        }
+        return stationTimeList
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun convertTimeScheduletoLocalDateTime(stationTimeList:ArrayList<String>):MutableList<LocalDateTime>{
+        var i: Int = 0
+        val launchTimeList: MutableList<LocalDateTime> = arrayListOf()
+        while (i < stationTimeList.size) {
+            var sp = stationTimeList[i].split(",")
+            if (sp[1] != "") {
+                launchTimeList.add(i,
+                    LocalDateTime.now().with(LocalTime.of(sp[0].toInt(), sp[1].toInt())))
+            }
+            i++
+        }
+        return launchTimeList
+    }
+
+    fun saveScheduleData(launchTimeList_Weekday:MutableList<LocalDateTime>,
+                         launchTimeList_Holiday:MutableList<LocalDateTime>){
+        //選択された時刻表をデバイスに保存する。
+        val rCont = requireContext()
+        rCont.getSharedPreferences("savedata", 0)
+        val prefs: SharedPreferences = rCont.getSharedPreferences("savedata",
+            AppCompatActivity.MODE_PRIVATE
+        )
+        val editor = prefs.edit()
+        val scheduleSetWeekday: MutableSet<String> = mutableSetOf()
+
+        var c = 0
+        while (c < launchTimeList_Weekday.size) {
+            scheduleSetWeekday.add(launchTimeList_Weekday.toString())
+            c++
+        }
+        editor.putStringSet("SelectedTimeSchedule_Weekday", scheduleSetWeekday)
+
+        var d = 0
+        val scheduleSetHoliday: MutableSet<String> = mutableSetOf()
+        while (d < launchTimeList_Holiday.size) {
+            scheduleSetHoliday.add(launchTimeList_Holiday.toString())
+            d++
+        }
+        editor.putStringSet("SelectedTimeSchedule_Holiday", scheduleSetHoliday)
+
+        editor.apply()
     }
 }
 
@@ -267,7 +356,7 @@ data class DataForSchedule(
 )
 
 class CustomAdapter(private val trainList: ArrayList<DataForSchedule>): RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
-// Viewの初期化
+    // Viewの初期化
     class ViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         val route: TextView
         val updown: TextView
