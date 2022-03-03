@@ -153,12 +153,17 @@ class ControlScheduleWidgetService : IntentService("ControlScheduleWidgetService
                             )
                         }
                         break
-                        }
                     }
-                    x++
                 }
-                appWidgetManager.updateAppWidget(appWidgetId, views)
-                Thread.sleep(1000);
+                x++
             }
+            appWidgetManager.updateAppWidget(appWidgetId, views)
+            Thread.sleep(1000);
+        }
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        return super.onStartCommand(intent, flags, startId)
+        return START_STICKY
     }
 }
