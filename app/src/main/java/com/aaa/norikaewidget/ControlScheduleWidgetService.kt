@@ -139,7 +139,7 @@ class ControlScheduleWidgetService : IntentService("ControlScheduleWidgetService
         }
         var tomorrowScheduleSet = tomorrowStationTimeStringSet
         val tomorrowScheduleList = tomorrowScheduleSet?.toMutableList()
-        val slTomorrow = todayScheduleList?.get(a)?.split(",")
+        val slTomorrow = tomorrowScheduleList?.get(a)?.split(",")
         if (tomorrowScheduleSet != null) {
             while(i < slTomorrow!!.size){
                 val sList = LocalDateTime.parse(slTomorrow?.get(i)?.trim().
