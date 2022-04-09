@@ -210,6 +210,6 @@ class ControlScheduleWidgetService : IntentService("ControlScheduleWidgetService
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         return super.onStartCommand(intent, flags, startId)
-        return START_STICKY
+        return START_REDELIVER_INTENT
     }
 }
